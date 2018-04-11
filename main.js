@@ -46,13 +46,15 @@ let arrayOfSavedWorkingAd = []
 
 function saveWorkingAd(workAdId){
     arrayOfSavedWorkingAd.push(workAdId);
+    saveWorkingAdToLocalStorage();
+}
+
+function saveWorkingAdToLocalStorage(){
+    let str = JSON.stringify(arrayOfSavedWorkingAd);
+    localStorage.setItem("arrayOfSavedWorkingAd", str);
 }
 
 saveWorkingAd(7663012);
 saveWorkingAd(7663017);
 saveWorkingAd(7663018);
 console.log(arrayOfSavedWorkingAd);
-
-/*7663012
-7663017
-7663018*/
