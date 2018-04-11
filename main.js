@@ -30,43 +30,56 @@ function fetchJobDetails(id) {
 /* The 10 latest jobs */
 
 
-function sortAllJobs(jobs) {
-  const jobAdverts = jobs.matchningslista.matchningdata;
 
-  jobAdverts.sort(function (a, b) {
-    var x = a.publiceraddatum;
-    var y = b.publiceraddatum;
-    if (x < y) {
-      return 1;
-    }
-    if (x > y) {
-      return -1;
-    }
-    return 0;
-  });
+function sortAllJobs(jobs){
+const jobAdverts = jobs.matchningslista.matchningdata;
+    
+    jobAdverts.sort(function(a, b){
+        var x = a.publiceraddatum;
+        var y = b.publiceraddatum;
+        if (x < y) {return 1;}
+        if (x > y) {return -1;}
+        return 0;
+    });
+    
+    displayTenLatestJobs(jobs);
+    
+    function displayTenLatestJobs(jobs) {
+    
+      
+  
+   let publishedJobList = "";
+    for(const jobAdvert of jobAdverts.slice(0,10)){
+  
+ 	publishedJobList += `
+        <table>
+<tr>
+<th>Titel</th>
+<th>Yrkesbenämning</th>
+<th>Arbetsplats</th>
+<th>Anställningstyp</th>
+<th>Kommun</th>
+<th>Publicerad</th> 
+<th>Sista ansökningsdatum</th> 
+ 
 
-  displayTenLatestJobs(jobs);
 
-  function displayTenLatestJobs(jobs) {
+</tr>
+<tr>
+<td><a href="${jobAdvert.annonsurl}">
+ ${jobAdvert.annonsrubrik}</a>
+ </td>
+<td>${jobAdvert.yrkesbenamning} </td>
+<td>${jobAdvert.arbetsplatsnamn} </td>
+<td>${jobAdvert.anstallningstyp} </td>
+<td>${jobAdvert.kommunnamn}</td>
+<td>${jobAdvert.publiceraddatum} </td> 
+<td>${jobAdvert.sista_ansokningsdag} </td> 
+ 
+ 
+</tr>
+</table>
 
-
-
-    let publishedJobList = "";
-    for (const jobAdvert of jobAdverts.slice(0, 10)) {
-
-      publishedJobList += `
-                <table>
-                <tr>
-                <th>Titel</th>
-                <th><p>Kommun</th>
-                <th><p>Publicerad</th>    
-                </tr>
-                <tr>
-                <td>${jobAdvert.annonsrubrik}</td>
-                <td>${jobAdvert.kommunnamn}</td>
-                <td>${jobAdvert.publiceraddatum} </td> 
-                </tr>
-                </table>
         `;
 
     }
