@@ -1,3 +1,5 @@
+
+const latestJobs = document.getElementById("latest-jobs");
 const allJobs = document.getElementById("all-jobs");
 const latestTenJobs = document.getElementById("latest-jobs");
 
@@ -5,19 +7,26 @@ const latestTenJobs = document.getElementById("latest-jobs");
 
 fetchStockholmJobs();
 
+function fetchStockholmJobs() {
+      fetch("http://api.arbetsformedlingen.se/af/v0/platsannonser/matchning?lanid=1&sida=1&antalrader=20")
+        .then((response) => response.json())
+        .then((jobs) => {
+          displayJob(jobs)
+          sortAllJobs(jobs)
+         })
+        .catch((error) => {
+            console.log(error)
+        });
+}
 
-function fetchStockholmJobs(){
-
-fetch("http://api.arbetsformedlingen.se/af/v0/platsannonser/matchning?lanid=1&sida=1&antalrader=20")
-  .then((response) => response.json())
-  .then((jobs) => {
-    displayJob(jobs)
-    sortAllJobs(jobs)
-   })
-
-.catch((error) => {
-  console.log(error)
-});
+function fetchJobDetails(id) {
+    console.log(id);
+    fetch(`http://api.arbetsformedlingen.se/af/v0/platsannonser/${id}`)
+        .then(response => response.json())
+        .then(jobs => displayJobDetails(jobs))
+        .catch((error) => {
+            console.log(error)
+        });
 }
 
 /* The 10 latest jobs */
@@ -59,14 +68,10 @@ const jobAdverts = jobs.matchningslista.matchningdata;
         `;
    
    }
-       
    latestTenJobs.innerHTML = publishedJobList;
   
 }
-
 }
-
-
 /* All jobs part */
 
 function displayJob(jobs) {
@@ -88,14 +93,53 @@ allJobList += `<table>
 <td>${job[i].annonsrubrik}</td>
 <td>${job[i].kommunnamn}</td>
 <td>${job[i].sista_ansokningsdag} </td> 
+<td><button class="moreInfo" data-id="${job[i].annonsid}">läs mer</button></td>
 </tr>
 </table> `;
+
+}
+  allJobs.innerHTML = allJobList; 
+  hej();
+}
+function hej() {
+    var moreInfo = document.getElementsByClassName('moreInfo');
+
+    for (let more of moreInfo) {
+        console.log('hifjhfjhk');
+        more.addEventListener('click', function () {
+            console.log('click');
+            fetchJobDetails(this.dataset.id);
+            displayJobDetails(jobs);
+        });
+
+
+    }
 }
 
-allJobs.innerHTML = allJobList;    
+
+function displayJobDetails(jobs) {
+    const job = jobs.platsannons.annons;
+    const jobItem = document.getElementById("single-job");
+    const text = "";
+
+    console.log(job.annonstext)
+
+    for (let i = 0; i < job.length; i++) {
+        text += `
+            <p>${job.annonstext}</p>
+        `;
+    }
+
+    document.getElementById("single-job").innerHTML = text;
+
 }
+
+   
+}
+
 
 /* Save Working Ad */
+
 
 let arrayOfSavedWorkingAd = []
 
