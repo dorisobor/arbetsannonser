@@ -2,6 +2,8 @@ const latestJobs = document.getElementById("latest-jobs");
 const allJobs = document.getElementById("all-jobs");
 const latestTenJobs = document.getElementById("latest-jobs");
 
+const mainView = document.getElementById('main-view');
+const singleJobView = document.getElementById('single-job-view');
 
 fetchStockholmJobs();
 
@@ -122,6 +124,8 @@ function hej(jobs) {
   for (let more of moreInfo) {
     more.addEventListener('click', function () {
       fetchJobDetails(this.dataset.id);
+      singleJobView.classList.remove("hidden");
+      mainView.classList.add("hidden");
     });
   }
 }
@@ -166,6 +170,13 @@ function displayJobDetails(jobs) {
         `;
 
     document.getElementById("annonsdetaljer").innerHTML = annonsDetaljer;
+
+    const backToListButton = document.getElementById("back");
+
+    backToListButton.addEventListener('click', function(){
+       mainView.classList.remove("hidden");
+       singleJobView.classList.add("hidden");
+    });
 
     const shareUrlButton = document.getElementById("share-url-button");
     const urlDropdown = document.getElementById("url-dropdown");
