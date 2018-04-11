@@ -114,10 +114,10 @@ function displayJob(jobs) {
 
   }
   allJobs.innerHTML = allJobList;
-  hej();
+  eventlistenerForMoreInfo();
 }
 
-function hej(jobs) {
+function eventlistenerForMoreInfo() {
   var moreInfo = document.getElementsByClassName('moreInfo');
 
   for (let more of moreInfo) {
