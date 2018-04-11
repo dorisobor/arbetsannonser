@@ -43,3 +43,11 @@ td, th {
 tr:nth-child(even) {
     background-color: #dddddd;
 }
+
+.hidden {
+	display: none;
+}
+
+.show {
+	display: block;
+}
