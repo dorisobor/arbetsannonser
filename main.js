@@ -25,7 +25,6 @@ let text = "";
 
 
 for (let i = 0; i <  job.length; i++) {
-console.log(job[i]);
 text += `<table>
 <tr>
 <th>Titel</th>
@@ -36,15 +35,24 @@ text += `<table>
 <td>${job[i].annonsrubrik}</td>
 <td>${job[i].kommunnamn}</td>
 <td>${job[i].sista_ansokningsdag} </td> 
-<td><button id="${job[i].annonsid}">Spara</button></td>
 </tr>
 </table> `;
 }
 
-document.getElementById("all-jobs").innerHTML = text;
-
-
-      
-
-
+document.getElementById("all-jobs").innerHTML = text;    
 }
+
+let arrayOfSavedWorkingAd = []
+
+function saveWorkingAd(workAdId){
+    arrayOfSavedWorkingAd.push(workAdId);
+}
+
+saveWorkingAd(7663012);
+saveWorkingAd(7663017);
+saveWorkingAd(7663018);
+console.log(arrayOfSavedWorkingAd);
+
+/*7663012
+7663017
+7663018*/
