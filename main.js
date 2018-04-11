@@ -116,15 +116,45 @@ function hej(jobs) {
 
 
 function displayJobDetails(jobs) {
-  // const job = jobs.platsannons.annons;
-  let annonsText = "";
+    let annonsDetaljer = "";
+    job = jobs.platsannons.annons;
+    conditions = jobs.platsannons.villkor;
+    apply = jobs.platsannons.ansokan;
+    workplace = jobs.platsannons.arbetsplats;
 
-  annonsText += `
-            <p>${jobs.platsannons.annons.annonstext}</p>
+    /* following values will return undefined if value is empty: 
+    conditions.tilltrade
+    apply.epostadress */
+
+    annonsDetaljer += `
+            <h2>${job.annonsrubrik}</h2>
+            <p>Sökes: ${job.yrkesbenamning}</p>
+            <p>Anställningstyp: ${job.anstallningstyp}</p>
+
+            <p>Varaktighet: ${conditions.varaktighet}</p>
+            <p>Arbetstid: ${conditions.arbetstid}</p>
+            <p>Tillträde: ${conditions.tilltrade}</p> 
+            <p>Lönetyp: ${conditions.lonetyp}</p>
+            <p>Löneform: ${conditions.loneform}</p>
+
+            <p>webbplats: ${apply.webbplats}</p>
+            <p>epostadress: ${apply.epostadress}</p>
+            <p>sista ansökning: ${apply.sista_ansokningsdag}</p>
+            <p>övrigt: ${apply.ovrigt_om_ansokan}</p>
+
+            <p>arbetsplats: ${workplace.arbetsplatsnamn}</p>
+            <p>adress: ${workplace.postadress}</p>
+            <p>besöksadress: ${workplace.besoksadress}</p>
+            <p>arbetsplats: ${workplace.arbetsplatsnamn}</p>
+
+            <p>${job.annonstext}</p>
+
             <button data-id="${jobs.platsannons.annons.annonsid}" id="saveWorkAdButton" name="${jobs.platsannons.annons.annonsrubrik}">Save</button>
+
         `;
 
-  document.getElementById("single-job").innerHTML = annonsText;
+    document.getElementById("annonsdetaljer").innerHTML = annonsDetaljer;
+
 
   let saveWorkAdButton = document.getElementById('saveWorkAdButton')
 
