@@ -8,19 +8,18 @@ const latestTenJobs = document.getElementById("latest-jobs");
 fetchStockholmJobs();
 
 function fetchStockholmJobs() {
-      fetch("http://api.arbetsformedlingen.se/af/v0/platsannonser/matchning?lanid=1&sida=1&antalrader=20")
+    fetch("http://api.arbetsformedlingen.se/af/v0/platsannonser/matchning?lanid=1&sida=1&antalrader=20")
         .then((response) => response.json())
         .then((jobs) => {
-          displayJob(jobs)
-          sortAllJobs(jobs)
-         })
+            displayJob(jobs)
+            sortAllJobs(jobs)
+        })
         .catch((error) => {
             console.log(error)
         });
 }
 
 function fetchJobDetails(id) {
-    console.log(id);
     fetch(`http://api.arbetsformedlingen.se/af/v0/platsannonser/${id}`)
         .then(response => response.json())
         .then(jobs => displayJobDetails(jobs))
@@ -32,57 +31,57 @@ function fetchJobDetails(id) {
 /* The 10 latest jobs */
 
 
-function sortAllJobs(jobs){
-const jobAdverts = jobs.matchningslista.matchningdata;
-    
-    jobAdverts.sort(function(a, b){
+function sortAllJobs(jobs) {
+    const jobAdverts = jobs.matchningslista.matchningdata;
+
+    jobAdverts.sort(function (a, b) {
         var x = a.publiceraddatum;
         var y = b.publiceraddatum;
-        if (x < y) {return 1;}
-        if (x > y) {return -1;}
+        if (x < y) { return 1; }
+        if (x > y) { return -1; }
         return 0;
     });
-    
+
     displayTenLatestJobs(jobs);
-    
+
     function displayTenLatestJobs(jobs) {
-    
-      
-  
-   let publishedJobList = "";
-    for(const jobAdvert of jobAdverts.slice(0,10)){
-  
- 	publishedJobList += `
-        <table>
-<tr>
-<th>Titel</th>
-<th><p>Kommun</th>
-<th><p>Publicerad</th>    
-</tr>
-<tr>
-<td>${jobAdvert.annonsrubrik}</td>
-<td>${jobAdvert.kommunnamn}</td>
-<td>${jobAdvert.publiceraddatum} </td> 
-</tr>
-</table>
+
+
+
+        let publishedJobList = "";
+        for (const jobAdvert of jobAdverts.slice(0, 10)) {
+
+            publishedJobList += `
+                <table>
+                <tr>
+                <th>Titel</th>
+                <th><p>Kommun</th>
+                <th><p>Publicerad</th>    
+                </tr>
+                <tr>
+                <td>${jobAdvert.annonsrubrik}</td>
+                <td>${jobAdvert.kommunnamn}</td>
+                <td>${jobAdvert.publiceraddatum} </td> 
+                </tr>
+                </table>
         `;
-   
-   }
-   latestTenJobs.innerHTML = publishedJobList;
-  
-}
+
+        }
+        latestTenJobs.innerHTML = publishedJobList;
+
+    }
 }
 /* All jobs part */
 
 function displayJob(jobs) {
-  const job = jobs.matchningslista.matchningdata;
-let allJobList  = "";
+    const job = jobs.matchningslista.matchningdata;
+    let allJobList = "";
 
 
 
-for (let i = 0; i <  job.length; i++) {
-  
-allJobList += `<table>
+    for (let i = 0; i < job.length; i++) {
+
+        allJobList += `<table>
 
 <tr>
 <th>Titel</th>
@@ -97,40 +96,30 @@ allJobList += `<table>
 </tr>
 </table> `;
 
+    }
+    allJobs.innerHTML = allJobList;
+    hej();
 }
-  allJobs.innerHTML = allJobList; 
-  hej();
-}
-function hej() {
+function hej(jobs) {
     var moreInfo = document.getElementsByClassName('moreInfo');
 
     for (let more of moreInfo) {
-        console.log('hifjhfjhk');
         more.addEventListener('click', function () {
-            console.log('click');
             fetchJobDetails(this.dataset.id);
-            displayJobDetails(jobs);
         });
-
-
     }
 }
 
 
 function displayJobDetails(jobs) {
-    const job = jobs.platsannons.annons;
-    const jobItem = document.getElementById("single-job");
-    const text = "";
+    // const job = jobs.platsannons.annons;
+    let annonsText = "";
 
-    console.log(job.annonstext)
-
-    for (let i = 0; i < job.length; i++) {
-        text += `
-            <p>${job.annonstext}</p>
+    annonsText += `
+            <p>${jobs.platsannons.annons.annonstext}</p>
         `;
-    }
 
-    document.getElementById("single-job").innerHTML = text;
+    document.getElementById("single-job").innerHTML = annonsText;
 
 }
 
@@ -139,33 +128,31 @@ function displayJobDetails(jobs) {
 
 let arrayOfSavedWorkingAd = []
 
-function saveWorkingAd(workAd){
+function saveWorkingAd(workAd) {
     arrayOfSavedWorkingAd.push(workAd);
     saveWorkingAdToLocalStorage();
 }
 
-function saveWorkingAdToLocalStorage(){
+function saveWorkingAdToLocalStorage() {
     let str = JSON.stringify(arrayOfSavedWorkingAd);
     localStorage.setItem("arrayOfSavedWorkingAd", str);
 }
 
-function getWorkingAdArrayFromLocalStorage(){
+function getWorkingAdArrayFromLocalStorage() {
     let array = localStorage.getItem("arrayOfSavedWorkingAd");
     arrayOfSavedWorkingAd = JSON.parse(array);
-    if (!arrayOfSavedWorkingAd){
+    if (!arrayOfSavedWorkingAd) {
         arrayOfSavedWorkingAd = [];
     }
 }
 
 getWorkingAdArrayFromLocalStorage();
 
-console.log(arrayOfSavedWorkingAd);
-
 let savedWorkAdOutput = document.getElementById('saved-work-ad-output');
 let savedWorkAd = "<h3>Sparade annonser</h3>";
 
-for(let i = 0; i < arrayOfSavedWorkingAd.length; i++){
-savedWorkAd += `
+for (let i = 0; i < arrayOfSavedWorkingAd.length; i++) {
+    savedWorkAd += `
     <p>${arrayOfSavedWorkingAd[i].title}</p>
     <p>${arrayOfSavedWorkingAd[i].id}</p>
 `;
@@ -175,7 +162,7 @@ savedWorkAdOutput.innerHTML = savedWorkAd;
 
 let saveWorkAdButton = document.getElementById('saveWorkAdButton')
 
-saveWorkAdButton.addEventListener('click', function(){
+saveWorkAdButton.addEventListener('click', function () {
     var workingAd = {
         title: this.name,
         id: this.dataset.id
