@@ -54,6 +54,7 @@ table th {
 
 .show {
 	display: block;
+}
 
 tr:nth-child(even) {
     background-color: #dddddd;
