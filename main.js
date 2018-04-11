@@ -189,7 +189,7 @@ function displayJobDetails(jobs) {
         }
     });
 
-    const adUrl = document.createElement('a');
+    adUrl = document.getElementById('ad-url');
     adUrl.innerHTML = job.platsannonsUrl;
     adUrl.href = job.platsannonsUrl;
     adUrl.target = "_blank";
