@@ -143,29 +143,33 @@ function displayJobDetails(jobs) {
 
     annonsDetaljer += `
             <h2>${job.annonsrubrik}</h2>
+
+            <h3>Om tjänsten</h3>
             <p>Sökes: ${job.yrkesbenamning}</p>
             <p>Anställningstyp: ${job.anstallningstyp}</p>
 
+            <h3>Villkor</h3>
             <p>Varaktighet: ${conditions.varaktighet}</p>
             <p>Arbetstid: ${conditions.arbetstid}</p>
             <p>Tillträde: ${conditions.tilltrade}</p> 
             <p>Lönetyp: ${conditions.lonetyp}</p>
             <p>Löneform: ${conditions.loneform}</p>
 
+            <h3>Ansökan</h3>
             <a target="_blank" href="${apply.webbplats}">Företagets hemsida</a>
             <p>epostadress: ${apply.epostadress}</p>
             <p>sista ansökning: ${apply.sista_ansokningsdag}</p>
             <p>övrigt: ${apply.ovrigt_om_ansokan}</p>
 
-            <p>arbetsplats: ${workplace.arbetsplatsnamn}</p>
+            <h3>Om arbetsplatsen</h3>
+            <p>${workplace.arbetsplatsnamn}</p>
             <p>adress: ${workplace.postadress}</p>
             <p>besöksadress: ${workplace.besoksadress}</p>
-            <p>arbetsplats: ${workplace.arbetsplatsnamn}</p>
 
+            <h3>Om tjänsten</h3>
             <p>${job.annonstext}</p>
 
             <button data-id="${jobs.platsannons.annons.annonsid}" id="saveWorkAdButton" name="${jobs.platsannons.annons.annonsrubrik}">Save</button>
-
         `;
 
     document.getElementById("annonsdetaljer").innerHTML = annonsDetaljer;
