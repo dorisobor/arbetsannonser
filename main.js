@@ -134,10 +134,6 @@ function displayJobDetails(jobs) {
 
 }
 
-   
-}
-
-
 /* Save Working Ad */
 
 
