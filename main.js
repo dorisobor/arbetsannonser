@@ -169,8 +169,7 @@ function displaySavedWorkAds() {
 
   for (let i = 0; i < arrayOfSavedWorkingAd.length; i++) {
     savedWorkAd += `
-    <p >${arrayOfSavedWorkingAd[i].title}</p>
-    <button data-id="${arrayOfSavedWorkingAd[i].id}" class="showSavedWorkAd">LÄS</button>
+    <p data-id="${arrayOfSavedWorkingAd[i].id}" class="showSavedWorkAd">${arrayOfSavedWorkingAd[i].title}</p>
 `;
   }
   savedWorkAdOutput.innerHTML = savedWorkAd;
