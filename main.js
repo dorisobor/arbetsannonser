@@ -104,10 +104,9 @@ function displayJob(jobs) {
 <th><p>Publicerad</th>    
 </tr>
 <tr>
-<td>${job[i].annonsrubrik}</td>
+<td class="moreInfo" data-id="${job[i].annonsid}">${job[i].annonsrubrik}</td>
 <td>${job[i].kommunnamn}</td>
 <td>${job[i].sista_ansokningsdag} </td> 
-<td><button class="moreInfo" data-id="${job[i].annonsid}">läs mer</button></td>
 </tr>
 </table> `;
 
