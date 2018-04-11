@@ -25,14 +25,7 @@ let text = "";
 
 
 for (let i = 0; i <  job.length; i++) {
-//  job.sort(function(a, b){
-//     var x = a.publiceraddatum;
-//     var y = b.publiceraddatum;
-//     if (x < y) {return 1;}
-//     if (x > y) {return -1;}
-//     return 0;
-// });
- 
+  
 text += `<table>
 <tr>
 <th>Titel</th>
