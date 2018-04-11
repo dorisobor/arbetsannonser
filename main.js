@@ -46,8 +46,8 @@ document.getElementById("all-jobs").innerHTML = text;
 
 let arrayOfSavedWorkingAd = []
 
-function saveWorkingAd(workAdId){
-    arrayOfSavedWorkingAd.push(workAdId);
+function saveWorkingAd(workAd){
+    arrayOfSavedWorkingAd.push(workAd);
     saveWorkingAdToLocalStorage();
 }
 
@@ -69,17 +69,25 @@ getWorkingAdArrayFromLocalStorage();
 console.log(arrayOfSavedWorkingAd);
 
 let savedWorkAdOutput = document.getElementById('saved-work-ad-output');
-let savedWorkAd = `
-    <h3>Sparade annonser</h3>
-    <button data-id="7663012" id="saveWorkAdButton">Save</button>
+let savedWorkAd = "<h3>Sparade annonser</h3>";
+
+for(let i = 0; i < arrayOfSavedWorkingAd.length; i++){
+savedWorkAd += `
+    <p>${arrayOfSavedWorkingAd[i].title}</p>
+    <p>${arrayOfSavedWorkingAd[i].id}</p>
 `;
+}
+
 savedWorkAdOutput.innerHTML = savedWorkAd;
 
 let saveWorkAdButton = document.getElementById('saveWorkAdButton')
 
 saveWorkAdButton.addEventListener('click', function(){
-    var workingAdId = this.dataset.id;
-    saveWorkingAd(workingAdId);
+    var workingAd = {
+        title: this.name,
+        id: this.dataset.id
+    };
+    saveWorkingAd(workingAd);
 });
 
 document.getElementById('clear').addEventListener('click', clearLocalStorage);
