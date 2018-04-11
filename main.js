@@ -155,6 +155,23 @@ function displayJobDetails(jobs) {
 
     document.getElementById("annonsdetaljer").innerHTML = annonsDetaljer;
 
+    const shareUrlButton = document.getElementById("share-url-button");
+    const urlDropdown = document.getElementById("url-dropdown");
+
+    shareUrlButton.addEventListener('click', function(){
+        if(urlDropdown.classList.contains("hidden")){
+            urlDropdown.classList.remove("hidden")
+        }
+        else {
+            urlDropdown.classList.add("hidden");
+        }
+    });
+
+    const adUrl = document.createElement('a');
+    adUrl.innerHTML = job.platsannonsUrl;
+    adUrl.href = job.platsannonsUrl;
+    adUrl.target = "_blank";
+    urlDropdown.appendChild(adUrl);
 
   let saveWorkAdButton = document.getElementById('saveWorkAdButton')
 
