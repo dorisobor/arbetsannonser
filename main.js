@@ -56,13 +56,26 @@ const jobAdverts = jobs.matchningslista.matchningdata;
         <table>
 <tr>
 <th>Titel</th>
-<th><p>Kommun</th>
-<th><p>Publicerad</th>    
+<th>Yrkesbenämning</th>
+<th>Arbetsplats</th>
+<th>Anställningstyp</th>
+<th>Kommun</th>
+<th>Publicerad</th> 
+<th>Sista ansökningsdatum</th> 
+ 
+
+
 </tr>
 <tr>
 <td>${jobAdvert.annonsrubrik}</td>
+<td>${jobAdvert.yrkesbenamning} </td>
+<td>${jobAdvert.arbetsplatsnamn} </td>
+<td>${jobAdvert.anstallningstyp} </td>
 <td>${jobAdvert.kommunnamn}</td>
 <td>${jobAdvert.publiceraddatum} </td> 
+<td>${jobAdvert.sista_ansokningsdag} </td> 
+ 
+ 
 </tr>
 </table>
         `;
