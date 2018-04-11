@@ -240,14 +240,16 @@ function displaySavedWorkAds() {
   }
   savedWorkAdOutput.innerHTML = savedWorkAd;
 
-addEventlistenerToSavedWorAdTitle(); 
+addEventlistenerToSavedWorkAdTitle(); 
 }
 
-function addEventlistenerToSavedWorAdTitle(){
+function addEventlistenerToSavedWorkAdTitle(){
     let showSavedWorkAds = document.getElementsByClassName('showSavedWorkAd');
         for (let showSavedWorkAd of showSavedWorkAds) {
             showSavedWorkAd.addEventListener('click', function(){
             fetchJobDetails(this.dataset.id);
+            singleJobView.classList.remove("hidden");
+            mainView.classList.add("hidden");
         })
     }
 }
@@ -260,4 +262,4 @@ function clearLocalStorage() {
 }
 
 getWorkingAdArrayFromLocalStorage();
-displaySavedWorkAds()
+displaySavedWorkAds();
