@@ -10,23 +10,26 @@
 
 <body>
 	<main>
-		<div id="container">
-			<h1>Platsannonser - Stockholms län</h1>
-			<h2>Senaste 10 lediga jobben</h2>
-			<hr>
-			<div id="latest-jobs">
+		<div id="main-view">
+			<div id="container">
+				<h1>Platsannonser - Stockholms län</h1>
+				<h2>Senaste 10 lediga jobben</h2>
+				<hr>
+				<div id="latest-jobs">
 
+				</div>
+				<h2>Alla lediga jobb</h2>
+				<div id="all-jobs"></div>
 			</div>
-			<h2>Alla lediga jobb</h2>
-			<div id="all-jobs"></div>
+			<aside>
+				<div id="saved-work-ad-output">
+				</div>
+				<button id="clear">Radera alla sparade jobb</button>
+			</aside>
+			<div class="clear"></div>
 		</div>
-		<aside>
-			<div id="saved-work-ad-output">
-			</div>
-			<button id="clear">Radera alla sparade jobb</button>
-		</aside>
-		<div class="clear"></div>
-		<div id="single-job">
+
+		<div id="single-job-view" class="hidden">
 			<button id="back">Tillbaka till lista</button>
 
 			<button id="share-url-button">dela länk</button>
