@@ -4,6 +4,22 @@ h2 {
 	text-align: center;
 }
 
+.clear{
+	clear:both;
+}
+
+#container{
+	width:70%;
+	float: left;
+}
+
+aside{
+	width: 30%;
+	float:left;
+	border: 1px solid black;
+	box-sizing: border-box;
+}
+
 table {
 	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
 	border-collapse: collapse;
