@@ -42,6 +42,8 @@ text += `<table>
 document.getElementById("all-jobs").innerHTML = text;    
 }
 
+/* Save Working Ad */
+
 let arrayOfSavedWorkingAd = []
 
 function saveWorkingAd(workAdId){
@@ -72,10 +74,15 @@ let savedWorkAd = `
 `;
 savedWorkAdOutput.innerHTML = savedWorkAd;
 
+let saveWorkAdButton = document.getElementById('saveWorkAdButton')
 
-document.getElementById('clear').addEventListener('click', clear);
+saveWorkAdButton.addEventListener('click', function(){
+    var workingAdId = this.dataset.id;
+    saveWorkingAd(workingAdId);
+});
 
-function clear() {
+document.getElementById('clear').addEventListener('click', clearLocalStorage);
+function clearLocalStorage() {
     localStorage.clear();
     location.reload();
     return false;
