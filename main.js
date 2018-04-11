@@ -3,7 +3,6 @@ const allJobs = document.getElementById("all-jobs");
 const latestTenJobs = document.getElementById("latest-jobs");
 
 
-
 fetchStockholmJobs();
 
 function fetchStockholmJobs() {
@@ -220,27 +219,35 @@ function getWorkingAdArrayFromLocalStorage() {
   }
 }
 
-getWorkingAdArrayFromLocalStorage();
-displaySavedWorkAds()
-
 function displaySavedWorkAds() {
   let savedWorkAdOutput = document.getElementById('saved-work-ad-output');
   let savedWorkAd = "<h3>Sparade annonser</h3>";
 
   for (let i = 0; i < arrayOfSavedWorkingAd.length; i++) {
     savedWorkAd += `
-    <p>${arrayOfSavedWorkingAd[i].title}</p>
-    <p>${arrayOfSavedWorkingAd[i].id}</p>
+    <p data-id="${arrayOfSavedWorkingAd[i].id}" class="showSavedWorkAd">${arrayOfSavedWorkingAd[i].title}</p>
 `;
   }
-
   savedWorkAdOutput.innerHTML = savedWorkAd;
+
+addEventlistenerToSavedWorAdTitle(); 
+}
+
+function addEventlistenerToSavedWorAdTitle(){
+    let showSavedWorkAds = document.getElementsByClassName('showSavedWorkAd');
+        for (let showSavedWorkAd of showSavedWorkAds) {
+            showSavedWorkAd.addEventListener('click', function(){
+            fetchJobDetails(this.dataset.id);
+        })
+    }
 }
 
 document.getElementById('clear').addEventListener('click', clearLocalStorage);
-
 function clearLocalStorage() {
   localStorage.clear();
   location.reload();
   return false;
 }
+
+getWorkingAdArrayFromLocalStorage();
+displaySavedWorkAds()
