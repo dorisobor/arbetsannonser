@@ -67,7 +67,9 @@ const jobAdverts = jobs.matchningslista.matchningdata;
 
 </tr>
 <tr>
-<td>${jobAdvert.annonsrubrik}</td>
+<td><a href="${jobAdvert.annonsurl}">
+ ${jobAdvert.annonsrubrik}</a>
+ </td>
 <td>${jobAdvert.yrkesbenamning} </td>
 <td>${jobAdvert.arbetsplatsnamn} </td>
 <td>${jobAdvert.anstallningstyp} </td>
