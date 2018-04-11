@@ -8,6 +8,14 @@ h2 {
 	clear:both;
 }
 
+.hidden {
+	display: block;
+}
+
+.show {
+	display: none;
+}
+
 #container{
 	width:70%;
 	float: left;
