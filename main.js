@@ -61,7 +61,7 @@ const jobAdverts = jobs.matchningslista.matchningdata;
   
  	 publishedJobList += `     
         <tr>
-        <td>
+        <td class="moreInfo" data-id="${jobAdvert.annonsid}">
          ${jobAdvert.annonsrubrik}
          </td>
         <td>${jobAdvert.yrkesbenamning} </td>
@@ -75,7 +75,7 @@ const jobAdverts = jobs.matchningslista.matchningdata;
     }
         publishedJobList += "</table>";
     latestTenJobs.innerHTML = publishedJobList;
-
+    addEventListenerToWorkTitle();
   }
 }
 /* All jobs part */
@@ -100,7 +100,7 @@ function displayJob(jobs) {
 
     allJobList += ` 
         <tr>
-            <td>
+            <td class="moreInfo" data-id="${job[i].annonsid}">
              ${job[i].annonsrubrik}
              </td>
             <td>${job[i].yrkesbenamning} </td>
@@ -115,10 +115,10 @@ function displayJob(jobs) {
   }
     allJobList += "</table>";
   allJobs.innerHTML = allJobList;
-  hej();
+  addEventListenerToWorkTitle();
 }
 
-function hej(jobs) {
+function addEventListenerToWorkTitle() {
   var moreInfo = document.getElementsByClassName('moreInfo');
 
   for (let more of moreInfo) {
