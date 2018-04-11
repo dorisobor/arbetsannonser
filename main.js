@@ -54,6 +54,16 @@ function saveWorkingAdToLocalStorage(){
     localStorage.setItem("arrayOfSavedWorkingAd", str);
 }
 
+function getWorkingAdArrayFromLocalStorage(){
+    let array = localStorage.getItem("arrayOfSavedWorkingAd");
+    arrayOfSavedWorkingAd = JSON.parse(array);
+    if (!arrayOfSavedWorkingAd){
+        arrayOfSavedWorkingAd = [];
+    }
+}
+
+getWorkingAdArrayFromLocalStorage();
+
 saveWorkingAd(7663012);
 saveWorkingAd(7663017);
 saveWorkingAd(7663018);
