@@ -169,12 +169,18 @@ function displaySavedWorkAds() {
 
   for (let i = 0; i < arrayOfSavedWorkingAd.length; i++) {
     savedWorkAd += `
-    <p>${arrayOfSavedWorkingAd[i].title}</p>
-    <p>${arrayOfSavedWorkingAd[i].id}</p>
+    <p >${arrayOfSavedWorkingAd[i].title}</p>
+    <button data-id="${arrayOfSavedWorkingAd[i].id}" class="showSavedWorkAd">LÄS</button>
 `;
   }
-
   savedWorkAdOutput.innerHTML = savedWorkAd;
+  let showSavedWorkAds = document.getElementsByClassName('showSavedWorkAd');
+  for (let showSavedWorkAd of showSavedWorkAds) {
+    showSavedWorkAd.addEventListener('click', function(){
+     
+    fetchJobDetails(this.dataset.id);
+  })
+}
 }
 
 document.getElementById('clear').addEventListener('click', clearLocalStorage);
