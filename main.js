@@ -152,7 +152,7 @@ function displayJobDetails(jobs) {
             <p>Lönetyp: ${conditions.lonetyp}</p>
             <p>Löneform: ${conditions.loneform}</p>
 
-            <p>webbplats: ${apply.webbplats}</p>
+            <a target="_blank" href="${apply.webbplats}">Företagets hemsida</a>
             <p>epostadress: ${apply.epostadress}</p>
             <p>sista ansökning: ${apply.sista_ansokningsdag}</p>
             <p>övrigt: ${apply.ovrigt_om_ansokan}</p>
