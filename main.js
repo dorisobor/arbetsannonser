@@ -64,7 +64,19 @@ function getWorkingAdArrayFromLocalStorage(){
 
 getWorkingAdArrayFromLocalStorage();
 
-saveWorkingAd(7663012);
-saveWorkingAd(7663017);
-saveWorkingAd(7663018);
 console.log(arrayOfSavedWorkingAd);
+
+let savedWorkAdOutput = document.getElementById('saved-work-ad-output');
+let savedWorkAd = `
+    <button data-id="7663012" id="saveWorkAdButton">Save</button>
+`;
+savedWorkAdOutput.innerHTML = savedWorkAd;
+
+
+document.getElementById('clear').addEventListener('click', clear);
+
+function clear() {
+    localStorage.clear();
+    location.reload();
+    return false;
+}
