@@ -30,8 +30,6 @@ function fetchJobDetails(id) {
 
 /* The 10 latest jobs */
 
-
-
 function sortAllJobs(jobs){
 const jobAdverts = jobs.matchningslista.matchningdata;
     
@@ -46,44 +44,36 @@ const jobAdverts = jobs.matchningslista.matchningdata;
     displayTenLatestJobs(jobs);
     
     function displayTenLatestJobs(jobs) {
-    
-      
   
-   let publishedJobList = "";
+   let publishedJobList = `
+    <table>
+        <tr>
+        <th>Titel</th>
+        <th>Yrkesbenämning</th>
+        <th>Arbetsplats</th>
+        <th>Anställningstyp</th>
+        <th>Kommun</th>
+        <th>Jobblänk</th> 
+        <th>Sista ansökningsdatum</th> 
+    </tr>
+    `;
     for(const jobAdvert of jobAdverts.slice(0,10)){
   
- 	publishedJobList += `
-        <table>
-<tr>
-<th>Titel</th>
-<th>Yrkesbenämning</th>
-<th>Arbetsplats</th>
-<th>Anställningstyp</th>
-<th>Kommun</th>
-<th>Publicerad</th> 
-<th>Sista ansökningsdatum</th> 
- 
-
-
-</tr>
-<tr>
-<td><a href="${jobAdvert.annonsurl}">
- ${jobAdvert.annonsrubrik}</a>
- </td>
-<td>${jobAdvert.yrkesbenamning} </td>
-<td>${jobAdvert.arbetsplatsnamn} </td>
-<td>${jobAdvert.anstallningstyp} </td>
-<td>${jobAdvert.kommunnamn}</td>
-<td>${jobAdvert.publiceraddatum} </td> 
-<td>${jobAdvert.sista_ansokningsdag} </td> 
- 
- 
-</tr>
-</table>
-
+ 	 publishedJobList += `     
+        <tr>
+        <td>
+         ${jobAdvert.annonsrubrik}
+         </td>
+        <td>${jobAdvert.yrkesbenamning} </td>
+        <td>${jobAdvert.arbetsplatsnamn} </td>
+        <td>${jobAdvert.anstallningstyp} </td>
+        <td>${jobAdvert.kommunnamn}</td>
+        <td><a href="${jobAdvert.annonsurl}">Gå till annonsen</a> </td> 
+        <td>${jobAdvert.sista_ansokningsdag} </td> 
+        </tr>
         `;
-
     }
+        publishedJobList += "</table>";
     latestTenJobs.innerHTML = publishedJobList;
 
   }
@@ -92,27 +82,38 @@ const jobAdverts = jobs.matchningslista.matchningdata;
 
 function displayJob(jobs) {
   const job = jobs.matchningslista.matchningdata;
-  let allJobList = "";
-
+  let allJobList = `
+    <table>
+    <tr>
+        <th>Titel</th>
+        <th>Yrkesbenämning</th>
+        <th>Arbetsplats</th>
+        <th>Anställningstyp</th>
+        <th>Kommun</th>
+        <th>Jobblänk</th> 
+        <th>Sista ansökningsdatum</th> 
+    </tr>
+`;
 
 
   for (let i = 0; i < job.length; i++) {
 
-    allJobList += `<table>
-
-<tr>
-<th>Titel</th>
-<th><p>Kommun</th>
-<th><p>Publicerad</th>    
-</tr>
-<tr>
-<td class="moreInfo" data-id="${job[i].annonsid}">${job[i].annonsrubrik}</td>
-<td>${job[i].kommunnamn}</td>
-<td>${job[i].sista_ansokningsdag} </td> 
-</tr>
-</table> `;
+    allJobList += ` 
+        <tr>
+            <td>
+             ${job[i].annonsrubrik}
+             </td>
+            <td>${job[i].yrkesbenamning} </td>
+            <td>${job[i].arbetsplatsnamn} </td>
+            <td>${job[i].anstallningstyp} </td>
+            <td>${job[i].kommunnamn}</td>
+            <td><a href="${job[i].annonsurl}">Gå till annonsen</a> </td> 
+            <td>${job[i].sista_ansokningsdag} </td> 
+        </tr>
+ `;
 
   }
+    allJobList += "</table>";
   allJobs.innerHTML = allJobList;
   hej();
 }
@@ -128,7 +129,6 @@ function hej(jobs) {
     });
   }
 }
-
 
 function displayJobDetails(jobs) {
     let annonsDetaljer = "";
