@@ -78,6 +78,7 @@ let allJobList  = "";
 for (let i = 0; i <  job.length; i++) {
   
 allJobList += `<table>
+
 <tr>
 <th>Titel</th>
 <th><p>Kommun</th>
@@ -91,6 +92,60 @@ allJobList += `<table>
 </table> `;
 }
 
-allJobs.innerHTML = allJobList;
+allJobs.innerHTML = allJobList;    
+}
 
+/* Save Working Ad */
+
+let arrayOfSavedWorkingAd = []
+
+function saveWorkingAd(workAd){
+    arrayOfSavedWorkingAd.push(workAd);
+    saveWorkingAdToLocalStorage();
+}
+
+function saveWorkingAdToLocalStorage(){
+    let str = JSON.stringify(arrayOfSavedWorkingAd);
+    localStorage.setItem("arrayOfSavedWorkingAd", str);
+}
+
+function getWorkingAdArrayFromLocalStorage(){
+    let array = localStorage.getItem("arrayOfSavedWorkingAd");
+    arrayOfSavedWorkingAd = JSON.parse(array);
+    if (!arrayOfSavedWorkingAd){
+        arrayOfSavedWorkingAd = [];
+    }
+}
+
+getWorkingAdArrayFromLocalStorage();
+
+console.log(arrayOfSavedWorkingAd);
+
+let savedWorkAdOutput = document.getElementById('saved-work-ad-output');
+let savedWorkAd = "<h3>Sparade annonser</h3>";
+
+for(let i = 0; i < arrayOfSavedWorkingAd.length; i++){
+savedWorkAd += `
+    <p>${arrayOfSavedWorkingAd[i].title}</p>
+    <p>${arrayOfSavedWorkingAd[i].id}</p>
+`;
+}
+
+savedWorkAdOutput.innerHTML = savedWorkAd;
+
+let saveWorkAdButton = document.getElementById('saveWorkAdButton')
+
+saveWorkAdButton.addEventListener('click', function(){
+    var workingAd = {
+        title: this.name,
+        id: this.dataset.id
+    };
+    saveWorkingAd(workingAd);
+});
+
+document.getElementById('clear').addEventListener('click', clearLocalStorage);
+function clearLocalStorage() {
+    localStorage.clear();
+    location.reload();
+    return false;
 }
