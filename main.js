@@ -74,10 +74,12 @@ function sortAllJobs(jobs) {
 
 /* All jobs part */
 function displayJob(jobs) {
-    const latestJobs = document.getElementById("latest-jobs");
     const allJobs = document.getElementById("all-jobs");
+    const totalNumberOfJobs = jobs.matchningslista.antal_platsannonser;
     const job = jobs.matchningslista.matchningdata;
+    
     let allJobList = `
+    <h2>Antal lediga jobb: ${totalNumberOfJobs}</h2>
         <table>
         <tr>
             <th>Titel</th>
