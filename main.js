@@ -28,8 +28,8 @@ function sortAllJobs(jobs) {
     const latestTenJobs = document.getElementById("latest-jobs");
 
     jobAdverts.sort(function (a, b) {
-        var x = a.publiceraddatum;
-        var y = b.publiceraddatum;
+        const x = a.publiceraddatum;
+        const y = b.publiceraddatum;
         if (x < y) { return 1; }
         if (x > y) { return -1; }
         return 0;
