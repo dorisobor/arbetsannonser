@@ -118,6 +118,17 @@ class DOM{
         var jobTitleController = new Controller();
         jobTitleController.addEventListenerJobTitle();
     }
+    // select number of jobs yourself
+    
+    filterNumberOfJobs(jobs){
+        
+        let numberJobs = document.getElementById("number-jobs");
+    let result = document.getElementsByName("table");
+
+
+        
+  }
+    
     displayJobDetails(jobs) {
         let annonsDetaljer = "";
         const job = jobs.platsannons.annons;
