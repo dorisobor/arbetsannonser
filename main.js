@@ -26,6 +26,19 @@ class FetchController{
                 console.log(error)
             });
     }
+    fetchSearchedJobs(searchedInput){
+        console.log(searchedInput);
+        fetch(`http://api.arbetsformedlingen.se/af/v0/platsannonser/soklista/yrken/${searchedInput}`)
+        .then(response => response.json())
+            .then(jobs => {
+                console.log(jobs);
+                var displayDOM = new DOM();
+                displayDOM.displaySearchedJobsByOccupationalTile(jobs)
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
 }
 
 class DOM{
@@ -223,6 +236,18 @@ class DOM{
         var jobAdTitleController = new Controller();
         jobAdTitleController.addEventlistenerToSavedJobAdTitle();
     }
+    displaySearchedJobsByOccupationalTile(searchedJobsarray){
+        let outputSearchedJobs = document.getElementById("output-searched-jobs");
+        var searchedJobs = searchedJobsarray.soklista.sokdata;
+        console.log(searchedJobs);
+        var searchedJobList = "";
+        for (let i = 0; i < searchedJobs.length; i++){
+            searchedJobList += `
+            <p data-id="${searchedJobs[i].id}">${searchedJobs[i].namn}</p>`;
+            
+        }
+        outputSearchedJobs.innerHTML = searchedJobList;
+    }
     toggleView(show, hide){
         const shownElement = document.getElementById(show);
         const hiddenElement = document.getElementById(hide);
@@ -259,6 +284,15 @@ class Controller{
         document.getElementById("clear").addEventListener("click", function(){
             var clearLocalStorageUtility = new Utility(); 
             clearLocalStorageUtility.clearLocalStorage();
+        });
+    }
+    addEventlistenerToSearchJob(){
+        let searchJobButton = document.getElementById("searchJobButton");
+        searchJobButton.addEventListener("click", function(){
+            let searchJobInput = document.getElementById("searchJobInput").value;
+            console.log(searchJobInput);
+            let searchedJobsFetchController = new FetchController();
+            searchedJobsFetchController.fetchSearchedJobs(searchJobInput);
         });
     }
 }
@@ -304,3 +338,6 @@ displaySavedJobAds.displaySavedJobAds();
 
 var clearLocalStorageController = new Controller();
 clearLocalStorageController.addEventListenerClearSavedJob();
+
+var addEventlistenerToSearchJob = new Controller();
+addEventlistenerToSearchJob.addEventlistenerToSearchJob();
