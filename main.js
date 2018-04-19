@@ -232,8 +232,7 @@ class DOM{
         var searchedJobList = "";
         for (let i = 0; i < searchedJobs.length; i++){
             searchedJobList += `
-            <p>${searchedJobs[i].namn}</p>
-            `;
+            <p data-id="${searchedJobs[i].id}">${searchedJobs[i].namn}</p>`;
             
         }
         outputSearchedJobs.innerHTML = searchedJobList;
