@@ -247,7 +247,7 @@ class Controller{
     addEventListenerClearSavedJob(){
         document.getElementById("clear").addEventListener("click", function(){
             var clearLocalStorageUtility = new Utility(); 
-            clearLocalStorageUtility.clearLocalStorage
+            clearLocalStorageUtility.clearLocalStorage();
         });
     }
 }
@@ -290,3 +290,6 @@ getJobAdArrayFromLocalStorage.getJobAdArrayFromLocalStorage();
 
 var displaySavedJobAds = new DOM();
 displaySavedJobAds.displaySavedJobAds();
+
+var clearLocalStorageController = new Controller();
+clearLocalStorageController.addEventListenerClearSavedJob();
