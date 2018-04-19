@@ -32,6 +32,8 @@ class FetchController{
         .then(response => response.json())
             .then(jobs => {
                 console.log(jobs);
+                var displayDOM = new DOM();
+                displayDOM.displaySearchedJobsByOccupationalTile(jobs)
             })
             .catch((error) => {
                 console.log(error);
@@ -222,6 +224,19 @@ class DOM{
         savedJobAdOutput.innerHTML = savedJobAd;
         var jobAdTitleController = new Controller();
         jobAdTitleController.addEventlistenerToSavedJobAdTitle();
+    }
+    displaySearchedJobsByOccupationalTile(searchedJobsarray){
+        let outputSearchedJobs = document.getElementById("output-searched-jobs");
+        var searchedJobs = searchedJobsarray.soklista.sokdata;
+        console.log(searchedJobs);
+        var searchedJobList = "";
+        for (let i = 0; i < searchedJobs.length; i++){
+            searchedJobList += `
+            <p>${searchedJobs[i].namn}</p>
+            `;
+            
+        }
+        outputSearchedJobs.innerHTML = searchedJobList;
     }
     toggleView(show, hide){
         const shownElement = document.getElementById(show);
