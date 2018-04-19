@@ -26,6 +26,17 @@ class FetchController{
                 console.log(error)
             });
     }
+    fetchSearchedJobs(searchedInput){
+        console.log(searchedInput);
+        fetch(`http://api.arbetsformedlingen.se/af/v0/platsannonser/soklista/yrken/${searchedInput}`)
+        .then(response => response.json())
+            .then(jobs => {
+                console.log(jobs);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
 }
 
 class DOM{
@@ -250,6 +261,15 @@ class Controller{
             clearLocalStorageUtility.clearLocalStorage();
         });
     }
+    addEventlistenerToSearchJob(){
+        let searchJobButton = document.getElementById("searchJobButton");
+        searchJobButton.addEventListener("click", function(){
+            let searchJobInput = document.getElementById("searchJobInput").value;
+            console.log(searchJobInput);
+            let searchedJobsFetchController = new FetchController();
+            searchedJobsFetchController.fetchSearchedJobs(searchJobInput);
+        });
+    }
 }
 
 class Utility{
@@ -293,3 +313,6 @@ displaySavedJobAds.displaySavedJobAds();
 
 var clearLocalStorageController = new Controller();
 clearLocalStorageController.addEventListenerClearSavedJob();
+
+var addEventlistenerToSearchJob = new Controller();
+addEventlistenerToSearchJob.addEventlistenerToSearchJob();
