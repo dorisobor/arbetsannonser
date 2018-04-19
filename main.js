@@ -165,8 +165,8 @@ class DOM{
         const backToListButton = document.getElementById("back");
     
         backToListButton.addEventListener("click", function () {
-            mainView.classList.remove("hidden");
-            singleJobView.classList.add("hidden");
+            let toggleViewDOM = new DOM();
+            toggleViewDOM.toggleView("main-view", "single-view");
         });
     
         const shareUrlButton = document.getElementById("share-url-button");
@@ -212,6 +212,12 @@ class DOM{
         var jobAdTitleController = new Controller();
         jobAdTitleController.addEventlistenerToSavedJobAdTitle();
     }
+    toggleView(show, hide){
+        const shownElement = document.getElementById(show);
+        const hiddenElement = document.getElementById(hide);
+        shownElement.classList.remove("hidden");
+        hiddenElement.classList.add("hidden");
+    }
 }
 
 class Controller{
@@ -222,8 +228,8 @@ class Controller{
             more.addEventListener("click", function () {
                 var fetchJobDetails = new FetchController(); 
                 fetchJobDetails.fetchJobDetails(this.dataset.id);
-                singleJobView.classList.remove("hidden");
-                mainView.classList.add("hidden");
+                var toggleViewDOM = new DOM();
+                toggleViewDOM.toggleView("single-view", "main-view");
             });
         }
     }
@@ -233,8 +239,8 @@ class Controller{
             showSavedJobAd.addEventListener("click", function () {
                 var fetchJobDetails = new FetchController(); 
                 fetchJobDetails.fetchJobDetails(this.dataset.id);
-                singleJobView.classList.remove("hidden");
-                mainView.classList.add("hidden");
+                let toggleViewDOM = new DOM();
+                toggleViewDOM.toggleView("single-view", "main-view");
             })
         }
     }
