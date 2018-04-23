@@ -1,8 +1,8 @@
 class FetchController {
    
-    fetchStockholmJobs(rows = 10) {
+    fetchStockholmJobs(rows = 10,countyId = 1 ) {
         console.log(rows);
-        fetch(`http://api.arbetsformedlingen.se/af/v0/platsannonser/matchning?lanid=1&sida=1&antalrader=${rows}`)
+        fetch(`http://api.arbetsformedlingen.se/af/v0/platsannonser/matchning?lanid=${countyId}&sida=1&antalrader=${rows}`)
             .then((response) => response.json())
             .then((jobs) => {
                 var displayDOM = new DOM();
@@ -147,11 +147,13 @@ class DOM {
         
         let submitNumberButton = document.getElementById("submit-number");
         let numberOfJobs = document.getElementById("number-jobs");
+        let countyJobs = document.getElementById("county-jobs");
         
        submitNumberButton.addEventListener("click", function() {
-            let  numberValue = numberOfJobs.value;
+           let  numberValue = numberOfJobs.value;
+           let  countyValue = countyJobs.value
            var fetchNumberOfJobs = new FetchController();
-           fetchNumberOfJobs.fetchStockholmJobs(numberOfJobs.value)
+           fetchNumberOfJobs.fetchStockholmJobs(numberValue, countyValue);
            
           
          console.log(numberOfJobs.value)
