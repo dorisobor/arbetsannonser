@@ -1,6 +1,6 @@
 class FetchController {
-    fetchStockholmJobs() {
-        fetch("http://api.arbetsformedlingen.se/af/v0/platsannonser/matchning?lanid=1&sida=1&antalrader=20")
+    fetchStockholmJobs(rows = 10) {
+        fetch(`http://api.arbetsformedlingen.se/af/v0/platsannonser/matchning?lanid=1&sida=1&antalrader=${rows}`)
             .then((response) => response.json())
             .then((jobs) => {
                 var displayDOM = new DOM();
@@ -91,6 +91,19 @@ class DOM {
         const allJobs = document.getElementById("all-jobs");
         const totalNumberOfJobs = jobs.matchningslista.antal_platsannonser;
         const job = jobs.matchningslista.matchningdata;
+
+         // select the number of jobs 
+         //addEventlistenerToFilterJob() {
+            const submitNumberButton = document.getElementById("submit-number");
+            const numberOfJobs = document.getElementById("number-jobs");
+            
+           submitNumberButton.addEventListener("click", function() {
+               const numberValue = numberOfJobs.value
+              //fetchStockholmJobs(numberValue);
+             console.log(numberOfJobs.value)
+                
+           });
+       //} 
 
         let allJobList = `
         <h2>Antal lediga jobb: ${totalNumberOfJobs}</h2>
