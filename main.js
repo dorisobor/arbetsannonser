@@ -35,6 +35,30 @@ class FetchController {
                 console.log(error);
             });
     }
+    fetchJobsByOccupationalId(id){
+        fetch(`http://api.arbetsformedlingen.se/af/v0/platsannonser/matchning?yrkesid=${id}&sida=1&antalrader=2000`)
+        .then(response => response.json())
+            .then(jobs => {
+                const newJobs = {
+                    "matchningslista": {
+                        "antal_platsannonser": jobs.matchningslista.antal_platsannonser_exakta,
+                        "antal_platsannonser_exakta": jobs.matchningslista.antal_platsannonser_exakta,
+                        "antal_platsannonser_narliggande": jobs.matchningslista.antal_platsannonser_narliggande,
+                        "antal_platserTotal": jobs.matchningslista.antal_platserTotal,
+                        "antal_sidor": jobs.matchningslista.anatl_sidor,
+                        "matchningdata": []
+                    }
+                };
+                for(let i = 0; i < jobs.matchningslista.antal_platsannonser_exakta; i++){
+                    newJobs.matchningslista.matchningdata.push(jobs.matchningslista.matchningdata[i]);
+                }
+                var displayDOM = new DOM();
+                displayDOM.displayJob(newJobs);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
 }
 
 class DOM {
@@ -235,12 +259,19 @@ class DOM {
         console.log(searchedJobs);
         var searchedJobList = "";
         for (let i = 0; i < searchedJobs.length; i++){
-            searchedJobList += `
-            <p data-id="${searchedJobs[i].id}">${searchedJobs[i].namn}</p>`;
-            
+            if(searchedJobs[i].antal_platsannonser != 0){
+                searchedJobList += `
+                <p data-id="${searchedJobs[i].id}" class="searchOccupationalTile">
+                ${searchedJobs[i].namn} (${searchedJobs[i].antal_platsannonser})
+                </p>`;
+            }
         }
         outputSearchedJobs.innerHTML = searchedJobList;
+        const searchResultController = new Controller();
+        searchResultController.addEventlisterToSearchJobResult();
     }
+
+    
     toggleView(show, hide){
         const shownElement = document.getElementById(show);
         const hiddenElement = document.getElementById(hide);
@@ -286,6 +317,19 @@ class Controller {
             searchedJobsFetchController.fetchSearchedJobs(searchJobInput);
         });
     }
+    addEventlisterToSearchJobResult(){
+        let searchResultTitles = document.getElementsByClassName("searchOccupationalTile");
+
+        for (let searchResultTitle of searchResultTitles){
+            
+            searchResultTitle.addEventListener("click", function(){
+                const id = this.dataset.id;
+                const fetchSearch = new FetchController();
+                fetchSearch.fetchJobsByOccupationalId(id)
+            })
+        }
+    }
+
 }
 
 class Utility {
