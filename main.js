@@ -1,11 +1,14 @@
 class FetchController {
+   
     fetchStockholmJobs(rows = 10) {
+        console.log(rows);
         fetch(`http://api.arbetsformedlingen.se/af/v0/platsannonser/matchning?lanid=1&sida=1&antalrader=${rows}`)
             .then((response) => response.json())
             .then((jobs) => {
                 var displayDOM = new DOM();
                 displayDOM.displayJob(jobs)
-                displayDOM.sortAllJobs(jobs)
+                displayDOM.sortAllJobs(jobs) 
+                
             })
             .catch((error) => {
                 console.log(error)
@@ -91,6 +94,22 @@ class DOM {
         const allJobs = document.getElementById("all-jobs");
         const totalNumberOfJobs = jobs.matchningslista.antal_platsannonser;
         const job = jobs.matchningslista.matchningdata;
+           
+        // select the number of jobs 
+        
+        let submitNumberButton = document.getElementById("submit-number");
+        let numberOfJobs = document.getElementById("number-jobs");
+        
+       submitNumberButton.addEventListener("click", function() {
+            let  numberValue = numberOfJobs.value;
+           var fetchNumberOfJobs = new FetchController();
+           fetchNumberOfJobs.fetchStockholmJobs(numberOfJobs.value)
+           
+          
+         console.log(numberOfJobs.value)
+           
+            
+    
 
         let allJobList = `
         <h2>Antal lediga jobb: ${totalNumberOfJobs}</h2>
@@ -104,9 +123,9 @@ class DOM {
                 <th>Jobblänk</th> 
                 <th>Sista ansökningsdatum</th> 
             </tr>`;
-
+           console.log(job.length);
         for (let i = 0; i < job.length; i++) {
-
+            
             allJobList += ` 
             <tr>
                 <td class="moreInfo" data-id="${job[i].annonsid}">
@@ -124,20 +143,12 @@ class DOM {
 
         allJobList += "</table>";
         allJobs.innerHTML = allJobList;
+              });
+        
+           
     }
   
-    // select the number of jobs 
-    addEventlistenerToFilterJob(){
-        let submitNumberButton = document.getElementById("submit-number");
-        let numberOfJobs = document.getElementById("number-jobs");
-        
-       submitNumberButton.addEventListener("click", function() {
-          let  numberValue = numberOfJobs.value
-          //fetchStockholmJobs(numberValue);
-         console.log(numberOfJobs.value)
-            
-       });
-   } 
+    
     displayJobDetails(jobs) {
         let annonsDetaljer = "";
         const job = jobs.platsannons.annons;
@@ -352,6 +363,3 @@ window.addEventListener('hashchange', event => {
     controller.checkInputUrl();
 });
 
-
-var addEventlistenerToFilterJob = new DOM();
-addEventlistenerToFilterJob.addEventlistenerToFilterJob();
