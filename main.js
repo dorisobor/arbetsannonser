@@ -1,8 +1,4 @@
-const mainView = document.getElementById("main-view");
-const singleJobView = document.getElementById("single-job-view");
-
-
-class FetchController{
+class FetchController {
     fetchStockholmJobs() {
         fetch("http://api.arbetsformedlingen.se/af/v0/platsannonser/matchning?lanid=1&sida=1&antalrader=20")
             .then((response) => response.json())
@@ -16,7 +12,7 @@ class FetchController{
             });
     }
     fetchJobDetails(id) {
-        fetch(`http://api.arbetsformedlingen.se/af/v0/platsannonser/${id}`)
+        return fetch(`http://api.arbetsformedlingen.se/af/v0/platsannonser/${id}`)
             .then(response => response.json())
             .then(jobs => {
                 var displayDOM = new DOM();
@@ -41,11 +37,11 @@ class FetchController{
     }
 }
 
-class DOM{
+class DOM {
     sortAllJobs(jobs) {
         const jobAdverts = jobs.matchningslista.matchningdata;
         const latestTenJobs = document.getElementById("latest-jobs");
-    
+
         jobAdverts.sort(function (a, b) {
             const x = a.publiceraddatum;
             const y = b.publiceraddatum;
@@ -53,11 +49,11 @@ class DOM{
             if (x > y) { return -1; }
             return 0;
         });
-    
+
         displayTenLatestJobs(jobs);
-    
+
         function displayTenLatestJobs(jobs) {
-    
+
             let publishedJobList = `
                 <table>
                     <tr>
@@ -69,13 +65,15 @@ class DOM{
                     <th>Jobblänk</th> 
                     <th>Sista ansökningsdatum</th> 
                 </tr>`;
-    
+
             for (const jobAdvert of jobAdverts.slice(0, 10)) {
-    
+
                 publishedJobList += `     
                 <tr>
                     <td class="moreInfo" data-id="${jobAdvert.annonsid}">
-                    ${jobAdvert.annonsrubrik}
+                        <a href="#/annons/${jobAdvert.annonsid}">
+                            ${jobAdvert.annonsrubrik}
+                        </a>
                     </td>
                     <td>${jobAdvert.yrkesbenamning}</td>
                     <td>${jobAdvert.arbetsplatsnamn}</td>
@@ -87,15 +85,13 @@ class DOM{
             }
             publishedJobList += "</table>";
             latestTenJobs.innerHTML = publishedJobList;
-            var jobTitleController = new Controller();
-            jobTitleController.addEventListenerJobTitle();
         }
-    }  
+    }
     displayJob(jobs) {
         const allJobs = document.getElementById("all-jobs");
         const totalNumberOfJobs = jobs.matchningslista.antal_platsannonser;
         const job = jobs.matchningslista.matchningdata;
-        
+
         let allJobList = `
         <h2>Antal lediga jobb: ${totalNumberOfJobs}</h2>
             <table>
@@ -108,9 +104,9 @@ class DOM{
                 <th>Jobblänk</th> 
                 <th>Sista ansökningsdatum</th> 
             </tr>`;
-    
+
         for (let i = 0; i < job.length; i++) {
-    
+
             allJobList += ` 
             <tr>
                 <td class="moreInfo" data-id="${job[i].annonsid}">
@@ -123,13 +119,11 @@ class DOM{
                 <td><a href="${job[i].annonsurl}">Gå till annonsen</a> </td> 
                 <td>${job[i].sista_ansokningsdag} </td> 
             </tr>`;
-    
+
         }
-    
+
         allJobList += "</table>";
         allJobs.innerHTML = allJobList;
-        var jobTitleController = new Controller();
-        jobTitleController.addEventListenerJobTitle();
     }
     // select number of jobs yourself
     
@@ -148,11 +142,11 @@ class DOM{
         const conditions = jobs.platsannons.villkor;
         const apply = jobs.platsannons.ansokan;
         const jobplace = jobs.platsannons.arbetsplats;
-    
+
         /* following values will return undefined if value is empty: 
         conditions.tilltrade
         apply.epostadress */
-    
+
         annonsDetaljer += `
                 <h2>${job.annonsrubrik}</h2>
     
@@ -183,20 +177,12 @@ class DOM{
     
                 <button data-id="${jobs.platsannons.annons.annonsid}" id="saveJobAdButton" name="${jobs.platsannons.annons.annonsrubrik}">Save</button>
             `;
-    
+
         document.getElementById("annonsdetaljer").innerHTML = annonsDetaljer;
-    
-        const backToListButton = document.getElementById("back");
-    
-        backToListButton.addEventListener("click", function () {
-            let toggleViewDOM = new DOM();
-            toggleViewDOM.toggleView("main-view", "single-view");
-        });
-    
+
         const shareUrlButton = document.getElementById("share-url-button");
         const urlDropdown = document.getElementById("url-dropdown");
-    
-        shareUrlButton.addEventListener('click', function () {
+        shareUrlButton.addEventListener("click", function () {
             if (urlDropdown.classList.contains("hidden")) {
                 urlDropdown.classList.remove("hidden")
             }
@@ -204,15 +190,32 @@ class DOM{
                 urlDropdown.classList.add("hidden");
             }
         });
-    
+
+        const backToListButton = document.getElementById("back");
+        backToListButton.addEventListener("click", function () {
+            let toggleViewDOM = new DOM();
+            toggleViewDOM.toggleView("main-view", "single-view");
+            urlDropdown.classList.add("hidden");
+            window.location.hash = "";
+        });
+
         const adUrl = document.getElementById("ad-url");
-        adUrl.innerHTML = job.platsannonsUrl;
-        adUrl.href = job.platsannonsUrl;
-        adUrl.target = "_blank";
+        adUrl.value = window.location.href;
         urlDropdown.appendChild(adUrl);
-    
+
+        const copyUrlButton = document.getElementById("copy-url");
+        copyUrlButton.addEventListener("click", function () {
+            adUrl.select();
+            document.execCommand("Copy");
+            let copyConfirmText = document.getElementById("copy-confirm");
+            copyConfirmText.classList.remove("hidden");
+
+            setTimeout(function(){
+                copyConfirmText.classList.add("hidden");
+            }, 1000);
+        });
+
         let saveJobAdButton = document.getElementById("saveJobAdButton")
-    
         saveJobAdButton.addEventListener("click", function () {
             var jobAd = {
                 title: this.name,
@@ -225,7 +228,7 @@ class DOM{
     displaySavedJobAds() {
         let savedJobAdOutput = document.getElementById("saved-job-ad-output");
         let savedJobAd = "<h3>Sparade annonser</h3>";
-    
+
         for (let i = 0; i < arrayOfSavedJobAd.length; i++) {
             savedJobAd += `
                 <p data-id="${arrayOfSavedJobAd[i].id}" class="showSavedJobAd">
@@ -236,6 +239,7 @@ class DOM{
         var jobAdTitleController = new Controller();
         jobAdTitleController.addEventlistenerToSavedJobAdTitle();
     }
+
     displaySearchedJobsByOccupationalTile(searchedJobsarray){
         let outputSearchedJobs = document.getElementById("output-searched-jobs");
         var searchedJobs = searchedJobsarray.soklista.sokdata;
@@ -256,28 +260,26 @@ class DOM{
     }
 }
 
-class Controller{
-    addEventListenerJobTitle() {
-        var moreInfo = document.getElementsByClassName("moreInfo");
-    
-        for (let more of moreInfo) {
-            more.addEventListener("click", function () {
-                var fetchJobDetails = new FetchController(); 
-                fetchJobDetails.fetchJobDetails(this.dataset.id);
-                var toggleViewDOM = new DOM();
-                toggleViewDOM.toggleView("single-view", "main-view");
-            });
+class Controller {
+    checkInputUrl() {
+        const annonsId = window.location.hash.split(`/`).pop();
+        if (window.location.hash.startsWith(`#/annons`)) {
+            new FetchController().fetchJobDetails(annonsId);
+            new DOM().toggleView("single-view", "main-view");
+        } else {
+            window.location.hash = '';
+            new DOM().toggleView("main-view", "single-view")
         }
     }
     addEventlistenerToSavedJobAdTitle() {
         let showSavedJobAds = document.getElementsByClassName("showSavedJobAd");
         for (let showSavedJobAd of showSavedJobAds) {
             showSavedJobAd.addEventListener("click", function () {
-                var fetchJobDetails = new FetchController(); 
+                var fetchJobDetails = new FetchController();
                 fetchJobDetails.fetchJobDetails(this.dataset.id);
                 let toggleViewDOM = new DOM();
                 toggleViewDOM.toggleView("single-view", "main-view");
-            })
+            });
         }
     }
     addEventListenerClearSavedJob(){
@@ -297,7 +299,7 @@ class Controller{
     }
 }
 
-class Utility{
+class Utility {
     saveJobAd(jobAd) {
         arrayOfSavedJobAd.push(jobAd);
         var displayJobAdsDOM = new DOM();
@@ -324,9 +326,6 @@ class Utility{
 
 arrayOfSavedJobAd = [];
 
-
-
-
 var fetchStockholmJobs = new FetchController();
 fetchStockholmJobs.fetchStockholmJobs();
 
@@ -336,8 +335,15 @@ getJobAdArrayFromLocalStorage.getJobAdArrayFromLocalStorage();
 var displaySavedJobAds = new DOM();
 displaySavedJobAds.displaySavedJobAds();
 
+var controller = new Controller();
+controller.checkInputUrl();
+
 var clearLocalStorageController = new Controller();
 clearLocalStorageController.addEventListenerClearSavedJob();
 
 var addEventlistenerToSearchJob = new Controller();
 addEventlistenerToSearchJob.addEventlistenerToSearchJob();
+
+window.addEventListener('hashchange', event => {
+    controller.checkInputUrl();
+});
