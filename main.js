@@ -109,6 +109,7 @@ class DOM {
          console.log(numberOfJobs.value)
            
             
+            });
     
 
         let allJobList = `
@@ -143,7 +144,7 @@ class DOM {
 
         allJobList += "</table>";
         allJobs.innerHTML = allJobList;
-              });
+             
         
            
     }
