@@ -38,6 +38,54 @@ class FetchController {
                 console.log(error);
             });
     }
+    fetchJobsByOccupationalId(id){
+        fetch(`http://api.arbetsformedlingen.se/af/v0/platsannonser/matchning?yrkesid=${id}&sida=1&antalrader=2000`)
+        .then(response => response.json())
+            .then(jobs => {
+                const newJobs = {
+                    "matchningslista": {
+                        "antal_platsannonser": jobs.matchningslista.antal_platsannonser_exakta,
+                        "antal_platsannonser_exakta": jobs.matchningslista.antal_platsannonser_exakta,
+                        "antal_platsannonser_narliggande": jobs.matchningslista.antal_platsannonser_narliggande,
+                        "antal_platserTotal": jobs.matchningslista.antal_platserTotal,
+                        "antal_sidor": jobs.matchningslista.anatl_sidor,
+                        "matchningdata": []
+                    }
+                };
+                for(let i = 0; i < jobs.matchningslista.antal_platsannonser_exakta; i++){
+                    newJobs.matchningslista.matchningdata.push(jobs.matchningslista.matchningdata[i]);
+                }
+                var displayDOM = new DOM();
+                displayDOM.displayJob(newJobs);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
+    fetchCategories(){
+        fetch("http://api.arbetsformedlingen.se/af/v0/platsannonser/soklista/yrkesomraden")
+        .then((response) => response.json())
+        .then((categories) => {
+            var displayDOM = new DOM();
+            displayDOM.displayCategoriesDOM(categories);
+    
+        })
+        .catch((error) => {
+            console.log(error)
+        });
+    }
+    fetchJobsByCategories(id) {
+        fetch(`http://api.arbetsformedlingen.se/af/v0/platsannonser/matchning?yrkesomradeid=${id}&sida=1&antalrader=2000`)
+            .then(response => response.json())
+            .then(jobsByCategories => {
+                console.log(jobsByCategories);
+                var displayDOM = new DOM();
+                displayDOM.displayJob(jobsByCategories);
+            })
+            .catch((error) => {
+                console.log(error)
+            });
+    }
 }
 
 class DOM {
@@ -130,7 +178,9 @@ class DOM {
             allJobList += ` 
             <tr>
                 <td class="moreInfo" data-id="${job[i].annonsid}">
-                ${job[i].annonsrubrik}
+                    <a href="#/annons/${job[i].annonsid}">
+                        ${job[i].annonsrubrik}
+                    </a>
                 </td>
                 <td>${job[i].yrkesbenamning} </td>
                 <td>${job[i].arbetsplatsnamn} </td>
@@ -260,12 +310,30 @@ class DOM {
         console.log(searchedJobs);
         var searchedJobList = "";
         for (let i = 0; i < searchedJobs.length; i++){
-            searchedJobList += `
-            <p data-id="${searchedJobs[i].id}">${searchedJobs[i].namn}</p>`;
-            
+            if(searchedJobs[i].antal_platsannonser != 0){
+                searchedJobList += `
+                <p data-id="${searchedJobs[i].id}" class="searchOccupationalTile">
+                ${searchedJobs[i].namn} (${searchedJobs[i].antal_platsannonser})
+                </p>`;
+            }
         }
         outputSearchedJobs.innerHTML = searchedJobList;
+        const searchResultController = new Controller();
+        searchResultController.addEventlisterToSearchJobResult();
     }
+    displayCategoriesDOM(categories){
+        let categoryOutput = document.getElementById("categories-output");
+        let category = categories.soklista.sokdata;
+        let categoryList = "";
+        for(let i = 0; i <category.length; i++){
+           categoryList +=  `
+           <p data-id="${category[i].id}" class="categoryListObject">${category[i].namn}</p>`;
+        }
+        categoryOutput.innerHTML = categoryList;
+        let addEventlistenerToCategories = new Controller ();
+        addEventlistenerToCategories.addEventlisterToCategories();
+    }
+ 
     toggleView(show, hide){
         const shownElement = document.getElementById(show);
         const hiddenElement = document.getElementById(hide);
@@ -313,6 +381,29 @@ class Controller {
         });
     }
 
+    addEventlisterToSearchJobResult(){
+        let searchResultTitles = document.getElementsByClassName("searchOccupationalTile");
+console.log(searchResultTitles);
+        for (let searchResultTitle of searchResultTitles){
+            
+            searchResultTitle.addEventListener("click", function(){
+                const id = this.dataset.id;
+                const fetchSearch = new FetchController();
+                fetchSearch.fetchJobsByOccupationalId(id)
+            })
+        }
+    }
+    addEventlisterToCategories(){
+        const jobCategories = document.getElementsByClassName("categoryListObject");
+        for (let jobCategory of jobCategories){
+           // console.log(jobCategories[i]);
+            jobCategory.addEventListener("click", function(){
+                const id = this.dataset.id;
+                const fetchJobsByCategory = new FetchController();
+                fetchJobsByCategory.fetchJobsByCategories(id)
+            })
+        }
+    }
 }
 
 class Utility {
@@ -344,6 +435,9 @@ arrayOfSavedJobAd = [];
 
 var fetchStockholmJobs = new FetchController();
 fetchStockholmJobs.fetchStockholmJobs();
+
+let fetchCategories = new FetchController();
+fetchCategories.fetchCategories();
 
 var getJobAdArrayFromLocalStorage = new Utility();
 getJobAdArrayFromLocalStorage.getJobAdArrayFromLocalStorage();
