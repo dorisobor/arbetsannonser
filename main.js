@@ -126,7 +126,18 @@ class DOM {
         allJobs.innerHTML = allJobList;
     }
   
-    
+    // select the number of jobs 
+    addEventlistenerToFilterJob(){
+        let submitNumberButton = document.getElementById("submit-number");
+        let numberOfJobs = document.getElementById("number-jobs");
+        
+       submitNumberButton.addEventListener("click", function() {
+          let  numberValue = numberOfJobs.value
+          //fetchStockholmJobs(numberValue);
+         console.log(numberOfJobs.value)
+            
+       });
+   } 
     displayJobDetails(jobs) {
         let annonsDetaljer = "";
         const job = jobs.platsannons.annons;
@@ -249,6 +260,7 @@ class DOM {
         shownElement.classList.remove("hidden");
         hiddenElement.classList.add("hidden");
     }
+
 }
 
 class Controller {
@@ -289,18 +301,6 @@ class Controller {
         });
     }
 
-    // select the number of jobs 
-    addEventlistenerToFilterJob(){
-        let submitNumberButton = document.getElementById("submit-number");
-        let numberOfJobs = document.getElementById("number-jobs");
-        
-       submitNumberButton.addEventListener("click", function() {
-          let  numberValue = numberOfJobs.value
-          //fetchStockholmJobs(numberValue);
-         console.log(numberOfJobs.value)
-            
-       });
-   } 
 }
 
 class Utility {
@@ -352,5 +352,6 @@ window.addEventListener('hashchange', event => {
     controller.checkInputUrl();
 });
 
-var addEventlistenerToFilterJob = new Controller();
+
+var addEventlistenerToFilterJob = new DOM();
 addEventlistenerToFilterJob.addEventlistenerToFilterJob();
