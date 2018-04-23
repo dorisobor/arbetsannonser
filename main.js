@@ -59,6 +59,18 @@ class FetchController {
                 console.log(error);
             });
     }
+    fetchCategories(){
+        fetch("http://api.arbetsformedlingen.se/af/v0/platsannonser/soklista/yrkesomraden")
+        .then((response) => response.json())
+        .then((categories) => {
+            var displayDOM = new DOM();
+            displayDOM.displayCategoriesDOM(categories);
+    
+        })
+        .catch((error) => {
+            console.log(error)
+        });
+    }
 }
 
 class DOM {
@@ -270,8 +282,17 @@ class DOM {
         const searchResultController = new Controller();
         searchResultController.addEventlisterToSearchJobResult();
     }
-
-    
+    displayCategoriesDOM(categories){
+        let categoryOutput = document.getElementById("categories-output");
+        let category = categories.soklista.sokdata;
+        let categoryList = "";
+        for(let i = 0; i <category.length; i++){
+           categoryList +=  `
+           <li data-id="${category[i].id}">${category[i].namn}</li>`;
+        }
+        categoryOutput.innerHTML = categoryList;
+    }
+ 
     toggleView(show, hide){
         const shownElement = document.getElementById(show);
         const hiddenElement = document.getElementById(hide);
@@ -361,6 +382,9 @@ arrayOfSavedJobAd = [];
 
 var fetchStockholmJobs = new FetchController();
 fetchStockholmJobs.fetchStockholmJobs();
+
+let fetchCategories = new FetchController();
+fetchCategories.fetchCategories();
 
 var getJobAdArrayFromLocalStorage = new Utility();
 getJobAdArrayFromLocalStorage.getJobAdArrayFromLocalStorage();
