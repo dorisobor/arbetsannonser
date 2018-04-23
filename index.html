@@ -5,7 +5,6 @@
 	<meta charset="UTF-8">
 	<link rel="stylesheet" href="style.css">
 	<title>Arbetsförmedlingen- platsannonser</title>
-
 </head>
 
 <body>
@@ -39,11 +38,11 @@
 
 		<div id="single-view" class="hidden">
 			<button id="back">Tillbaka till lista</button>
-			<button id="share-url-button">Dela länk</button>
-			<div id="url-dropdown" class="hidden">
+			<details id="url-dropdown">
+				<summary>Dela annnons</summary>
 				<input id="ad-url"/>
 				<button id="copy-url">Kopiera</button>
-			</div>
+			</details>
 			<p id="copy-confirm" class="hidden">Kopierad!</p>
 			<div id="annonsdetaljer"></div>
 		</div>

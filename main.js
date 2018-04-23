@@ -168,29 +168,15 @@ class DOM {
             `;
 
         document.getElementById("annonsdetaljer").innerHTML = annonsDetaljer;
-
-        const shareUrlButton = document.getElementById("share-url-button");
-        const urlDropdown = document.getElementById("url-dropdown");
-        shareUrlButton.addEventListener("click", function () {
-            if (urlDropdown.classList.contains("hidden")) {
-                urlDropdown.classList.remove("hidden")
-            }
-            else {
-                urlDropdown.classList.add("hidden");
-            }
-        });
-
+       
         const backToListButton = document.getElementById("back");
         backToListButton.addEventListener("click", function () {
-            let toggleViewDOM = new DOM();
-            toggleViewDOM.toggleView("main-view", "single-view");
-            urlDropdown.classList.add("hidden");
+            new DOM().showMainView();
             window.location.hash = "";
         });
 
         const adUrl = document.getElementById("ad-url");
         adUrl.value = window.location.href;
-        urlDropdown.appendChild(adUrl);
 
         const copyUrlButton = document.getElementById("copy-url");
         copyUrlButton.addEventListener("click", function () {
@@ -237,15 +223,21 @@ class DOM {
         for (let i = 0; i < searchedJobs.length; i++){
             searchedJobList += `
             <p data-id="${searchedJobs[i].id}">${searchedJobs[i].namn}</p>`;
-            
+            console.log(searchedJobs[i].namn)
         }
         outputSearchedJobs.innerHTML = searchedJobList;
     }
-    toggleView(show, hide){
-        const shownElement = document.getElementById(show);
-        const hiddenElement = document.getElementById(hide);
-        shownElement.classList.remove("hidden");
-        hiddenElement.classList.add("hidden");
+    showMainView(){
+        const mainView = document.getElementById("main-view");
+        const singleView = document.getElementById("single-view");
+        mainView.classList.remove("hidden");
+        singleView.classList.add("hidden");
+    }
+    showSingleView(){
+        const mainView = document.getElementById("main-view");
+        const singleView = document.getElementById("single-view");
+        singleView.classList.remove("hidden");
+        mainView.classList.add("hidden");
     }
 }
 
@@ -254,10 +246,10 @@ class Controller {
         const annonsId = window.location.hash.split(`/`).pop();
         if (window.location.hash.startsWith(`#/annons`)) {
             new FetchController().fetchJobDetails(annonsId);
-            new DOM().toggleView("single-view", "main-view");
+            new DOM().showSingleView();
         } else {
             window.location.hash = '';
-            new DOM().toggleView("main-view", "single-view")
+            new DOM().showMainView();
         }
     }
     addEventlistenerToSavedJobAdTitle() {
@@ -266,8 +258,7 @@ class Controller {
             showSavedJobAd.addEventListener("click", function () {
                 var fetchJobDetails = new FetchController();
                 fetchJobDetails.fetchJobDetails(this.dataset.id);
-                let toggleViewDOM = new DOM();
-                toggleViewDOM.toggleView("single-view", "main-view");
+                new DOM().showSingleView();
             });
         }
     }
