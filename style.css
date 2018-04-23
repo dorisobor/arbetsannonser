@@ -9,6 +9,11 @@ h2 {
 
 #container {
 	width: 70%;
+	clear:both;
+}
+
+#container {
+	width:70%;
 	float: left;
 }
 

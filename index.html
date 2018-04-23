@@ -5,7 +5,6 @@
 	<meta charset="UTF-8">
 	<link rel="stylesheet" href="style.css">
 	<title>Arbetsförmedlingen- platsannonser</title>
-
 </head>
 
 <body>
@@ -20,6 +19,17 @@
 				</div>
 
 				<div id="all-jobs"></div>
+				
+				<div id="filter-job">
+				    <label for="number-jobs">Antal:</label>
+                    <select id="number-jobs">
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    </select>
+                    <button id="submit-number">Hitta antal jobb</button>
+    
+				</div>
 			</div>
 			<aside>
 				<div id="saved-job-ad-output">
@@ -42,7 +52,11 @@
 			<button id="back">Tillbaka till lista</button>
 			<details id="url-dropdown">
 				<summary>Dela annnons</summary>
+<<<<<<< HEAD
 				<input id="ad-url" />
+=======
+				<input id="ad-url"/>
+>>>>>>> 0380e629e432e7d4496543c696cb62a7abe26345
 				<button id="copy-url">Kopiera</button>
 			</details>
 			<p id="copy-confirm" class="hidden">Kopierad!</p>
