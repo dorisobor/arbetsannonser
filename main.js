@@ -92,19 +92,6 @@ class DOM {
         const totalNumberOfJobs = jobs.matchningslista.antal_platsannonser;
         const job = jobs.matchningslista.matchningdata;
 
-         // select the number of jobs 
-         //addEventlistenerToFilterJob() {
-            const submitNumberButton = document.getElementById("submit-number");
-            const numberOfJobs = document.getElementById("number-jobs");
-            
-           submitNumberButton.addEventListener("click", function() {
-               const numberValue = numberOfJobs.value
-              //fetchStockholmJobs(numberValue);
-             console.log(numberOfJobs.value)
-                
-           });
-       //} 
-
         let allJobList = `
         <h2>Antal lediga jobb: ${totalNumberOfJobs}</h2>
             <table>
@@ -138,16 +125,7 @@ class DOM {
         allJobList += "</table>";
         allJobs.innerHTML = allJobList;
     }
-    // select number of jobs yourself
-    
-    filterNumberOfJobs(jobs){
-        
-        let numberJobs = document.getElementById("number-jobs");
-    let result = document.getElementsByName("table");
-
-
-        
-  }
+  
     
     displayJobDetails(jobs) {
         let annonsDetaljer = "";
@@ -310,6 +288,19 @@ class Controller {
             searchedJobsFetchController.fetchSearchedJobs(searchJobInput);
         });
     }
+
+    // select the number of jobs 
+    addEventlistenerToFilterJob(){
+        let submitNumberButton = document.getElementById("submit-number");
+        let numberOfJobs = document.getElementById("number-jobs");
+        
+       submitNumberButton.addEventListener("click", function() {
+          let  numberValue = numberOfJobs.value
+          //fetchStockholmJobs(numberValue);
+         console.log(numberOfJobs.value)
+            
+       });
+   } 
 }
 
 class Utility {
@@ -360,3 +351,6 @@ addEventlistenerToSearchJob.addEventlistenerToSearchJob();
 window.addEventListener('hashchange', event => {
     controller.checkInputUrl();
 });
+
+var addEventlistenerToFilterJob = new Controller();
+addEventlistenerToFilterJob.addEventlistenerToFilterJob();
