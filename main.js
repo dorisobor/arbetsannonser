@@ -158,7 +158,9 @@ class DOM {
             allJobList += ` 
             <tr>
                 <td class="moreInfo" data-id="${job[i].annonsid}">
-                ${job[i].annonsrubrik}
+                    <a href="#/annons/${job[i].annonsid}">
+                        ${job[i].annonsrubrik}
+                    </a>
                 </td>
                 <td>${job[i].yrkesbenamning} </td>
                 <td>${job[i].arbetsplatsnamn} </td>
