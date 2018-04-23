@@ -209,38 +209,30 @@ class DOM {
         const apply = jobs.platsannons.ansokan;
         const jobplace = jobs.platsannons.arbetsplats;
 
-        /* following values will return undefined if value is empty: 
-        conditions.tilltrade
-        apply.epostadress */
+        // cuts out the timestamp
+        const sistaAnsokningsdag = apply.sista_ansokningsdag.substring(0,10);
+
+        // replaces /n/r with linebreak
+        const adDescription = job.annonstext.replace(/(?:\r\n|\r|\n)/g, '<br />');
 
         annonsDetaljer += `
                 <h2>${job.annonsrubrik}</h2>
-    
                 <h3>Om tjänsten</h3>
-                <p>Sökes: ${job.yrkesbenamning}</p>
-                <p>Anställningstyp: ${job.anstallningstyp}</p>
-    
-                <h3>Villkor</h3>
-                <p>Varaktighet: ${conditions.varaktighet}</p>
-                <p>Arbetstid: ${conditions.arbetstid}</p>
-                <p>Tillträde: ${conditions.tilltrade}</p> 
-                <p>Lönetyp: ${conditions.lonetyp}</p>
-                <p>Löneform: ${conditions.loneform}</p>
-    
-                <h3>Ansökan</h3>
-                <a target="_blank" href="${apply.webbplats}">Företagets hemsida</a>
-                <p>epostadress: ${apply.epostadress}</p>
-                <p>sista ansökning: ${apply.sista_ansokningsdag}</p>
-                <p>övrigt: ${apply.ovrigt_om_ansokan}</p>
-    
+                ${job.yrkesbenamning && `<p>Sökes: ${job.yrkesbenamning}</p>`}
+                ${job.anstallningstyp && `<p>Anställningstyp: ${job.anstallningstyp}</p>`}
                 <h3>Om arbetsplatsen</h3>
-                <p>${jobplace.arbetsplatsnamn}</p>
-                <p>adress: ${jobplace.postadress}</p>
-                <p>besöksadress: ${jobplace.besoksadress}</p>
-    
+                ${jobplace.arbetsplatsnamn && `<p>${jobplace.arbetsplatsnamn}</p>`}
+                ${jobplace.besoksadress && `<p>${jobplace.besoksadress}</p>`}
+                <h3>Villkor</h3>
+                ${conditions.varaktighet && `<p>Varaktighet: ${conditions.varaktighet}</p>`}
+                ${conditions.arbetstid && `<p>Arbetstid: ${conditions.arbetstid}</p>`}
+                ${conditions.arbetstid && `<p>Löneform: ${conditions.loneform}</p>`}
+                <h3>Ansökan</h3>
+                ${apply.webbplats && `<a target="_blank" href="${apply.webbplats}">Ansök via företagets hemsida</a>`}
+                ${sistaAnsokningsdag && `<p>Sista ansökning: ${sistaAnsokningsdag}</p>`}
+                ${apply.ovrigt_om_ansokan && `<p>övrigt: ${apply.ovrigt_om_ansokan}</p>`}
                 <h3>Om tjänsten</h3>
-                <p>${job.annonstext}</p>
-    
+                ${job.annonstext && `<p>${adDescription}</p>`}
                 <button data-id="${jobs.platsannons.annons.annonsid}" id="saveJobAdButton" name="${jobs.platsannons.annons.annonsrubrik}">Save</button>
             `;
 
