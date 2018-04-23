@@ -1,27 +1,18 @@
 h1,
 h2 {
-
 	text-align: center;
 }
 
-.clear{
-	clear:both;
+.clear {
+	clear: both;
 }
 
-.hidden {
-	display: block;
-}
-
-.show {
-	display: none;
-}
-
-#container{
-	width:70%;
+#container {
+	width: 70%;
 	float: left;
 }
 
-aside{
+aside {
 	width: 30%;
 	float:left;
 	border: 1px solid black;
@@ -39,10 +30,12 @@ th {
     background-color:green;
      width: 100px;
 }
+
 td {
     background-color:white;
     width: 100px;
 }
+
 td, th {
     border: 1px solid #dddddd;
     text-align: left;
@@ -58,6 +51,16 @@ tr:nth-child(even) {
 	display: none;
 }
 
-.show {
-	display: block;
+details {
+	display: inline-block;
+}
+
+summary {
+	padding: 5px;
+	border: 1px solid #dddddd;
+	border-radius: 0.25rem;
+}
+
+details summary::-webkit-details-marker { 
+	display: none; 
 }

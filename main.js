@@ -219,28 +219,15 @@ class DOM {
 
         document.getElementById("annonsdetaljer").innerHTML = annonsDetaljer;
 
-        const shareUrlButton = document.getElementById("share-url-button");
-        const urlDropdown = document.getElementById("url-dropdown");
-        shareUrlButton.addEventListener("click", function () {
-            if (urlDropdown.classList.contains("hidden")) {
-                urlDropdown.classList.remove("hidden")
-            }
-            else {
-                urlDropdown.classList.add("hidden");
-            }
-        });
-
         const backToListButton = document.getElementById("back");
         backToListButton.addEventListener("click", function () {
             let toggleViewDOM = new DOM();
             toggleViewDOM.toggleView("main-view", "single-view");
-            urlDropdown.classList.add("hidden");
             window.location.hash = "";
         });
 
         const adUrl = document.getElementById("ad-url");
         adUrl.value = window.location.href;
-        urlDropdown.appendChild(adUrl);
 
         const copyUrlButton = document.getElementById("copy-url");
         copyUrlButton.addEventListener("click", function () {
@@ -356,7 +343,7 @@ class Controller {
     }
     addEventlisterToSearchJobResult(){
         let searchResultTitles = document.getElementsByClassName("searchOccupationalTile");
-console.log(searchResultTitles);
+        console.log(searchResultTitles);
         for (let searchResultTitle of searchResultTitles){
             
             searchResultTitle.addEventListener("click", function(){
