@@ -71,6 +71,18 @@ class FetchController {
             console.log(error)
         });
     }
+    fetchJobsByCategories(id) {
+        fetch(`http://api.arbetsformedlingen.se/af/v0/platsannonser/matchning?yrkesomradeid=${id}&sida=1&antalrader=2000`)
+            .then(response => response.json())
+            .then(jobsByCategories => {
+                console.log(jobsByCategories);
+                var displayDOM = new DOM();
+                displayDOM.displayJob(jobsByCategories);
+            })
+            .catch((error) => {
+                console.log(error)
+            });
+    }
 }
 
 class DOM {
@@ -288,9 +300,11 @@ class DOM {
         let categoryList = "";
         for(let i = 0; i <category.length; i++){
            categoryList +=  `
-           <li data-id="${category[i].id}">${category[i].namn}</li>`;
+           <p data-id="${category[i].id}" class="categoryListObject">${category[i].namn}</p>`;
         }
         categoryOutput.innerHTML = categoryList;
+        let addEventlistenerToCategories = new Controller ();
+        addEventlistenerToCategories.addEventlisterToCategories();
     }
  
     toggleView(show, hide){
@@ -340,13 +354,24 @@ class Controller {
     }
     addEventlisterToSearchJobResult(){
         let searchResultTitles = document.getElementsByClassName("searchOccupationalTile");
-
+console.log(searchResultTitles);
         for (let searchResultTitle of searchResultTitles){
             
             searchResultTitle.addEventListener("click", function(){
                 const id = this.dataset.id;
                 const fetchSearch = new FetchController();
                 fetchSearch.fetchJobsByOccupationalId(id)
+            })
+        }
+    }
+    addEventlisterToCategories(){
+        const jobCategories = document.getElementsByClassName("categoryListObject");
+        for (let jobCategory of jobCategories){
+           // console.log(jobCategories[i]);
+            jobCategory.addEventListener("click", function(){
+                const id = this.dataset.id;
+                const fetchJobsByCategory = new FetchController();
+                fetchJobsByCategory.fetchJobsByCategories(id)
             })
         }
     }
