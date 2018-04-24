@@ -1,14 +1,14 @@
 class FetchController {
-   
-    fetchStockholmJobs(rows = 10,countyId = 1 ) {
+
+    fetchStockholmJobs(rows = 10, countyId = 1) {
         console.log(rows);
         fetch(`http://api.arbetsformedlingen.se/af/v0/platsannonser/matchning?lanid=${countyId}&sida=1&antalrader=${rows}`)
             .then((response) => response.json())
             .then((jobs) => {
                 var displayDOM = new DOM();
                 displayDOM.displayJob(jobs)
-                displayDOM.sortAllJobs(jobs) 
-                
+                displayDOM.sortAllJobs(jobs)
+
             })
             .catch((error) => {
                 console.log(error)
@@ -25,10 +25,10 @@ class FetchController {
                 console.log(error)
             });
     }
-    fetchSearchedJobs(searchedInput){
+    fetchSearchedJobs(searchedInput) {
         console.log(searchedInput);
         fetch(`http://api.arbetsformedlingen.se/af/v0/platsannonser/soklista/yrken/${searchedInput}`)
-        .then(response => response.json())
+            .then(response => response.json())
             .then(jobs => {
                 console.log(jobs);
                 var displayDOM = new DOM();
@@ -38,9 +38,9 @@ class FetchController {
                 console.log(error);
             });
     }
-    fetchJobsByOccupationalId(id){
-        fetch(`http://api.arbetsformedlingen.se/af/v0/platsannonser/matchning?yrkesid=${id}&sida=1&antalrader=2000`)
-        .then(response => response.json())
+    fetchJobsByOccupationalId(id) {
+        return fetch(`http://api.arbetsformedlingen.se/af/v0/platsannonser/matchning?yrkesid=${id}&sida=1&antalrader=2000`)
+            .then(response => response.json())
             .then(jobs => {
                 const newJobs = {
                     "matchningslista": {
@@ -52,7 +52,7 @@ class FetchController {
                         "matchningdata": []
                     }
                 };
-                for(let i = 0; i < jobs.matchningslista.antal_platsannonser_exakta; i++){
+                for (let i = 0; i < jobs.matchningslista.antal_platsannonser_exakta; i++) {
                     newJobs.matchningslista.matchningdata.push(jobs.matchningslista.matchningdata[i]);
                 }
                 var displayDOM = new DOM();
@@ -62,17 +62,17 @@ class FetchController {
                 console.log(error);
             });
     }
-    fetchCategories(){
+    fetchCategories() {
         fetch("http://api.arbetsformedlingen.se/af/v0/platsannonser/soklista/yrkesomraden")
-        .then((response) => response.json())
-        .then((categories) => {
-            var displayDOM = new DOM();
-            displayDOM.displayCategoriesDOM(categories);
-    
-        })
-        .catch((error) => {
-            console.log(error)
-        });
+            .then((response) => response.json())
+            .then((categories) => {
+                var displayDOM = new DOM();
+                displayDOM.displayCategoriesDOM(categories);
+
+            })
+            .catch((error) => {
+                console.log(error)
+            });
     }
     fetchJobsByCategories(id) {
         fetch(`http://api.arbetsformedlingen.se/af/v0/platsannonser/matchning?yrkesomradeid=${id}&sida=1&antalrader=2000`)
@@ -136,31 +136,32 @@ class DOM {
             }
             publishedJobList += "</table>";
             latestTenJobs.innerHTML = publishedJobList;
+
         }
     }
     displayJob(jobs) {
         const allJobs = document.getElementById("all-jobs");
         const totalNumberOfJobs = jobs.matchningslista.antal_platsannonser;
         const job = jobs.matchningslista.matchningdata;
-           
+
         // select the number of jobs 
-        
+
         let submitNumberButton = document.getElementById("submit-number");
         let numberOfJobs = document.getElementById("number-jobs");
         let countyJobs = document.getElementById("county-jobs");
-        
-       submitNumberButton.addEventListener("click", function() {
-           let  numberValue = numberOfJobs.value;
-           let  countyValue = countyJobs.value
-           var fetchNumberOfJobs = new FetchController();
-           fetchNumberOfJobs.fetchStockholmJobs(numberValue, countyValue);
-           
-          
-         console.log(numberOfJobs.value)
-           
-            
-            });
-    
+
+        submitNumberButton.addEventListener("click", function () {
+            let numberValue = numberOfJobs.value;
+            let countyValue = countyJobs.value
+            var fetchNumberOfJobs = new FetchController();
+            fetchNumberOfJobs.fetchStockholmJobs(numberValue, countyValue);
+
+
+            console.log(numberOfJobs.value)
+
+
+        });
+
 
         let allJobList = `
         <h2>Antal lediga jobb: ${totalNumberOfJobs}</h2>
@@ -174,9 +175,9 @@ class DOM {
                 <th>Jobblänk</th> 
                 <th>Sista ansökningsdatum</th> 
             </tr>`;
-           console.log(job.length);
+        console.log(job.length);
         for (let i = 0; i < job.length; i++) {
-            
+
             allJobList += ` 
             <tr>
                 <td class="moreInfo" data-id="${job[i].annonsid}">
@@ -196,12 +197,12 @@ class DOM {
 
         allJobList += "</table>";
         allJobs.innerHTML = allJobList;
-             
-        
-           
+
+
+
     }
-  
-    
+
+
     displayJobDetails(jobs) {
         let annonsDetaljer = "";
         const job = jobs.platsannons.annons;
@@ -210,7 +211,7 @@ class DOM {
         const jobplace = jobs.platsannons.arbetsplats;
 
         // cuts out the timestamp
-        const sistaAnsokningsdag = apply.sista_ansokningsdag.substring(0,10);
+        const sistaAnsokningsdag = apply.sista_ansokningsdag.substring(0, 10);
 
         // replaces /n/r with linebreak
         const adDescription = job.annonstext.replace(/(?:\r\n|\r|\n)/g, '<br />');
@@ -237,7 +238,7 @@ class DOM {
             `;
 
         document.getElementById("annonsdetaljer").innerHTML = annonsDetaljer;
-       
+
         const backToListButton = document.getElementById("back");
         backToListButton.addEventListener("click", function () {
             new DOM().showMainView();
@@ -248,13 +249,14 @@ class DOM {
         adUrl.value = window.location.href;
 
         const copyUrlButton = document.getElementById("copy-url");
+        const copyConfirmText = document.getElementById("copy-confirm");
+
         copyUrlButton.addEventListener("click", function () {
             adUrl.select();
             document.execCommand("Copy");
-            let copyConfirmText = document.getElementById("copy-confirm");
             copyConfirmText.classList.remove("hidden");
 
-            setTimeout(function(){
+            setTimeout(function () {
                 copyConfirmText.classList.add("hidden");
             }, 1000);
         });
@@ -284,42 +286,43 @@ class DOM {
         jobAdTitleController.addEventlistenerToSavedJobAdTitle();
     }
 
-    displaySearchedJobsByOccupationalTile(searchedJobsarray){
+    displaySearchedJobsByOccupationalTile(searchedJobsarray) {
         let outputSearchedJobs = document.getElementById("output-searched-jobs");
         var searchedJobs = searchedJobsarray.soklista.sokdata;
         console.log(searchedJobs);
         var searchedJobList = "";
-        for (let i = 0; i < searchedJobs.length; i++){
-            if(searchedJobs[i].antal_platsannonser != 0){
+        for (let i = 0; i < searchedJobs.length; i++) {
+            if (searchedJobs[i].antal_platsannonser != 0) {
                 searchedJobList += `
-                <p data-id="${searchedJobs[i].id}" class="searchOccupationalTile">
-                ${searchedJobs[i].namn} (${searchedJobs[i].antal_platsannonser})
-                </p>`;
+                <a href="#/sokresultat/${searchedJobs[i].namn}/${searchedJobs[i].id}" data-id="${searchedJobs[i].id}" class="searchOccupationalTile" >
+                    ${searchedJobs[i].namn} (${searchedJobs[i].antal_platsannonser})
+                </a>`;
             }
         }
+
         outputSearchedJobs.innerHTML = searchedJobList;
         const searchResultController = new Controller();
         searchResultController.addEventlisterToSearchJobResult();
     }
-    displayCategoriesDOM(categories){
+    displayCategoriesDOM(categories) {
         let categoryOutput = document.getElementById("categories-output");
         let category = categories.soklista.sokdata;
         let categoryList = "";
-        for(let i = 0; i <category.length; i++){
-           categoryList +=  `
+        for (let i = 0; i < category.length; i++) {
+            categoryList += `
            <p data-id="${category[i].id}" class="categoryListObject">${category[i].namn}</p>`;
         }
         categoryOutput.innerHTML = categoryList;
-        let addEventlistenerToCategories = new Controller ();
+        let addEventlistenerToCategories = new Controller();
         addEventlistenerToCategories.addEventlisterToCategories();
     }
-    showMainView(){
+    showMainView() {
         const mainView = document.getElementById("main-view");
         const singleView = document.getElementById("single-view");
         mainView.classList.remove("hidden");
         singleView.classList.add("hidden");
     }
-    showSingleView(){
+    showSingleView() {
         const mainView = document.getElementById("main-view");
         const singleView = document.getElementById("single-view");
         singleView.classList.remove("hidden");
@@ -330,11 +333,37 @@ class DOM {
 
 class Controller {
     checkInputUrl() {
-        const annonsId = window.location.hash.split(`/`).pop();
+        const copySearchContainer = document.getElementById("copy-search-results");
+
         if (window.location.hash.startsWith(`#/annons`)) {
+            const annonsId = window.location.hash.split(`/`).pop();
             new FetchController().fetchJobDetails(annonsId);
             new DOM().showSingleView();
-        } else {
+        }
+        else if (window.location.hash.startsWith(`#/sokresultat`)) {
+            copySearchContainer.classList.remove("hidden");
+            const yrkesId = window.location.hash.split(`/`).pop();
+            new FetchController().fetchJobsByOccupationalId(yrkesId);
+
+            const input = document.getElementById("search-ad-url");
+            input.value = window.location.href;
+
+            const copyConfirmText = document.getElementById("search-copy-confirm");
+            const copyButton = document.getElementById("search-copy-url");
+
+            copyButton.addEventListener("click", function () {
+                input.select();
+                document.execCommand("Copy");
+    
+                copyConfirmText.classList.remove("hidden");
+    
+                setTimeout(function () {
+                    copyConfirmText.classList.add("hidden");
+                }, 1000);
+            });
+        }
+        else {
+            copySearchContainer.classList.add("hidden");
             window.location.hash = '';
             new DOM().showMainView();
         }
@@ -349,15 +378,15 @@ class Controller {
             });
         }
     }
-    addEventListenerClearSavedJob(){
-        document.getElementById("clear").addEventListener("click", function(){
-            var clearLocalStorageUtility = new Utility(); 
+    addEventListenerClearSavedJob() {
+        document.getElementById("clear").addEventListener("click", function () {
+            var clearLocalStorageUtility = new Utility();
             clearLocalStorageUtility.clearLocalStorage();
         });
     }
-    addEventlistenerToSearchJob(){
+    addEventlistenerToSearchJob() {
         let searchJobButton = document.getElementById("searchJobButton");
-        searchJobButton.addEventListener("click", function(){
+        searchJobButton.addEventListener("click", function () {
             let searchJobInput = document.getElementById("searchJobInput").value;
             console.log(searchJobInput);
             let searchedJobsFetchController = new FetchController();
@@ -365,23 +394,23 @@ class Controller {
         });
     }
 
-    addEventlisterToSearchJobResult(){
+    addEventlisterToSearchJobResult() {
         let searchResultTitles = document.getElementsByClassName("searchOccupationalTile");
         console.log(searchResultTitles);
-        for (let searchResultTitle of searchResultTitles){
-            
-            searchResultTitle.addEventListener("click", function(){
+        for (let searchResultTitle of searchResultTitles) {
+
+            searchResultTitle.addEventListener("click", function () {
                 const id = this.dataset.id;
                 const fetchSearch = new FetchController();
                 fetchSearch.fetchJobsByOccupationalId(id)
             })
         }
     }
-    addEventlisterToCategories(){
+    addEventlisterToCategories() {
         const jobCategories = document.getElementsByClassName("categoryListObject");
-        for (let jobCategory of jobCategories){
-           // console.log(jobCategories[i]);
-            jobCategory.addEventListener("click", function(){
+        for (let jobCategory of jobCategories) {
+            // console.log(jobCategories[i]);
+            jobCategory.addEventListener("click", function () {
                 const id = this.dataset.id;
                 const fetchJobsByCategory = new FetchController();
                 fetchJobsByCategory.fetchJobsByCategories(id)
@@ -441,4 +470,3 @@ addEventlistenerToSearchJob.addEventlistenerToSearchJob();
 window.addEventListener('hashchange', event => {
     controller.checkInputUrl();
 });
-
