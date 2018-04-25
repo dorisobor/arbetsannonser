@@ -8,15 +8,24 @@
 </head>
 
 <body>
+	<aside>
+		<div id="saved-job-ad-output">
+		</div>
+		<button id="clear">Radera alla sparade jobb</button>
+		<div id="search-for-jobs">
+			<label for="searchJobInput">Sök jobb</label>
+			<input type="text" id="searchJobInput">
+			<button id="searchJobButton">Sök</button>
+		</div>
+		<div id="output-searched-jobs">
+
+		</div>
+		<div id="categories-output">
+		</div>
+	</aside>
 	<main>
 		<div id="main-view">
 			<div id="container">
-				<h1>Platsannonser - Stockholms län</h1>
-				<h2>Senaste 10 lediga jobben</h2>
-
-				<div id="latest-jobs">
-
-				</div>
 				<div id="filter-job">
 					<label for="number-jobs">Antal:</label>
 					<select id="number-jobs">
@@ -27,6 +36,7 @@
 
 					<label for="county-jobs">Län:</label>
 					<select id="county-jobs">
+						<option value="0">Filtrera län</option>
 						<option value="1">Stockholms län</option>
 						<option value="3">Uppsala län</option>
 						<option value="12">Skåne län</option>
@@ -42,27 +52,8 @@
 					</div>
 
 					<div id="all-jobs"></div>
-
-
-
 				</div>
 			</div>
-			<aside>
-				<div id="saved-job-ad-output">
-				</div>
-				<button id="clear">Radera alla sparade jobb</button>
-				<div id="search-for-jobs">
-					<label for="searchJobInput">Sök jobb</label>
-					<input type="text" id="searchJobInput">
-					<button id="searchJobButton">Sök</button>
-				</div>
-				<div id="output-searched-jobs">
-
-				</div>
-				<div id="categories-output">
-				</div>
-			</aside>
-			<div class="clear"></div>
 		</div>
 
 		<div id="single-view" class="hidden">

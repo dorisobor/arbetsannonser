@@ -25,33 +25,6 @@ aside {
 	text-align: center;
 }
 
-table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-}
-
-th {
-    background-color:green;
-     width: 100px;
-}
-
-td {
-    background-color:white;
-    width: 100px;
-}
-
-td, th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-    font-size: 0.8em;
-}
-
-tr:nth-child(even) {
-    background-color: #dddddd;
-}
-
 .hidden {
 	display: none;
 }
