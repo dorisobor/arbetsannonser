@@ -4,7 +4,8 @@
 html, body {
     margin: 0;
     padding: 0;
-    border: 0;
+	border: 0;
+	font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 h1,
 h2 {
@@ -17,7 +18,6 @@ aside {
     width: 250px;
     background: #00699A;
     color: #fff;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     z-index: -2;
     text-align: center;
 	height: 100vh;
@@ -218,7 +218,20 @@ details summary::-webkit-details-marker {
 	Pagination
 #######################*/
 .pagination{
+	width: 500px;
+	margin: 10px auto;
 	text-align: center;
+	display: flex;
+	justify-content: space-between;
+}
+
+.pagination-link {
+	margin: 0px 10px;
+	cursor: pointer;
+}
+
+.button-input-container {
+	width: 100%;
 }
 /*######################
 	hide and show

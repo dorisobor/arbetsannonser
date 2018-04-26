@@ -159,17 +159,23 @@ class DOM {
                     <a href="${pageList[i].annonsurl}"><button>Arbetförmedlingen</button></a> 
                 </div>
                `;
+               
                 }
                 allJobList += `
                     </div>
                     <div class="pagination">
-                        <input type="button" id="first" value="Första" />
-                        <input type="button" id="previous" value="Föregånde" />               
-                        ${currentPage}
-                        <input type="button" id="next" value="Nästa" />
-                        <input type="button" id="last" value="Sista" />
+                        <div class="button-input-container">
+                            <a class="pagination-link" id="first"> <i class="fa fa-angle-double-left"></i> Första</a>
+                            <a class="pagination-link" id="previous"><i class="fa fa-angle-left"></i> Föregående</a>
+                        </div>        
+                        <span>${currentPage}</span>
+                        <div class="button-input-container">
+                            <a class="pagination-link" id="next">Nästa <i class="fa fa-angle-right"></i></a>
+                            <a class="pagination-link" id="last">Sista <i class="fa fa-angle-double-right"></i></a>
+                        </div>
                     </div> 
                 `;
+
                 allJobs.innerHTML =  '<div id="copy-url-button-search"></div>' + allJobList;
                 new DOM().createCopyUrlButton("copy-url-button-search");
                 paginationEventlisteners();
