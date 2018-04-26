@@ -1,7 +1,7 @@
 class FetchController {
 
     fetchStockholmJobs(rows = 10, countyId = 1) {
-        fetch(`http://api.arbetsformedlingen.se/af/v0/platsannonser/matchning?nyckelord=sverige&sida=1&antalrader=2000`)
+        fetch(`http://api.arbetsformedlingen.se/af/v0/platsannonser/matchning?nyckelord=sverige&sida=1&antalrader=1000`)
             .then((response) => response.json())
             .then((jobs) => {
                 var displayDOM = new DOM();
