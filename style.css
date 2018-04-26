@@ -76,6 +76,10 @@ main {
 	border: none;
 	width: 77%;
   }
+
+#searchJobButton{
+    margin-top: 10px;
+}
   
 #search-for-jobs #searchJobButton{
 	padding: 6px 12.16px;
@@ -111,6 +115,7 @@ main {
 	border: 1px solid orange;
 	border-bottom: 1px solid #045573;
     border-radius: 4px;
+    margin-bottom: 10px;
 }
 
 /*######################
