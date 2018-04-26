@@ -165,13 +165,13 @@ class DOM {
                     </div>
                     <div class="pagination">
                         <div class="button-input-container">
-                            <a class="pagination-link" id="first"> <i class="fa fa-angle-double-left"></i> Första</a>
-                            <a class="pagination-link" id="previous"><i class="fa fa-angle-left"></i> Föregående</a>
+                            <span class="pagination-link" id="first" role="link"> <i class="fa fa-angle-double-left"></i> Första</span>
+                            <span class="pagination-link" id="previous" role="link"><i class="fa fa-angle-left"></i> Föregående</span>
                         </div>        
                         <span>${currentPage}</span>
                         <div class="button-input-container">
-                            <a class="pagination-link" id="next">Nästa <i class="fa fa-angle-right"></i></a>
-                            <a class="pagination-link" id="last">Sista <i class="fa fa-angle-double-right"></i></a>
+                            <span class="pagination-link" id="next" role="link">Nästa <i class="fa fa-angle-right"></i></span>
+                            <span class="pagination-link" id="last" role="link">Sista <i class="fa fa-angle-double-right"></i></span>
                         </div>
                     </div> 
                 `;
