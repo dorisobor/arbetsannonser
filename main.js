@@ -155,7 +155,7 @@ class DOM {
                     <p>${pageList[i].arbetsplatsnamn}, ${pageList[i].kommunnamn}</p>
                     <p>${pageList[i].yrkesbenamning}, ${pageList[i].anstallningstyp}</p>
                     <p>Sista ansökningsdatum: ${filterDate(pageList[i].sista_ansokningsdag)}</p>
-                    <a href="#/annons/${pageList[i].annonsid}"><button>Read more</button></a>
+                    <a href="#/annons/${pageList[i].annonsid}"><button>Läs mer</button></a>
                     <a href="${pageList[i].annonsurl}"><button>Arbetförmedlingen</button></a> 
                 </div>
                `;
@@ -457,10 +457,10 @@ class Controller {
             var x = document.getElementById("categoryUl");
             if (x.style.display === "block") {
                 x.style.display = "none";
-                categoriesButton.innerHTML = "Categories ↓";
+                categoriesButton.innerHTML = "Kategorier ↓";
             } else {
                 x.style.display = "block";
-                categoriesButton.innerHTML = "Categories ↑";
+                categoriesButton.innerHTML = "Kategorier ↑";
             }
         });
     }
