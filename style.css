@@ -58,6 +58,13 @@ main {
 /*######################
 	Searched Jobs
 #######################*/
+#submit-number{
+    color: white;
+	background: linear-gradient(to bottom,#06769f 0,#06769f 100%);
+	border: 1px solid #06769f;
+	border-bottom: 1px solid #045573;
+    border-radius: 4px;
+}
 #search-for-jobs{
 	width: 90%;
 	margin-left: 5%;
@@ -94,6 +101,18 @@ main {
     display: inline-block;
     margin-bottom: 5px;
 }
+
+/*######################
+	Clear jobs
+#######################*/
+#clear{
+    color: black;
+	background: linear-gradient(to bottom, orange 0, orange 100%);
+	border: 1px solid orange;
+	border-bottom: 1px solid #045573;
+    border-radius: 4px;
+}
+
 /*######################
 	Category List
 #######################*/
@@ -138,8 +157,13 @@ main {
 summary {
 	margin: 5px 10px;
 	padding: 5px;
-	border: 1px solid #dddddd;
 	display: inline-block;
+    color: white;
+	background: linear-gradient(to bottom,#06769f 0,#06769f 100%);
+	border: 1px solid #06769f;
+	border-bottom: 1px solid #045573;
+	border-bottom: 1px solid #045573;
+    border-radius: 4px;
 }
 
 .copy-url-button {
@@ -159,7 +183,11 @@ summary {
 }
 
 .copy-url {
-	background-color: #dddddd;
+    color: white;
+	background: linear-gradient(to bottom,#06769f 0,#06769f 100%);
+	border: 1px solid #06769f;
+	border-bottom: 1px solid #045573;
+    border-radius: 4px;
 }
 
 details input {
@@ -212,7 +240,19 @@ details summary::-webkit-details-marker {
 #back {
 	margin: 5px;
 	-webkit-appearance: none;
-	border: 1px solid #dddddd;
+	color: white;
+	background: linear-gradient(to bottom,#06769f 0,#06769f 100%);
+	border: 1px solid #06769f;
+    border-bottom: 1px solid #045573;
+    border-radius: 4px;
+}
+#saveJobAdButton{
+    color: white;
+	background: linear-gradient(to bottom,#06769f 0,#06769f 100%);
+	border: 1px solid #06769f;
+    border-bottom: 1px solid #045573;
+    border-radius: 4px;
+    
 }
 /*######################
 	Pagination
