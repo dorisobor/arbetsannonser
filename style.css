@@ -133,6 +133,47 @@ main {
 	width: 125px;
 }
 /*######################
+   share-url dropdowns
+#######################*/
+summary {
+	margin: 5px 10px;
+	padding: 5px;
+	border: 1px solid #dddddd;
+	display: inline-block;
+}
+
+.copy-url-button {
+	position: relative;
+}
+
+.details-inner-container {
+	display: flex;
+	margin: 5px 10px;
+	position: absolute;
+	border: 1px solid #dddddd;
+}
+
+.ad-url, .copy-url {
+	border: none;
+	padding: 5px;
+}
+
+.copy-url {
+	background-color: #dddddd;
+}
+
+details input {
+	width: 300px;
+}
+
+.copy-url {
+	-webkit-appearance: none;
+}
+
+details summary::-webkit-details-marker { 
+	display: none; 
+}
+/*######################
 	Display jobcards
 #######################*/
 .containerJobs{
@@ -162,6 +203,18 @@ main {
 	background: #258fb5;
 }
 /*######################
+	single-view
+#######################*/
+#single-view .button-container {
+	display: flex;
+}
+
+#back {
+	margin: 5px;
+	-webkit-appearance: none;
+	border: 1px solid #dddddd;
+}
+/*######################
 	Pagination
 #######################*/
 .pagination{
@@ -172,20 +225,6 @@ main {
 #######################*/
 .hidden {
 	display: none;
-}
-
-details {
-	display: inline-block;
-}
-
-summary {
-	padding: 5px;
-	border: 1px solid #dddddd;
-	border-radius: 0.25rem;
-}
-
-details summary::-webkit-details-marker { 
-	display: none; 
 }
 /*######################
 	Desktop view
