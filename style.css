@@ -1,57 +1,170 @@
+/*######################
+	Main elements
+#######################*/
+html, body {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
 h1,
 h2 {
 	text-align: center;
 }
-
-.clear {
-	clear: both;
+aside, main {
+    position: absolute;
 }
-
-#container {
-	width: 70%;
-	clear:both;
-}
-
-#container {
-	width:70%;
-	float: left;
-}
-
 aside {
-	width: 30%;
-	float:left;
-	border: 1px solid black;
-	box-sizing: border-box;
+    width: 250px;
+    background: #00699A;
+    color: #fff;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    z-index: -2;
+    text-align: center;
+	height: 100vh;
+	overflow: scroll; 
+}
+main {
+    left: 0px;
+    width: 100%;
+    height: 100vh;
+    background: white;
+	z-index: -1;
+	overflow: scroll;
+}
+/*######################
+	close & open sidebar
+#######################*/
+#closeSidebarButton{
+	background-color: rgba(0,0,0,0);
+	border: none;
+	margin-left: 180px;
+}
+#closeSidebarButton i{
+	font-size:48px;
+	color: white
+}
+/*######################
+	logo name + img
+#######################*/
+#logoImage{
+	margin-top: 10px;
+	font-size: 100px;
+	color:white
+}
+#textLogo{
+	margin-top: 0px;
+	margin-bottom: 30px;
+}
+/*######################
+	Searched Jobs
+#######################*/
+#search-for-jobs{
+	width: 90%;
+	margin-left: 5%;
+}
+#search-for-jobs input[type=text] {
+	padding: 6px;
+	margin-top: 8px;
+	font-size: 17px;
+	border: none;
+	width: 77%;
+  }
+  
+#search-for-jobs #searchJobButton{
+	padding: 6px 12.16px;
+    margin-left: -4px;
+	background: #ddd;
+	font-size: 17px;
+	border: none;
+	cursor: pointer;
+	
+}
+#output-searched-jobs{
+	width: 90%;
+	margin-left: 5%;
+}
+#output-searched-jobs a{
+	background-color: #D9EDF7;
+    color: black;
+    padding: 5px 0;
+    padding-left: 15px;
+    width: calc(100% - 15px);
+    text-align: left;
+    text-decoration: none;
+    display: inline-block;
+    margin-bottom: 5px;
+}
+/*######################
+	Category List
+#######################*/
+#categoryUl{
+	display:none;
+	padding: 0;
+}
+#categoryUl li{
+	list-style: square;
+}
+/*######################
+	topBar
+#######################*/
+.topBar{
+	height: 51px;
+	width: 100%;
+	background-color: orange;
 	text-align: center;
 }
-
-table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
+#openSidebarButton{
+	position: absolute;
+	left: 0;
+	background-color: rgba(0,0,0,0);
+	border: none;
 }
 
-th {
-    background-color:green;
-     width: 100px;
+#openSidebarButton i{
+	font-size:48px;
+	color: white;
 }
-
-td {
-    background-color:white;
-    width: 100px;
+.ss-main{
+	width: 125px;
 }
-
-td, th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-    font-size: 0.8em;
+/*######################
+	Display jobcards
+#######################*/
+.containerJobs{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
 }
-
-tr:nth-child(even) {
-    background-color: #dddddd;
+.jobCard{
+    background: #D9EDF7;
+    color: black;
+    padding: 30px;
+    border-radius: 10px;
+    padding: 30px;
+    margin: 20px;
 }
-
+.jobCard button{
+	color: white;
+	background: linear-gradient(to bottom,#06769f 0,#06769f 100%);
+	border: 1px solid #06769f;
+	border-bottom: 1px solid #045573;
+	font-weight: 600;
+    font-size: 13px;
+	padding: 9px 20px 10px;
+	cursor: pointer;
+	border-radius: 4px;
+}
+.jobCard button:hover{
+	background: #258fb5;
+}
+/*######################
+	Pagination
+#######################*/
+.pagination{
+	text-align: center;
+}
+/*######################
+	hide and show
+#######################*/
 .hidden {
 	display: none;
 }
@@ -68,4 +181,22 @@ summary {
 
 details summary::-webkit-details-marker { 
 	display: none; 
+}
+/*######################
+	Desktop view
+#######################*/
+@media screen and (min-width: 800px) {
+    aside{
+        z-index: -1;
+    }
+    main{
+        margin-left: 250px;
+        width: calc(100% - 250px);
+    }
+    #openSidebarButton, #closeSidebarButton{
+        display: none;
+	}
+	.topBar{
+		background: orange; 
+	}
 }

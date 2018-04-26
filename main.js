@@ -2,13 +2,13 @@ class FetchController {
 
     fetchStockholmJobs(rows = 10, countyId = 1) {
         console.log(rows);
-        fetch(`http://api.arbetsformedlingen.se/af/v0/platsannonser/matchning?lanid=${countyId}&sida=1&antalrader=${rows}`)
+        fetch(`http://api.arbetsformedlingen.se/af/v0/platsannonser/matchning?nyckelord=sverige&sida=1&antalrader=2000`)
             .then((response) => response.json())
             .then((jobs) => {
                 var displayDOM = new DOM();
-                displayDOM.displayJob(jobs)
-                displayDOM.sortAllJobs(jobs)
-
+                displayDOM.displayJob(jobs);
+                var filterDisplayJobs = new Controller();
+                filterDisplayJobs.filterJob(jobs);
             })
             .catch((error) => {
                 console.log(error)
@@ -48,7 +48,7 @@ class FetchController {
                         "antal_platsannonser_exakta": jobs.matchningslista.antal_platsannonser_exakta,
                         "antal_platsannonser_narliggande": jobs.matchningslista.antal_platsannonser_narliggande,
                         "antal_platserTotal": jobs.matchningslista.antal_platserTotal,
-                        "antal_sidor": jobs.matchningslista.anatl_sidor,
+                        "antal_sidor": jobs.matchningslista.antal_sidor,
                         "matchningdata": []
                     }
                 };
@@ -57,6 +57,8 @@ class FetchController {
                 }
                 var displayDOM = new DOM();
                 displayDOM.displayJob(newJobs);
+                var filterDisplayJobs = new Controller();
+                filterDisplayJobs.filterJob(newJobs);
             })
             .catch((error) => {
                 console.log(error);
@@ -81,6 +83,8 @@ class FetchController {
                 console.log(jobsByCategories);
                 var displayDOM = new DOM();
                 displayDOM.displayJob(jobsByCategories);
+                var filterDisplayJobs = new Controller();
+                filterDisplayJobs.filterJob(jobsByCategories);
             })
             .catch((error) => {
                 console.log(error)
@@ -89,119 +93,102 @@ class FetchController {
 }
 
 class DOM {
-    sortAllJobs(jobs) {
-        const jobAdverts = jobs.matchningslista.matchningdata;
-        const latestTenJobs = document.getElementById("latest-jobs");
-
-        jobAdverts.sort(function (a, b) {
-            const x = a.publiceraddatum;
-            const y = b.publiceraddatum;
-            if (x < y) { return 1; }
-            if (x > y) { return -1; }
-            return 0;
-        });
-
-        displayTenLatestJobs(jobs);
-
-        function displayTenLatestJobs(jobs) {
-
-            let publishedJobList = `
-                <table>
-                    <tr>
-                    <th>Titel</th>
-                    <th>Yrkesbenämning</th>
-                    <th>Arbetsplats</th>
-                    <th>Anställningstyp</th>
-                    <th>Kommun</th>
-                    <th>Jobblänk</th> 
-                    <th>Sista ansökningsdatum</th> 
-                </tr>`;
-
-            for (const jobAdvert of jobAdverts.slice(0, 10)) {
-
-                publishedJobList += `     
-                <tr>
-                    <td class="moreInfo" data-id="${jobAdvert.annonsid}">
-                        <a href="#/annons/${jobAdvert.annonsid}">
-                            ${jobAdvert.annonsrubrik}
-                        </a>
-                    </td>
-                    <td>${jobAdvert.yrkesbenamning}</td>
-                    <td>${jobAdvert.arbetsplatsnamn}</td>
-                    <td>${jobAdvert.anstallningstyp}</td>
-                    <td>${jobAdvert.kommunnamn}</td>
-                    <td><a href="${jobAdvert.annonsurl}">Gå till annonsen</a></td> 
-                    <td>${jobAdvert.sista_ansokningsdag}</td> 
-                </tr>`;
+    displayJob(jobs, amount = 10) {
+        paginations(amount, jobs);
+        function paginations(perPage, jobs){
+            const totalNumberOfJobs = jobs.matchningslista.antal_platsannonser;
+            const thingarray = jobs.matchningslista.matchningdata;
+            var list = thingarray;
+            var pageList = new Array();
+            var currentPage = 1;
+            var numberPerPage = perPage;
+            var numberOfPages = 0;
+            
+            
+            function paginationEventlisteners() {
+                var next  = document.getElementById('next')
+                next.addEventListener('click', function() {
+                    currentPage += 1;
+                    loadList();
+                })
+        
+                var previous  = document.getElementById('previous')
+                previous.addEventListener('click', function() {
+                    currentPage -= 1;
+                    loadList();
+                })
+            
+                var first  = document.getElementById('first')
+                first.addEventListener('click', function() {    
+                    currentPage = 1;
+                    loadList();
+                })
+            
+                var last  = document.getElementById('last')
+                last.addEventListener('click', function() {
+                    currentPage = numberOfPages;
+                    loadList();
+                })
             }
-            publishedJobList += "</table>";
-            latestTenJobs.innerHTML = publishedJobList;
-
+        
+            function loadList() {
+            var begin = ((currentPage - 1) * +numberPerPage);
+            var end = begin + +numberPerPage;
+            pageList = list.slice(begin, end);
+            drawList();
+            check();
+            }
+            
+            function drawList() {
+            numberOfPages = Math.ceil(list.length / +numberPerPage);
+            const allJobs = document.getElementById("all-jobs");
+            
+            function filterDate(date){
+                if(date == undefined){
+                  return "Datum saknas";  
+                }        
+                else{
+                   return date.slice(0, 10);
+                }
+            }
+        
+            let allJobList = `<h2>Antal lediga jobb: ${totalNumberOfJobs}</h2><div class="containerJobs">`;
+            for (let i = 0; i < pageList.length; i++) {
+                allJobList += ` 
+                <div class="jobCard">
+                    <h4>${pageList[i].annonsrubrik}</h4>
+                    <p>${pageList[i].arbetsplatsnamn}, ${pageList[i].kommunnamn}</p>
+                    <p>${pageList[i].yrkesbenamning}, ${pageList[i].anstallningstyp}</p>
+                    <p>Sista ansökningsdatum: ${filterDate(pageList[i].sista_ansokningsdag)}</p>
+                    <a href="#/annons/${pageList[i].annonsid}"><button>Read more</button></a>
+                    <a href="${pageList[i].annonsurl}"><button>Arbetförmedlingen</button></a> 
+                </div>
+               `;
+            }
+                allJobList += `
+                    </div>
+                    <div class="pagination">
+                        <input type="button" id="first" value="Första" />
+                        <input type="button" id="previous" value="Föregånde" />               
+                        ${currentPage}
+                        <input type="button" id="next" value="Nästa" />
+                        <input type="button" id="last" value="Sista" />
+                    </div> 
+                `;
+            allJobs.innerHTML = allJobList;
+                paginationEventlisteners();
+            }
+            
+            function check() {
+            document.getElementById("next").disabled = currentPage == numberOfPages ? true : false;
+            document.getElementById("previous").disabled = currentPage == 1 ? true : false;
+            document.getElementById("first").disabled = currentPage == 1 ? true : false;
+            document.getElementById("last").disabled = currentPage == numberOfPages ? true : false;
+            }
+            
+            loadList();
         }
     }
-    displayJob(jobs) {
-        const allJobs = document.getElementById("all-jobs");
-        const totalNumberOfJobs = jobs.matchningslista.antal_platsannonser;
-        const job = jobs.matchningslista.matchningdata;
-
-        // select the number of jobs 
-
-        let submitNumberButton = document.getElementById("submit-number");
-        let numberOfJobs = document.getElementById("number-jobs");
-        let countyJobs = document.getElementById("county-jobs");
-
-        submitNumberButton.addEventListener("click", function () {
-            let numberValue = numberOfJobs.value;
-            let countyValue = countyJobs.value
-            var fetchNumberOfJobs = new FetchController();
-            fetchNumberOfJobs.fetchStockholmJobs(numberValue, countyValue);
-
-
-            console.log(numberOfJobs.value)
-
-
-        });
-
-
-        let allJobList = `
-        <h2>Antal lediga jobb: ${totalNumberOfJobs}</h2>
-            <table>
-            <tr>
-                <th>Titel</th>
-                <th>Yrkesbenämning</th>
-                <th>Arbetsplats</th>
-                <th>Anställningstyp</th>
-                <th>Kommun</th>
-                <th>Jobblänk</th> 
-                <th>Sista ansökningsdatum</th> 
-            </tr>`;
-        console.log(job.length);
-        for (let i = 0; i < job.length; i++) {
-
-            allJobList += ` 
-            <tr>
-                <td class="moreInfo" data-id="${job[i].annonsid}">
-                    <a href="#/annons/${job[i].annonsid}">
-                        ${job[i].annonsrubrik}
-                    </a>
-                </td>
-                <td>${job[i].yrkesbenamning} </td>
-                <td>${job[i].arbetsplatsnamn} </td>
-                <td>${job[i].anstallningstyp} </td>
-                <td>${job[i].kommunnamn}</td>
-                <td><a href="${job[i].annonsurl}">Gå till annonsen</a> </td> 
-                <td>${job[i].sista_ansokningsdag} </td> 
-            </tr>`;
-
-        }
-
-        allJobList += "</table>";
-        allJobs.innerHTML = allJobList;
-
-
-
-    }
-
 
     displayJobDetails(jobs) {
         let annonsDetaljer = "";
@@ -271,6 +258,7 @@ class DOM {
             saveJobUtility.saveJobAd(jobAd);
         });
     }
+
     displaySavedJobAds() {
         let savedJobAdOutput = document.getElementById("saved-job-ad-output");
         let savedJobAd = "<h3>Sparade annonser</h3>";
@@ -305,12 +293,12 @@ class DOM {
         searchResultController.addEventlisterToSearchJobResult();
     }
     displayCategoriesDOM(categories) {
-        let categoryOutput = document.getElementById("categories-output");
+        let categoryOutput = document.getElementById("categoryUl");
         let category = categories.soklista.sokdata;
         let categoryList = "";
         for (let i = 0; i < category.length; i++) {
             categoryList += `
-           <p data-id="${category[i].id}" class="categoryListObject">${category[i].namn}</p>`;
+           <li data-id="${category[i].id}" class="categoryListObject">${category[i].namn}</li>`;
         }
         categoryOutput.innerHTML = categoryList;
         let addEventlistenerToCategories = new Controller();
@@ -417,6 +405,66 @@ class Controller {
             })
         }
     }
+    filterJob(jobs){
+        const filteredArray = {
+            "matchningslista": {
+                "antal_platsannonser": jobs.matchningslista.antal_platsannonser,
+                "antal_platsannonser_exakta": jobs.matchningslista.antal_platsannonser_exakta,
+                "antal_platsannonser_narliggande": jobs.matchningslista.antal_platsannonser_narliggande,
+                "antal_platserTotal": jobs.matchningslista.antal_platserTotal,
+                "antal_sidor": jobs.matchningslista.antal_sidor,
+                "matchningdata": []
+            }
+        };
+        let submitNumberButton = document.getElementById("submit-number");
+        submitNumberButton.addEventListener("click", function () {
+            var displayDOM = new DOM();
+            let numberValue = document.getElementById("number-jobs").value;
+            let countyValue = document.getElementById("county-jobs").value
+            if (countyValue != 0){
+                for (let i = 0; i < jobs.matchningslista.matchningdata.length; i++) {
+                    
+                    if (jobs.matchningslista.matchningdata[i].lanid == countyValue){
+                        filteredArray.matchningslista.matchningdata.push(jobs.matchningslista.matchningdata[i]);
+                    }
+                }
+                if(numberValue == ""){
+                    numberValue = 10
+                }
+                displayDOM.displayJob(filteredArray, numberValue);
+                filteredArray.matchningslista.matchningdata = [];  
+            }
+            else{
+                displayDOM.displayJob(jobs, numberValue);
+            }
+              
+        })
+    }
+    sidebarDisplay(){
+        var openSidebarButton = document.getElementById('openSidebarButton');
+        openSidebarButton.addEventListener("click", function(){
+        document.getElementById("aside").style.zIndex = "0";
+        });
+    
+        var closeSidebarButton = document.getElementById('closeSidebarButton');
+        closeSidebarButton.addEventListener("click", function(){
+        document.getElementById("aside").style.zIndex = "-2";
+        });
+    }
+
+    categoriesShowHide(){
+        var categoriesButton = document.getElementById('categoriesButton');
+        categoriesButton.addEventListener("click", function(){
+        var x = document.getElementById("categoryUl");
+        if (x.style.display === "block") {
+            x.style.display = "none";
+            categoriesButton.innerHTML = "Categories ↓";
+        } else {
+            x.style.display = "block";
+            categoriesButton.innerHTML = "Categories ↑";
+        }
+        });
+    }
 }
 
 class Utility {
@@ -460,6 +508,8 @@ displaySavedJobAds.displaySavedJobAds();
 
 var controller = new Controller();
 controller.checkInputUrl();
+controller.sidebarDisplay();
+controller.categoriesShowHide()
 
 var clearLocalStorageController = new Controller();
 clearLocalStorageController.addEventListenerClearSavedJob();
@@ -470,3 +520,18 @@ addEventlistenerToSearchJob.addEventlistenerToSearchJob();
 window.addEventListener('hashchange', event => {
     controller.checkInputUrl();
 });
+
+
+new SlimSelect({
+    select: '#number-jobs',
+    placeholder: 'Antal per sida',
+    allowDeselect: true,
+    showSearch: false,
+})
+
+new SlimSelect({
+    select: '#county-jobs',
+    placeholder: 'Filtrera Län',
+    allowDeselect: true,
+    showSearch: false,
+})

@@ -3,66 +3,69 @@
 
 <head>
 	<meta charset="UTF-8">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/slim-select/1.15.0/slimselect.min.js"></script>
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/slim-select/1.15.0/slimselect.min.css" rel="stylesheet"></link>
 	<link rel="stylesheet" href="style.css">
 	<title>Arbetsförmedlingen- platsannonser</title>
 </head>
 
 <body>
-	<main>
+	<aside id="aside">
+		<button id="closeSidebarButton"><i class="fa fa-close"></i></button></br>
+		<i class="fa fa-briefcase" id="logoImage"></i>
+		<h1 id="textLogo">DittJobb.se</h1>
+		<div id="saved-job-ad-output">
+		</div>
+		<button id="clear">Radera alla sparade jobb</button>
+		<div id="search-for-jobs">
+			<label for="searchJobInput">Sök jobb:</label></br>
+			<input type="text" id="searchJobInput" placeholder="Sök här.." name="search">
+			<button id="searchJobButton"><i class="fa fa-search"></i></button>
+		</div>
+		<div id="output-searched-jobs">
+
+		</div>
+		<div id="categories-output">
+				<h3 id="categoriesButton">Categories ↓</h3>
+				<ul id="categoryUl">
+				</ul>
+		</div>
+	</aside>
+	<main id="main">
 		<div id="main-view">
-			<div id="container">
-				<h1>Platsannonser - Stockholms län</h1>
-				<h2>Senaste 10 lediga jobben</h2>
-
-				<div id="latest-jobs">
-
-				</div>
+			<div class="topBar">
+				<button id="openSidebarButton"><i class="fa fa-navicon"></i></button>
 				<div id="filter-job">
 					<label for="number-jobs">Antal:</label>
 					<select id="number-jobs">
+						<option data-placeholder="true"></option>
 						<option value="10">10</option>
 						<option value="20">20</option>
 						<option value="30">30</option>
 					</select>
-
+		
 					<label for="county-jobs">Län:</label>
-					<select id="county-jobs">
-						<option value="1">Stockholms län</option>
-						<option value="3">Uppsala län</option>
-						<option value="12">Skåne län</option>
-					</select>
-
+						<select id="county-jobs">
+							<option data-placeholder="true"></option>
+							<option value="1">Stockholms län</option>
+							<option value="3">Uppsala län</option>
+							<option value="12">Skåne län</option>
+						</select>
+		
 					<button id="submit-number">Hitta jobb</button>
-
-					<div id="copy-search-results">
-						<p>Dela sökresultat</p>
-						<input id="search-ad-url" />
-						<button id="search-copy-url">Kopiera</button>
-						<p id="search-copy-confirm" class="hidden">Kopierad!</p>
-					</div>
-
-					<div id="all-jobs"></div>
-
-
-
 				</div>
 			</div>
-			<aside>
-				<div id="saved-job-ad-output">
-				</div>
-				<button id="clear">Radera alla sparade jobb</button>
-				<div id="search-for-jobs">
-					<label for="searchJobInput">Sök jobb</label>
-					<input type="text" id="searchJobInput">
-					<button id="searchJobButton">Sök</button>
-				</div>
-				<div id="output-searched-jobs">
 
-				</div>
-				<div id="categories-output">
-				</div>
-			</aside>
-			<div class="clear"></div>
+			<div id="copy-search-results">
+				<p>Dela sökresultat</p>
+				<input id="search-ad-url" />
+				<button id="search-copy-url">Kopiera</button>
+				<p id="search-copy-confirm" class="hidden">Kopierad!</p>
+			</div>
+					
+			<div id="all-jobs"></div>
+				
 		</div>
 
 		<div id="single-view" class="hidden">
