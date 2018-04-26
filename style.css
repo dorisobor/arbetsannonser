@@ -104,6 +104,11 @@ main {
 #categoryUl li{
 	list-style: square;
 }
+#categoryUl a {
+	text-decoration: none;
+	color: #ffffff;
+	line-height: 1.5;
+}
 /*######################
 	topBar
 #######################*/

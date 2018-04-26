@@ -12,30 +12,38 @@
 
 <body>
 	<aside id="aside">
-		<button id="closeSidebarButton"><i class="fa fa-close"></i></button></br>
+		<button id="closeSidebarButton">
+			<i class="fa fa-close"></i>
+		</button>
+		</br>
 		<i class="fa fa-briefcase" id="logoImage"></i>
 		<h1 id="textLogo">DittJobb.se</h1>
 		<div id="saved-job-ad-output">
 		</div>
 		<button id="clear">Radera alla sparade jobb</button>
 		<div id="search-for-jobs">
-			<label for="searchJobInput">Sök jobb:</label></br>
+			<label for="searchJobInput">Sök jobb:</label>
+			</br>
 			<input type="text" id="searchJobInput" placeholder="Sök här.." name="search">
-			<button id="searchJobButton"><i class="fa fa-search"></i></button>
+			<button id="searchJobButton">
+				<i class="fa fa-search"></i>
+			</button>
 		</div>
 		<div id="output-searched-jobs">
 
 		</div>
 		<div id="categories-output">
-				<h3 id="categoriesButton">Categories ↓</h3>
-				<ul id="categoryUl">
-				</ul>
+			<h3 id="categoriesButton">Kategorier ↓</h3>
+			<ul id="categoryUl">
+			</ul>
 		</div>
 	</aside>
 	<main id="main">
 		<div id="main-view">
 			<div class="topBar">
-				<button id="openSidebarButton"><i class="fa fa-navicon"></i></button>
+				<button id="openSidebarButton">
+					<i class="fa fa-navicon"></i>
+				</button>
 				<div id="filter-job">
 					<label for="number-jobs">Antal:</label>
 					<select id="number-jobs">
@@ -44,30 +52,23 @@
 						<option value="20">20</option>
 						<option value="30">30</option>
 					</select>
-		
 					<label for="county-jobs">Län:</label>
-						<select id="county-jobs">
-							<option data-placeholder="true"></option>
-							<option value="1">Stockholms län</option>
-							<option value="3">Uppsala län</option>
-							<option value="12">Skåne län</option>
-						</select>
-		
+					<select id="county-jobs">
+						<option data-placeholder="true"></option>
+						<option value="1">Stockholms län</option>
+						<option value="3">Uppsala län</option>
+						<option value="12">Skåne län</option>
+					</select>
 					<button id="submit-number">Hitta jobb</button>
 				</div>
 			</div>
-
 			<div id="copy-search-results"></div>
-					
 			<div id="all-jobs"></div>
-				
 		</div>
 
 		<div id="single-view" class="hidden">
 			<button id="back">Tillbaka till lista</button>
-			<div id="copy-ad-url">
-
-			</div>
+			<div id="copy-ad-url"></div>
 			<div id="annonsdetaljer"></div>
 		</div>
 	</main>
