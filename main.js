@@ -95,6 +95,99 @@ class FetchController {
 class DOM {
     displayJob(jobs, amount = 10) {
         paginations(amount, jobs);
+        function paginations(perPage, jobs){
+            const totalNumberOfJobs = jobs.matchningslista.antal_platsannonser;
+            const thingarray = jobs.matchningslista.matchningdata;
+            var list = thingarray;
+            var pageList = new Array();
+            var currentPage = 1;
+            var numberPerPage = perPage;
+            var numberOfPages = 0;
+            
+            
+            function paginationEventlisteners() {
+                var next  = document.getElementById('next')
+                next.addEventListener('click', function() {
+                    currentPage += 1;
+                    loadList();
+                })
+        
+                var previous  = document.getElementById('previous')
+                previous.addEventListener('click', function() {
+                    currentPage -= 1;
+                    loadList();
+                })
+            
+                var first  = document.getElementById('first')
+                first.addEventListener('click', function() {    
+                    currentPage = 1;
+                    loadList();
+                })
+            
+                var last  = document.getElementById('last')
+                last.addEventListener('click', function() {
+                    currentPage = numberOfPages;
+                    loadList();
+                })
+            }
+        
+            function loadList() {
+            var begin = ((currentPage - 1) * +numberPerPage);
+            var end = begin + +numberPerPage;
+            pageList = list.slice(begin, end);
+            drawList();
+            check();
+            }
+            
+            function drawList() {
+            numberOfPages = Math.ceil(list.length / +numberPerPage);
+            const allJobs = document.getElementById("all-jobs");
+            
+            function filterDate(date){
+                if(date == undefined){
+                  return "Datum saknas";  
+                }        
+                else{
+                   return date.slice(0, 10);
+                }
+            }
+        
+            let allJobList = `<h2>Antal lediga jobb: ${totalNumberOfJobs}</h2><div class="containerJobs">`;
+            for (let i = 0; i < pageList.length; i++) {
+                allJobList += ` 
+                <div class="jobCard">
+                    <h4>${pageList[i].annonsrubrik}</h4>
+                    <p>${pageList[i].arbetsplatsnamn}, ${pageList[i].kommunnamn}</p>
+                    <p>${pageList[i].yrkesbenamning}, ${pageList[i].anstallningstyp}</p>
+                    <p>Sista ansökningsdatum: ${filterDate(pageList[i].sista_ansokningsdag)}</p>
+                    <a href="#/annons/${pageList[i].annonsid}"><button>Read more</button></a>
+                    <a href="${pageList[i].annonsurl}"><button>Arbetförmedlingen</button></a> 
+                </div>
+               `;
+            }
+                allJobList += `
+                    </div>
+                    <div class="pagination">
+                        <input type="button" id="first" value="Första" />
+                        <input type="button" id="previous" value="Föregånde" />               
+                        ${currentPage}
+                        <input type="button" id="next" value="Nästa" />
+                        <input type="button" id="last" value="Sista" />
+                    </div> 
+                `;
+            allJobs.innerHTML = allJobList;
+                paginationEventlisteners();
+            }
+            
+            function check() {
+            document.getElementById("next").disabled = currentPage == numberOfPages ? true : false;
+            document.getElementById("previous").disabled = currentPage == 1 ? true : false;
+            document.getElementById("first").disabled = currentPage == 1 ? true : false;
+            document.getElementById("last").disabled = currentPage == numberOfPages ? true : false;
+            }
+            
+            loadList();
+        }
     }
 
     displayJobDetails(jobs) {
@@ -200,12 +293,12 @@ class DOM {
         searchResultController.addEventlisterToSearchJobResult();
     }
     displayCategoriesDOM(categories) {
-        let categoryOutput = document.getElementById("categories-output");
+        let categoryOutput = document.getElementById("categoryUl");
         let category = categories.soklista.sokdata;
         let categoryList = "";
         for (let i = 0; i < category.length; i++) {
             categoryList += `
-           <p data-id="${category[i].id}" class="categoryListObject">${category[i].namn}</p>`;
+           <li data-id="${category[i].id}" class="categoryListObject">${category[i].namn}</li>`;
         }
         categoryOutput.innerHTML = categoryList;
         let addEventlistenerToCategories = new Controller();
@@ -335,6 +428,9 @@ class Controller {
                         filteredArray.matchningslista.matchningdata.push(jobs.matchningslista.matchningdata[i]);
                     }
                 }
+                if(numberValue == ""){
+                    numberValue = 10
+                }
                 displayDOM.displayJob(filteredArray, numberValue);
                 filteredArray.matchningslista.matchningdata = [];  
             }
@@ -343,6 +439,31 @@ class Controller {
             }
               
         })
+    }
+    sidebarDisplay(){
+        var openSidebarButton = document.getElementById('openSidebarButton');
+        openSidebarButton.addEventListener("click", function(){
+        document.getElementById("aside").style.zIndex = "0";
+        });
+    
+        var closeSidebarButton = document.getElementById('closeSidebarButton');
+        closeSidebarButton.addEventListener("click", function(){
+        document.getElementById("aside").style.zIndex = "-2";
+        });
+    }
+
+    categoriesShowHide(){
+        var categoriesButton = document.getElementById('categoriesButton');
+        categoriesButton.addEventListener("click", function(){
+        var x = document.getElementById("categoryUl");
+        if (x.style.display === "block") {
+            x.style.display = "none";
+            categoriesButton.innerHTML = "Categories ↓";
+        } else {
+            x.style.display = "block";
+            categoriesButton.innerHTML = "Categories ↑";
+        }
+        });
     }
 }
 
@@ -387,6 +508,8 @@ displaySavedJobAds.displaySavedJobAds();
 
 var controller = new Controller();
 controller.checkInputUrl();
+controller.sidebarDisplay();
+controller.categoriesShowHide()
 
 var clearLocalStorageController = new Controller();
 clearLocalStorageController.addEventListenerClearSavedJob();
@@ -399,112 +522,16 @@ window.addEventListener('hashchange', event => {
 });
 
 
+new SlimSelect({
+    select: '#number-jobs',
+    placeholder: 'Antal per sida',
+    allowDeselect: true,
+    showSearch: false,
+})
 
-function paginations(perPage, jobs){
-    const totalNumberOfJobs = jobs.matchningslista.antal_platsannonser;
-    const thingarray = jobs.matchningslista.matchningdata;
-    var list = thingarray;
-    var pageList = new Array();
-    var currentPage = 1;
-    var numberPerPage = perPage;
-    var numberOfPages = 0;
-    
-    function paginationEventlisteners() {
-        var next  = document.getElementById('next')
-        next.addEventListener('click', function() {
-            currentPage += 1;
-            loadList();
-        })
-
-        var previous  = document.getElementById('previous')
-        previous.addEventListener('click', function() {
-            currentPage -= 1;
-            loadList();
-        })
-    
-        var first  = document.getElementById('first')
-        first.addEventListener('click', function() {    
-            currentPage = 1;
-            loadList();
-        })
-    
-        var last  = document.getElementById('last')
-        last.addEventListener('click', function() {
-            currentPage = numberOfPages;
-            loadList();
-        })
-    }
-    
-    function loadList() {
-    var begin = ((currentPage - 1) * numberPerPage);
-    var end = begin + numberPerPage;
-    
-    pageList = list.slice(begin, end);
-    drawList();
-    check();
-    }
-    
-    function drawList() {
-     numberOfPages = Math.ceil(list.length / numberPerPage);
-     const allJobs = document.getElementById("all-jobs");
-    
-    function filterDate(date){
-        if(date == undefined){
-          return "Datum saknas";  
-        }        
-        else{
-           return date.slice(0, 10);
-        }
-    }
-
-    let allJobList = `<h2>Antal lediga jobb: ${totalNumberOfJobs}</h2>`;
-    for (let i = 0; i < pageList.length; i++) {
-        allJobList += ` 
-        <div class="jobCard">
-            <h4>${pageList[i].annonsrubrik}</h4>
-            <p>${pageList[i].arbetsplatsnamn}, ${pageList[i].kommunnamn}</p>
-            <p>${pageList[i].yrkesbenamning}, ${pageList[i].anstallningstyp}</p>
-            <p>Sista ansökningsdatum: ${filterDate(pageList[i].sista_ansokningsdag)}</p>
-            <a href="#/annons/${pageList[i].annonsid}"><button>Read more</button></a>
-            <a href="${pageList[i].annonsurl}"><button>Arbetförmedlingen</button></a> 
-        </div>
-       `;
-    }
-        allJobList += `
-            <input type="button" id="first" value="first" />
-            <input type="button" id="next" value="next" />
-            ${currentPage}
-            <input type="button" id="previous" value="previous" />
-            <input type="button" id="last" value="last" /> 
-        `;
-    allJobs.innerHTML = allJobList;
-    paginationEventlisteners();
-    }
-    
-    function check() {
-    document.getElementById("next").disabled = currentPage == numberOfPages ? true : false;
-    document.getElementById("previous").disabled = currentPage == 1 ? true : false;
-    document.getElementById("first").disabled = currentPage == 1 ? true : false;
-    document.getElementById("last").disabled = currentPage == numberOfPages ? true : false;
-    }
-    
-    loadList();
-    }
-
-
-
-
-
-
-
-
-
-
-     /* select the number of jobs 
-     let submitNumberButton = document.getElementById("submit-number");
-     submitNumberButton.addEventListener("click", function () {
-         let numberValue = document.getElementById("number-jobs").value;
-         let countyValue = document.getElementById("county-jobs").value
-         var fetchNumberOfJobs = new FetchController();
-         fetchNumberOfJobs.fetchStockholmJobs(numberValue, countyValue);
-     });*/
+new SlimSelect({
+    select: '#county-jobs',
+    placeholder: 'Filtrera Län',
+    allowDeselect: true,
+    showSearch: false,
+})
