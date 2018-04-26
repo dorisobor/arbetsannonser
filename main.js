@@ -306,12 +306,13 @@ class DOM {
         const div = document.createElement("div");
 
         div.innerHTML = `
-            <details>
-				<summary>Dela</summary>
-				<input class="ad-url" />
-				<button class="copy-url">Kopiera</button>
+            <details class="copy-url-button">
+                <summary>Dela</summary>
+                <div class="details-inner-container">
+                    <input class="ad-url" readonly="readonly">
+                    <button class="copy-url">Kopiera</button>
+                </div>
             </details>
-            <p class="copy-confirm hidden">Kopierad!</p>
         `;
 
         const copyButton = div.querySelector(".copy-url");
@@ -322,11 +323,10 @@ class DOM {
             url.select();
             document.execCommand("Copy");
 
-            const copyConfirmText = div.querySelector(".copy-confirm");
-            copyConfirmText.classList.remove("hidden");
+            url.value = 'kopierad';
 
             setTimeout(function () {
-                copyConfirmText.classList.add("hidden");
+                url.value = window.location.href;
             }, 1000);
         });
 
