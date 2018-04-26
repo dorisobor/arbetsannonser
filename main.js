@@ -1,7 +1,6 @@
 class FetchController {
 
     fetchStockholmJobs(rows = 10, countyId = 1) {
-        console.log(rows);
         fetch(`http://api.arbetsformedlingen.se/af/v0/platsannonser/matchning?nyckelord=sverige&sida=1&antalrader=2000`)
             .then((response) => response.json())
             .then((jobs) => {
@@ -26,11 +25,9 @@ class FetchController {
             });
     }
     fetchSearchedJobs(searchedInput) {
-        console.log(searchedInput);
         fetch(`http://api.arbetsformedlingen.se/af/v0/platsannonser/soklista/yrken/${searchedInput}`)
             .then(response => response.json())
             .then(jobs => {
-                console.log(jobs);
                 var displayDOM = new DOM();
                 displayDOM.displaySearchedJobsByOccupationalTile(jobs)
             })
@@ -81,10 +78,8 @@ class FetchController {
             .then(response => response.json())
             .then(jobsByCategories => {
                 console.log(jobsByCategories);
-                var displayDOM = new DOM();
-                displayDOM.displayJob(jobsByCategories);
-                var filterDisplayJobs = new Controller();
-                filterDisplayJobs.filterJob(jobsByCategories);
+                new DOM().displayJob(jobsByCategories);
+                new Controller().filterJob(jobsByCategories);
             })
             .catch((error) => {
                 console.log(error)
@@ -95,7 +90,7 @@ class FetchController {
 class DOM {
     displayJob(jobs, amount = 10) {
         paginations(amount, jobs);
-        function paginations(perPage, jobs){
+        function paginations(perPage, jobs) {
             const totalNumberOfJobs = jobs.matchningslista.antal_platsannonser;
             const thingarray = jobs.matchningslista.matchningdata;
             var list = thingarray;
@@ -103,58 +98,58 @@ class DOM {
             var currentPage = 1;
             var numberPerPage = perPage;
             var numberOfPages = 0;
-            
-            
+
+
             function paginationEventlisteners() {
-                var next  = document.getElementById('next')
-                next.addEventListener('click', function() {
+                var next = document.getElementById('next')
+                next.addEventListener('click', function () {
                     currentPage += 1;
                     loadList();
                 })
-        
-                var previous  = document.getElementById('previous')
-                previous.addEventListener('click', function() {
+
+                var previous = document.getElementById('previous')
+                previous.addEventListener('click', function () {
                     currentPage -= 1;
                     loadList();
                 })
-            
-                var first  = document.getElementById('first')
-                first.addEventListener('click', function() {    
+
+                var first = document.getElementById('first')
+                first.addEventListener('click', function () {
                     currentPage = 1;
                     loadList();
                 })
-            
-                var last  = document.getElementById('last')
-                last.addEventListener('click', function() {
+
+                var last = document.getElementById('last')
+                last.addEventListener('click', function () {
                     currentPage = numberOfPages;
                     loadList();
                 })
             }
-        
+
             function loadList() {
-            var begin = ((currentPage - 1) * +numberPerPage);
-            var end = begin + +numberPerPage;
-            pageList = list.slice(begin, end);
-            drawList();
-            check();
+                var begin = ((currentPage - 1) * +numberPerPage);
+                var end = begin + +numberPerPage;
+                pageList = list.slice(begin, end);
+                drawList();
+                check();
             }
-            
+
             function drawList() {
-            numberOfPages = Math.ceil(list.length / +numberPerPage);
-            const allJobs = document.getElementById("all-jobs");
-            
-            function filterDate(date){
-                if(date == undefined){
-                  return "Datum saknas";  
-                }        
-                else{
-                   return date.slice(0, 10);
+                numberOfPages = Math.ceil(list.length / +numberPerPage);
+                const allJobs = document.getElementById("all-jobs");
+
+                function filterDate(date) {
+                    if (date == undefined) {
+                        return "Datum saknas";
+                    }
+                    else {
+                        return date.slice(0, 10);
+                    }
                 }
-            }
-        
-            let allJobList = `<h2>Antal lediga jobb: ${totalNumberOfJobs}</h2><div class="containerJobs">`;
-            for (let i = 0; i < pageList.length; i++) {
-                allJobList += ` 
+
+                let allJobList = `<h2>Antal lediga jobb: ${totalNumberOfJobs}</h2><div class="containerJobs">`;
+                for (let i = 0; i < pageList.length; i++) {
+                    allJobList += ` 
                 <div class="jobCard">
                     <h4>${pageList[i].annonsrubrik}</h4>
                     <p>${pageList[i].arbetsplatsnamn}, ${pageList[i].kommunnamn}</p>
@@ -164,7 +159,7 @@ class DOM {
                     <a href="${pageList[i].annonsurl}"><button>Arbetförmedlingen</button></a> 
                 </div>
                `;
-            }
+                }
                 allJobList += `
                     </div>
                     <div class="pagination">
@@ -175,17 +170,18 @@ class DOM {
                         <input type="button" id="last" value="Sista" />
                     </div> 
                 `;
-            allJobs.innerHTML = allJobList;
+                allJobs.innerHTML =  '<div id="copy-url-button-search"></div>' + allJobList;
+                new DOM().createCopyUrlButton("copy-url-button-search");
                 paginationEventlisteners();
             }
-            
+
             function check() {
-            document.getElementById("next").disabled = currentPage == numberOfPages ? true : false;
-            document.getElementById("previous").disabled = currentPage == 1 ? true : false;
-            document.getElementById("first").disabled = currentPage == 1 ? true : false;
-            document.getElementById("last").disabled = currentPage == numberOfPages ? true : false;
+                document.getElementById("next").disabled = currentPage == numberOfPages ? true : false;
+                document.getElementById("previous").disabled = currentPage == 1 ? true : false;
+                document.getElementById("first").disabled = currentPage == 1 ? true : false;
+                document.getElementById("last").disabled = currentPage == numberOfPages ? true : false;
             }
-            
+
             loadList();
         }
     }
@@ -232,21 +228,7 @@ class DOM {
             window.location.hash = "";
         });
 
-        const adUrl = document.getElementById("ad-url");
-        adUrl.value = window.location.href;
-
-        const copyUrlButton = document.getElementById("copy-url");
-        const copyConfirmText = document.getElementById("copy-confirm");
-
-        copyUrlButton.addEventListener("click", function () {
-            adUrl.select();
-            document.execCommand("Copy");
-            copyConfirmText.classList.remove("hidden");
-
-            setTimeout(function () {
-                copyConfirmText.classList.add("hidden");
-            }, 1000);
-        });
+        new DOM().createCopyUrlButton("copy-ad-url");
 
         let saveJobAdButton = document.getElementById("saveJobAdButton")
         saveJobAdButton.addEventListener("click", function () {
@@ -298,7 +280,10 @@ class DOM {
         let categoryList = "";
         for (let i = 0; i < category.length; i++) {
             categoryList += `
-           <li data-id="${category[i].id}" class="categoryListObject">${category[i].namn}</li>`;
+           <li> 
+                <a href="#/kategori/${category[i].namn}/${category[i].id}" 
+                data-id="${category[i].id}" class="categoryListObject">${category[i].namn}</a>
+           </li>`;
         }
         categoryOutput.innerHTML = categoryList;
         let addEventlistenerToCategories = new Controller();
@@ -316,43 +301,58 @@ class DOM {
         singleView.classList.remove("hidden");
         mainView.classList.add("hidden");
     }
+    createCopyUrlButton(containerId) {
+        const container = document.getElementById(containerId);
+        const div = document.createElement("div");
 
+        div.innerHTML = `
+            <details>
+				<summary>Dela</summary>
+				<input class="ad-url" />
+				<button class="copy-url">Kopiera</button>
+            </details>
+            <p class="copy-confirm hidden">Kopierad!</p>
+        `;
+
+        const copyButton = div.querySelector(".copy-url");
+        const url = div.querySelector(".ad-url");
+        url.value = window.location.href;
+
+        copyButton.addEventListener("click", function () {
+            url.select();
+            document.execCommand("Copy");
+
+            const copyConfirmText = div.querySelector(".copy-confirm");
+            copyConfirmText.classList.remove("hidden");
+
+            setTimeout(function () {
+                copyConfirmText.classList.add("hidden");
+            }, 1000);
+        });
+
+        container.appendChild(div);
+    }
 }
 
 class Controller {
-    checkInputUrl() {
-        const copySearchContainer = document.getElementById("copy-search-results");
-
+    // routes depending on url in window
+    routeUrl() {
         if (window.location.hash.startsWith(`#/annons`)) {
-            const annonsId = window.location.hash.split(`/`).pop();
-            new FetchController().fetchJobDetails(annonsId);
+            const adId = window.location.hash.split(`/`).pop();
+            new FetchController().fetchJobDetails(adId);
             new DOM().showSingleView();
-        }
-        else if (window.location.hash.startsWith(`#/sokresultat`)) {
-            copySearchContainer.classList.remove("hidden");
-            const yrkesId = window.location.hash.split(`/`).pop();
-            new FetchController().fetchJobsByOccupationalId(yrkesId);
-
-            const input = document.getElementById("search-ad-url");
-            input.value = window.location.href;
-
-            const copyConfirmText = document.getElementById("search-copy-confirm");
-            const copyButton = document.getElementById("search-copy-url");
-
-            copyButton.addEventListener("click", function () {
-                input.select();
-                document.execCommand("Copy");
-    
-                copyConfirmText.classList.remove("hidden");
-    
-                setTimeout(function () {
-                    copyConfirmText.classList.add("hidden");
-                }, 1000);
-            });
-        }
-        else {
-            copySearchContainer.classList.add("hidden");
+        } else if (window.location.hash.startsWith(`#/sokresultat`)) {
+            const occupationalId = window.location.hash.split(`/`).pop();
+            console.log(occupationalId);
+            new FetchController().fetchJobsByOccupationalId(occupationalId);
+        } else if (window.location.hash.startsWith(`#/kategori`)) {
+            const categoryId = window.location.hash.split(`/`).pop();
+            console.log('id', categoryId);
+            new FetchController().fetchJobsByCategories(categoryId);
+            new DOM().showMainView();
+        } else {
             window.location.hash = '';
+            new FetchController().fetchStockholmJobs();
             new DOM().showMainView();
         }
     }
@@ -397,7 +397,6 @@ class Controller {
     addEventlisterToCategories() {
         const jobCategories = document.getElementsByClassName("categoryListObject");
         for (let jobCategory of jobCategories) {
-            // console.log(jobCategories[i]);
             jobCategory.addEventListener("click", function () {
                 const id = this.dataset.id;
                 const fetchJobsByCategory = new FetchController();
@@ -405,7 +404,7 @@ class Controller {
             })
         }
     }
-    filterJob(jobs){
+    filterJob(jobs) {
         const filteredArray = {
             "matchningslista": {
                 "antal_platsannonser": jobs.matchningslista.antal_platsannonser,
@@ -421,48 +420,48 @@ class Controller {
             var displayDOM = new DOM();
             let numberValue = document.getElementById("number-jobs").value;
             let countyValue = document.getElementById("county-jobs").value
-            if (countyValue != 0){
+            if (countyValue != 0) {
                 for (let i = 0; i < jobs.matchningslista.matchningdata.length; i++) {
-                    
-                    if (jobs.matchningslista.matchningdata[i].lanid == countyValue){
+
+                    if (jobs.matchningslista.matchningdata[i].lanid == countyValue) {
                         filteredArray.matchningslista.matchningdata.push(jobs.matchningslista.matchningdata[i]);
                     }
                 }
-                if(numberValue == ""){
+                if (numberValue == "") {
                     numberValue = 10
                 }
                 displayDOM.displayJob(filteredArray, numberValue);
-                filteredArray.matchningslista.matchningdata = [];  
+                filteredArray.matchningslista.matchningdata = [];
             }
-            else{
+            else {
                 displayDOM.displayJob(jobs, numberValue);
             }
-              
+
         })
     }
-    sidebarDisplay(){
+    sidebarDisplay() {
         var openSidebarButton = document.getElementById('openSidebarButton');
-        openSidebarButton.addEventListener("click", function(){
-        document.getElementById("aside").style.zIndex = "0";
+        openSidebarButton.addEventListener("click", function () {
+            document.getElementById("aside").style.zIndex = "0";
         });
-    
+
         var closeSidebarButton = document.getElementById('closeSidebarButton');
-        closeSidebarButton.addEventListener("click", function(){
-        document.getElementById("aside").style.zIndex = "-2";
+        closeSidebarButton.addEventListener("click", function () {
+            document.getElementById("aside").style.zIndex = "-2";
         });
     }
 
-    categoriesShowHide(){
+    categoriesShowHide() {
         var categoriesButton = document.getElementById('categoriesButton');
-        categoriesButton.addEventListener("click", function(){
-        var x = document.getElementById("categoryUl");
-        if (x.style.display === "block") {
-            x.style.display = "none";
-            categoriesButton.innerHTML = "Categories ↓";
-        } else {
-            x.style.display = "block";
-            categoriesButton.innerHTML = "Categories ↑";
-        }
+        categoriesButton.addEventListener("click", function () {
+            var x = document.getElementById("categoryUl");
+            if (x.style.display === "block") {
+                x.style.display = "none";
+                categoriesButton.innerHTML = "Categories ↓";
+            } else {
+                x.style.display = "block";
+                categoriesButton.innerHTML = "Categories ↑";
+            }
         });
     }
 }
@@ -494,9 +493,6 @@ class Utility {
 
 arrayOfSavedJobAd = [];
 
-var fetchStockholmJobs = new FetchController();
-fetchStockholmJobs.fetchStockholmJobs();
-
 let fetchCategories = new FetchController();
 fetchCategories.fetchCategories();
 
@@ -507,7 +503,7 @@ var displaySavedJobAds = new DOM();
 displaySavedJobAds.displaySavedJobAds();
 
 var controller = new Controller();
-controller.checkInputUrl();
+controller.routeUrl();
 controller.sidebarDisplay();
 controller.categoriesShowHide()
 
@@ -518,7 +514,7 @@ var addEventlistenerToSearchJob = new Controller();
 addEventlistenerToSearchJob.addEventlistenerToSearchJob();
 
 window.addEventListener('hashchange', event => {
-    controller.checkInputUrl();
+    controller.routeUrl();
 });
 
 
