@@ -335,7 +335,8 @@ class DOM {
                 url.value = window.location.href;
             }, 1000);
         });
-
+        
+        container.innerHTML = '';
         container.appendChild(div);
     }
 }
