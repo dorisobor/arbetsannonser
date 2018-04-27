@@ -1,7 +1,7 @@
 class FetchController {
 
     fetchStockholmJobs(rows = 10, countyId = 1) {
-        fetch(`http://api.arbetsformedlingen.se/af/v0/platsannonser/matchning?nyckelord=sverige&sida=1&antalrader=2000`)
+        fetch(`http://api.arbetsformedlingen.se/af/v0/platsannonser/matchning?nyckelord=sverige&sida=1&antalrader=1000`)
             .then((response) => response.json())
             .then((jobs) => {
                 var displayDOM = new DOM();
@@ -156,7 +156,7 @@ class DOM {
                     <p>${pageList[i].yrkesbenamning}, ${pageList[i].anstallningstyp}</p>
                     <p>Sista ansökningsdatum: ${filterDate(pageList[i].sista_ansokningsdag)}</p>
                     <a href="#/annons/${pageList[i].annonsid}"><button>Läs mer</button></a>
-                    <a href="${pageList[i].annonsurl}"><button>Arbetförmedlingen</button></a> 
+                    <a href="${pageList[i].annonsurl}"><button>Arbetsförmedlingen</button></a> 
                 </div>
                `;
                
