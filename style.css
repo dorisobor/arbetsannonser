@@ -21,7 +21,7 @@ aside {
     z-index: -2;
     text-align: center;
 	height: 100vh;
-	overflow: scroll;
+	overflow: auto;
     overflow-x: hidden;
 }
 main {
