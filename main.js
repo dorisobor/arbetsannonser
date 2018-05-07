@@ -157,6 +157,8 @@ class DOM {
                     <p>Sista ansökningsdatum: ${filterDate(pageList[i].sista_ansokningsdag)}</p>
                     <a href="#/annons/${pageList[i].annonsid}"><button>Läs mer</button></a>
                     <a href="${pageList[i].annonsurl}" target="_blank"><button>Arbetsförmedlingen</button></a> 
+                    <a href="#/annons/${pageList[i].annonsid}"><button name="readMoreButton">Läs mer</button></a>
+                    <a href="${pageList[i].annonsurl}"><button>Arbetsförmedlingen</button></a> 
                 </div>
                `;
                
@@ -380,15 +382,25 @@ class Controller {
         });
     }
     addEventlistenerToSearchJob() {
-        let searchJobButton = document.getElementById("searchJobButton");
-        searchJobButton.addEventListener("click", function () {
+        let autocomplete = document.getElementById("searchJobInput");
+        autocomplete.addEventListener("keyup", function(){
             let searchJobInput = document.getElementById("searchJobInput").value;
-            console.log(searchJobInput);
-            let searchedJobsFetchController = new FetchController();
-            searchedJobsFetchController.fetchSearchedJobs(searchJobInput);
+            if(searchJobInput.length >= 3){
+                let searchedJobsFetchController = new FetchController();
+                searchedJobsFetchController.fetchSearchedJobs(searchJobInput);
+            }else{
+                let outputSearchedJobs = document.getElementById("output-searched-jobs")
+                outputSearchedJobs.innerHTML = '';
+            }
+        })
+          // click on search button
+        let searchJobButton = document.getElementById("searchJobButton");
+          searchJobButton.addEventListener("click", function () {
+          let searchJobInput = document.getElementById("searchJobInput").value;
+          let searchedJobsFetchController = new FetchController();
+          searchedJobsFetchController.fetchSearchedJobs(searchJobInput);
         });
     }
-
     addEventlisterToSearchJobResult() {
         let searchResultTitles = document.getElementsByClassName("searchOccupationalTile");
         console.log(searchResultTitles);
