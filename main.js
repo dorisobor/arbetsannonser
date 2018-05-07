@@ -390,7 +390,14 @@ class Controller {
                 let outputSearchedJobs = document.getElementById("output-searched-jobs")
                 outputSearchedJobs.innerHTML = '';
             }
-    });
+        })
+          // click on search button
+        let searchJobButton = document.getElementById("searchJobButton");
+          searchJobButton.addEventListener("click", function () {
+          let searchJobInput = document.getElementById("searchJobInput").value;
+          let searchedJobsFetchController = new FetchController();
+          searchedJobsFetchController.fetchSearchedJobs(searchJobInput);
+        });
     }
     addEventlisterToSearchJobResult() {
         let searchResultTitles = document.getElementsByClassName("searchOccupationalTile");
