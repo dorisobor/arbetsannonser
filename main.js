@@ -156,7 +156,7 @@ class DOM {
                     <p>${pageList[i].yrkesbenamning}, ${pageList[i].anstallningstyp}</p>
                     <p>Sista ansökningsdatum: ${filterDate(pageList[i].sista_ansokningsdag)}</p>
                     <a href="#/annons/${pageList[i].annonsid}"><button>Läs mer</button></a>
-                    <a href="${pageList[i].annonsurl}"><button>Arbetsförmedlingen</button></a> 
+                    <a href="${pageList[i].annonsurl}" target="_blank"><button>Arbetsförmedlingen</button></a> 
                 </div>
                `;
                
@@ -329,14 +329,14 @@ class DOM {
             url.select();
             document.execCommand("Copy");
 
-            url.value = 'kopierad';
+            url.value = "kopierad";
 
             setTimeout(function () {
                 url.value = window.location.href;
             }, 1000);
         });
         
-        container.innerHTML = '';
+        container.innerHTML = "";
         container.appendChild(div);
     }
 }
@@ -464,10 +464,10 @@ class Controller {
             var x = document.getElementById("categoryUl");
             if (x.style.display === "block") {
                 x.style.display = "none";
-                categoriesButton.innerHTML = "Kategorier ↓";
+                categoriesButton.innerHTML = "Kategorier <i class=\"fa fa-chevron-down\" aria-hidden=\"true\"></i>";
             } else {
                 x.style.display = "block";
-                categoriesButton.innerHTML = "Kategorier ↑";
+                categoriesButton.innerHTML = "Kategorier <i class=\"fa fa-chevron-up\" aria-hidden=\"true\"></i>";
             }
         });
     }
