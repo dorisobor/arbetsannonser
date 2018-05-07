@@ -155,7 +155,7 @@ class DOM {
                     <p>${pageList[i].arbetsplatsnamn}, ${pageList[i].kommunnamn}</p>
                     <p>${pageList[i].yrkesbenamning}, ${pageList[i].anstallningstyp}</p>
                     <p>Sista ansökningsdatum: ${filterDate(pageList[i].sista_ansokningsdag)}</p>
-                    <a href="#/annons/${pageList[i].annonsid}"><button>Läs mer</button></a>
+                    <a href="#/annons/${pageList[i].annonsid}"><button name="readMoreButton">Läs mer</button></a>
                     <a href="${pageList[i].annonsurl}"><button>Arbetsförmedlingen</button></a> 
                 </div>
                `;
