@@ -36,7 +36,7 @@ class FetchController {
             });
     }
     fetchJobsByOccupationalId(id) {
-        return fetch(`http://api.arbetsformedlingen.se/af/v0/platsannonser/matchning?yrkesid=${id}&sida=1&antalrader=2000`)
+        return fetch(`http://api.arbetsformedlingen.se/af/v0/platsannonser/matchning?yrkesid=${id}&sida=1&antalrader=1000`)
             .then(response => response.json())
             .then(jobs => {
                 const newJobs = {
@@ -74,7 +74,7 @@ class FetchController {
             });
     }
     fetchJobsByCategories(id) {
-        fetch(`http://api.arbetsformedlingen.se/af/v0/platsannonser/matchning?yrkesomradeid=${id}&sida=1&antalrader=2000`)
+        fetch(`http://api.arbetsformedlingen.se/af/v0/platsannonser/matchning?yrkesomradeid=${id}&sida=1&antalrader=1000`)
             .then(response => response.json())
             .then(jobsByCategories => {
                 console.log(jobsByCategories);
