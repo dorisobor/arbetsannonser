@@ -3,6 +3,7 @@
 
 <head>
 	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/slim-select/1.15.0/slimselect.min.js"></script>
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/slim-select/1.15.0/slimselect.min.css" rel="stylesheet">
@@ -54,11 +55,9 @@
 					</select>
 					<label for="county-jobs">Län:</label>
 					<select id="county-jobs">
-						<option data-placeholder="true"></option>
-						<option value="1">Stockholms län</option>
-						<option value="3">Uppsala län</option>
-						<option value="12">Skåne län</option>
 					</select>
+					<div class="commune" id="commune">
+					</div>
 					<button id="submit-number">Hitta jobb</button>
 				</div>
 			</div>
