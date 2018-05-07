@@ -155,8 +155,8 @@ class DOM {
                     <p>${pageList[i].arbetsplatsnamn}, ${pageList[i].kommunnamn}</p>
                     <p>${pageList[i].yrkesbenamning}, ${pageList[i].anstallningstyp}</p>
                     <p>Sista ansökningsdatum: ${filterDate(pageList[i].sista_ansokningsdag)}</p>
-                    <a href="#/annons/${pageList[i].annonsid}"><button>Läs mer</button></a>
-                    <a href="${pageList[i].annonsurl}" target="_blank"><button>Arbetsförmedlingen</button></a> 
+                    <a href="#/annons/${pageList[i].annonsid}"><button class="blue-button" id="read-more">Läs mer</button></a>
+                    <a href="${pageList[i].annonsurl}" target="_blank"><button class="blue-button">Arbetsförmedlingen</button></a> 
                 </div>
                `;
                
@@ -223,7 +223,7 @@ class DOM {
                 ${apply.ovrigt_om_ansokan && `<p>övrigt: ${apply.ovrigt_om_ansokan}</p>`}
                 <h3>Om tjänsten</h3>
                 ${job.annonstext && `<p>${adDescription}</p>`}
-                <button data-id="${jobs.platsannons.annons.annonsid}" id="saveJobAdButton" name="${jobs.platsannons.annons.annonsrubrik}">Save</button>
+                <button class="blue-button" data-id="${jobs.platsannons.annons.annonsid}" id="saveJobAdButton" name="${jobs.platsannons.annons.annonsrubrik}">Save</button>
             `;
 
         document.getElementById("annonsdetaljer").innerHTML = annonsDetaljer;
@@ -313,10 +313,10 @@ class DOM {
 
         div.innerHTML = `
             <details class="copy-url-button">
-                <summary>Dela</summary>
+                <summary class="blue-button">Dela</summary>
                 <div class="details-inner-container">
                     <input class="ad-url" readonly="readonly">
-                    <button class="copy-url">Kopiera</button>
+                    <button class="copy-url blue-button no-margin">Kopiera</button>
                 </div>
             </details>
         `;
