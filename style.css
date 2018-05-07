@@ -195,6 +195,9 @@ main {
 .ss-main{
 	width: 125px;
 }
+.commune{
+	display: inline-block;
+}
 /*######################
    share-url dropdowns
 #######################*/

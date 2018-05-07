@@ -36,7 +36,7 @@ class FetchController {
             });
     }
     fetchJobsByOccupationalId(id) {
-        return fetch(`http://api.arbetsformedlingen.se/af/v0/platsannonser/matchning?yrkesid=${id}&sida=1&antalrader=2000`)
+        return fetch(`http://api.arbetsformedlingen.se/af/v0/platsannonser/matchning?yrkesid=${id}&sida=1&antalrader=1000`)
             .then(response => response.json())
             .then(jobs => {
                 const newJobs = {
@@ -74,12 +74,34 @@ class FetchController {
             });
     }
     fetchJobsByCategories(id) {
-        fetch(`http://api.arbetsformedlingen.se/af/v0/platsannonser/matchning?yrkesomradeid=${id}&sida=1&antalrader=2000`)
+        fetch(`http://api.arbetsformedlingen.se/af/v0/platsannonser/matchning?yrkesomradeid=${id}&sida=1&antalrader=1000`)
             .then(response => response.json())
             .then(jobsByCategories => {
                 console.log(jobsByCategories);
                 new DOM().displayJob(jobsByCategories);
                 new Controller().filterJob(jobsByCategories);
+            })
+            .catch((error) => {
+                console.log(error)
+            });
+    }
+    fetchCounty(){
+        fetch(`http://api.arbetsformedlingen.se/af/v0/platsannonser/soklista/lan2`)
+            .then(response => response.json())
+            .then(county => {
+                console.log(county);
+                new DOM().displayOptionlan(county);
+            })
+            .catch((error) => {
+                console.log(error)
+            });
+    }
+    fetchCommune(countyId){
+        fetch(`http://api.arbetsformedlingen.se/af/v0/platsannonser/soklista/kommuner?lanid=${countyId}`)
+            .then(response => response.json())
+            .then(commune => {
+                console.log(commune);
+                new DOM().displayOptionCommune(commune);
             })
             .catch((error) => {
                 console.log(error)
@@ -339,6 +361,35 @@ class DOM {
         container.innerHTML = "";
         container.appendChild(div);
     }
+    displayOptionlan(county){
+        const countyJobs = document.getElementById("county-jobs");
+        let options = `<option data-placeholder="true"></option>`;
+        for(let i = 0; i < county.soklista.sokdata.length; i++){
+            console.log(county.soklista.sokdata[i])
+            options += `
+            <option value="${county.soklista.sokdata[i].id}">${county.soklista.sokdata[i].namn}</option>`; 
+        }
+        countyJobs.innerHTML = options;
+    }
+    displayOptionCommune(commune){
+        let communeDiv = document.getElementById("commune");
+        let options = `<select id="communeFilter"><option data-placeholder="true"></option>`;
+        for(let i = 0; i < commune.soklista.sokdata.length; i++){
+            console.log(commune.soklista.sokdata[i])
+            options += `
+            <option value="${commune.soklista.sokdata[i].id}">${commune.soklista.sokdata[i].namn}</option>`; 
+        }
+        options += `</select>`;
+        console.log(options)
+        communeDiv.innerHTML = options;
+
+        new SlimSelect({
+            select: '#communeFilter',
+            placeholder: 'Filtrera kommun',
+            allowDeselect: true,
+            showSearch: false,
+        })
+    }
 }
 
 class Controller {
@@ -436,8 +487,8 @@ class Controller {
         submitNumberButton.addEventListener("click", function () {
             var displayDOM = new DOM();
             let numberValue = document.getElementById("number-jobs").value;
-            let countyValue = document.getElementById("county-jobs").value
-            if (countyValue != 0) {
+            let countyValue = document.getElementById("county-jobs").value;
+            if (countyValue != "") {
                 for (let i = 0; i < jobs.matchningslista.matchningdata.length; i++) {
 
                     if (jobs.matchningslista.matchningdata[i].lanid == countyValue) {
@@ -451,6 +502,10 @@ class Controller {
                 filteredArray.matchningslista.matchningdata = [];
             }
             else {
+                if (numberValue == ""){
+                    numberValue = 10;
+                    displayDOM.displayJob(jobs, numberValue);
+                }
                 displayDOM.displayJob(jobs, numberValue);
             }
 
@@ -479,6 +534,12 @@ class Controller {
                 x.style.display = "block";
                 categoriesButton.innerHTML = "Kategorier <i class=\"fa fa-chevron-up\" aria-hidden=\"true\"></i>";
             }
+        });
+    }
+    checkCountyChange(){
+        const county = document.getElementById("county-jobs");
+        county.addEventListener("change", function(){
+            new FetchController().fetchCommune(county.value);
         });
     }
 }
@@ -513,6 +574,8 @@ arrayOfSavedJobAd = [];
 let fetchCategories = new FetchController();
 fetchCategories.fetchCategories();
 
+new FetchController().fetchCounty();
+
 var getJobAdArrayFromLocalStorage = new Utility();
 getJobAdArrayFromLocalStorage.getJobAdArrayFromLocalStorage();
 
@@ -522,7 +585,8 @@ displaySavedJobAds.displaySavedJobAds();
 var controller = new Controller();
 controller.routeUrl();
 controller.sidebarDisplay();
-controller.categoriesShowHide()
+controller.categoriesShowHide();
+controller.checkCountyChange();
 
 var clearLocalStorageController = new Controller();
 clearLocalStorageController.addEventListenerClearSavedJob();
@@ -534,14 +598,13 @@ window.addEventListener('hashchange', event => {
     controller.routeUrl();
 });
 
-
+//this is jquary for select option meny styling
 new SlimSelect({
     select: '#number-jobs',
     placeholder: 'Antal per sida',
     allowDeselect: true,
     showSearch: false,
 })
-
 new SlimSelect({
     select: '#county-jobs',
     placeholder: 'Filtrera Län',
