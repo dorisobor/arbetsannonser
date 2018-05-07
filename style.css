@@ -33,6 +33,26 @@ main {
 	overflow: scroll;
     overflow-x: hidden;
 }
+
+.blue-button {
+	margin: 5px 10px;
+	padding: 5px;
+	display: inline-block;
+    color: white;
+	background: linear-gradient(to bottom,#06769f 0,#06769f 100%);
+	border: 1px solid #06769f;
+	border-bottom: 1px solid #045573;
+	border-bottom: 1px solid #045573;
+    border-radius: 4px;
+	cursor: pointer;
+	font-family: inherit;
+	font-size: 17px;
+}
+
+.blue-button:hover {
+	background: #258fb5;
+}
+
 /*######################
 	close & open sidebar
 #######################*/
@@ -61,13 +81,11 @@ main {
 	Searched Jobs
 #######################*/
 #submit-number{
-    color: white;
-	background: linear-gradient(to bottom,#06769f 0,#06769f 100%);
-	border: 1px solid #06769f;
-	border-bottom: 1px solid #045573;
-    border-radius: 4px;
-    cursor: pointer;
+	height: 29px;
+    vertical-align: bottom;
+	margin: 0px 10px;
 }
+
 #search-for-jobs{
 	width: 90%;
 	margin-left: 5%;
@@ -111,14 +129,23 @@ main {
 	Clear jobs
 #######################*/
 #clear{
-    color: black;
-	background: linear-gradient(to bottom, orange 0, orange 100%);
+	background: linear-gradient(to bottom,#ffa400 0,#ffa400 100%);
 	border: 1px solid orange;
-	border-bottom: 1px solid #045573;
-    border-radius: 4px;
-    margin-bottom: 10px;
-    border-radius: 4px;
-    cursor: pointer;
+	border-radius: 4px;
+	color: white;
+	font-weight: 600;
+    font-size: 17px;
+	padding: 9px 20px 10px;
+	cursor: pointer;
+	border-radius: 4px;
+	cursor: pointer;
+	margin-bottom: 10px;
+	font-family: inherit;
+}
+
+#clear:hover {
+	background: #ffae1c;
+
 }
 /*######################
 	Category List
@@ -157,6 +184,10 @@ main {
 #filter-job{
     padding-top: 10px;
 }
+
+#filter-job label {
+	margin: 0px 10px;
+}
 #openSidebarButton i{
 	font-size:48px;
 	color: white;
@@ -170,19 +201,6 @@ main {
 /*######################
    share-url dropdowns
 #######################*/
-summary {
-	margin: 5px 10px;
-	padding: 5px;
-	display: inline-block;
-    color: white;
-	background: linear-gradient(to bottom,#06769f 0,#06769f 100%);
-	border: 1px solid #06769f;
-	border-bottom: 1px solid #045573;
-	border-bottom: 1px solid #045573;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
 .copy-url-button {
 	position: relative;
 }
@@ -200,12 +218,8 @@ summary {
 }
 
 .copy-url {
-    color: white;
-	background: linear-gradient(to bottom,#06769f 0,#06769f 100%);
-	border: 1px solid #06769f;
-	border-bottom: 1px solid #045573;
-    border-radius: 4px;
-    cursor: pointer;
+	margin: 0px;
+	border-radius: 0px;
 }
 
 details input {
@@ -235,45 +249,28 @@ details summary::-webkit-details-marker {
     margin: 20px;
 }
 .jobCard button{
-	color: white;
-	background: linear-gradient(to bottom,#06769f 0,#06769f 100%);
-	border: 1px solid #06769f;
-	border-bottom: 1px solid #045573;
-	font-weight: 600;
-    font-size: 13px;
+	margin: 10px 0px;
 	padding: 9px 20px 10px;
-	cursor: pointer;
-	border-radius: 4px;
-    cursor: pointer;
 }
-.jobCard button:hover{
-	background: #258fb5;
+
+#read-more {
+	margin-right: 10px;
 }
+
 /*######################
 	single-view
 #######################*/
-#single-view .button-container {
+#annonsdetaljer {
+	margin: 0px 30px;
+}
+#single-view #button-container {
 	display: flex;
 }
-
-#back {
-	margin: 5px;
-	-webkit-appearance: none;
-	color: white;
-	background: linear-gradient(to bottom,#06769f 0,#06769f 100%);
-	border: 1px solid #06769f;
-    border-bottom: 1px solid #045573;
-    border-radius: 4px;
-    cursor: pointer;
+#button-container {
+	margin: 20px;
 }
-#saveJobAdButton{
-    color: white;
-	background: linear-gradient(to bottom,#06769f 0,#06769f 100%);
-	border: 1px solid #06769f;
-    border-bottom: 1px solid #045573;
-    border-radius: 4px;
-    cursor: pointer;
-    
+#saveJobAdButton {
+	margin: 10px 0px;
 }
 /*######################
 	Pagination
