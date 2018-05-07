@@ -157,8 +157,6 @@ class DOM {
                     <p>Sista ansökningsdatum: ${filterDate(pageList[i].sista_ansokningsdag)}</p>
                     <a href="#/annons/${pageList[i].annonsid}"><button>Läs mer</button></a>
                     <a href="${pageList[i].annonsurl}" target="_blank"><button>Arbetsförmedlingen</button></a> 
-                    <a href="#/annons/${pageList[i].annonsid}"><button name="readMoreButton">Läs mer</button></a>
-                    <a href="${pageList[i].annonsurl}"><button>Arbetsförmedlingen</button></a> 
                 </div>
                `;
                
