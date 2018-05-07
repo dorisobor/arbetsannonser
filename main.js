@@ -380,15 +380,18 @@ class Controller {
         });
     }
     addEventlistenerToSearchJob() {
-        let searchJobButton = document.getElementById("searchJobButton");
-        searchJobButton.addEventListener("click", function () {
+        let autocomplete = document.getElementById("searchJobInput");
+        autocomplete.addEventListener("keyup", function(){
             let searchJobInput = document.getElementById("searchJobInput").value;
-            console.log(searchJobInput);
-            let searchedJobsFetchController = new FetchController();
-            searchedJobsFetchController.fetchSearchedJobs(searchJobInput);
-        });
+            if(searchJobInput.length >= 3){
+                let searchedJobsFetchController = new FetchController();
+                searchedJobsFetchController.fetchSearchedJobs(searchJobInput);
+            }else{
+                let outputSearchedJobs = document.getElementById("output-searched-jobs")
+                outputSearchedJobs.innerHTML = '';
+            }
+    });
     }
-
     addEventlisterToSearchJobResult() {
         let searchResultTitles = document.getElementsByClassName("searchOccupationalTile");
         console.log(searchResultTitles);
