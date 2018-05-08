@@ -209,7 +209,7 @@ class DOM {
 
         const sistaAnsokningsdag = ansokan.sista_ansokningsdag.substring(0, 10);
         // replaces /n/r with linebreaks
-        const formatedAnnonstext = job.annonstext.replace(/(?:\r\n|\r|\n)/g, '<br />');
+        const formatedAnnonstext = job.annonstext.replace(/(?:\r\n|\r|\n)/g, "<br />");
 
         annonsDetaljer += `
                 <h2>${job.annonsrubrik}</h2>
@@ -371,8 +371,8 @@ class DOM {
         communeDiv.innerHTML = options;
 
         new SlimSelect({
-            select: '#communeFilter',
-            placeholder: 'Filtrera kommun',
+            select: "#communeFilter",
+            placeholder: "Filtrera kommun",
             allowDeselect: true,
             showSearch: false,
         });
@@ -399,7 +399,7 @@ class Controller {
             new FetchController().fetchJobsByCategories(categoryId);
             new DOM().showMainView();
         } else {
-            window.location.hash = '';
+            window.location.hash = "";
             new FetchController().fetchStockholmJobs();
             new DOM().showMainView();
         }
@@ -428,7 +428,7 @@ class Controller {
                 new FetchController().fetchSearchedJobs(searchJobInput);
             } else {
                 let outputSearchedJobs = document.getElementById("output-searched-jobs")
-                outputSearchedJobs.innerHTML = '';
+                outputSearchedJobs.innerHTML = "";
             }
         });
 
@@ -508,18 +508,18 @@ class Controller {
         });
     }
     sidebarDisplay() {
-        const openSidebarButton = document.getElementById('openSidebarButton');
+        const openSidebarButton = document.getElementById("openSidebarButton");
         openSidebarButton.addEventListener("click", function () {
             document.getElementById("aside").style.zIndex = "0";
         });
 
-        const closeSidebarButton = document.getElementById('closeSidebarButton');
+        const closeSidebarButton = document.getElementById("closeSidebarButton");
         closeSidebarButton.addEventListener("click", function () {
             document.getElementById("aside").style.zIndex = "-2";
         });
     }
     categoriesShowHide() {
-        const categoriesButton = document.getElementById('categoriesButton');
+        const categoriesButton = document.getElementById("categoriesButton");
         categoriesButton.addEventListener("click", function () {
             const categoryUl = document.getElementById("categoryUl");
 
@@ -567,15 +567,15 @@ class Utility {
 
 // jQuery for styling of selects menus
 new SlimSelect({
-    select: '#number-jobs',
-    placeholder: 'Antal per sida',
+    select: "#number-jobs",
+    placeholder: "Antal per sida",
     allowDeselect: true,
     showSearch: false,
 });
 
 new SlimSelect({
-    select: '#county-jobs',
-    placeholder: 'Filtrera Län',
+    select: "#county-jobs",
+    placeholder: "Filtrera Län",
     allowDeselect: true,
     showSearch: false,
 });
@@ -603,6 +603,6 @@ controller.addEventlistenerToSearchJob();
 
 /* looks for changes in window url and routes depending on 
 what the url contains */
-window.addEventListener('hashchange', event => {
+window.addEventListener("hashchange", event => {
     controller.routeUrl();
 });
