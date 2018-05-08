@@ -291,6 +291,7 @@ details summary::-webkit-details-marker {
 	margin: 0px 10px;
 	cursor: pointer;
 	border: none;
+	background-color: #fff;
     font-size: 1em;
 }
 .pagination-link i {
