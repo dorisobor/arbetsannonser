@@ -186,15 +186,11 @@ class DOM {
                 allJobList += `
                     </div>
                     <div class="pagination">
-                        <div class="button-input-container">
-                            <span class="pagination-link" id="first" role="link"> <i class="fa fa-angle-double-left"></i> Första</span>
-                            <span class="pagination-link" id="previous" role="link"><i class="fa fa-angle-left"></i> Föregående</span>
-                        </div>        
-                        <span>${currentPage}</span>
-                        <div class="button-input-container">
-                            <span class="pagination-link" id="next" role="link">Nästa <i class="fa fa-angle-right"></i></span>
-                            <span class="pagination-link" id="last" role="link">Sista <i class="fa fa-angle-double-right"></i></span>
-                        </div>
+                        <button class="pagination-link" id="first"><i class="fa fa-angle-double-left"></i> Första</button>
+                        <button class="pagination-link" id="previous"><i class="fa fa-angle-left"></i> Föregånde</button>
+                        ${currentPage}
+                        <button class="pagination-link" id="next">Nästa <i class="fa fa-angle-right"></i></button>
+                        <button class="pagination-link" id="last">Sista <i class="fa fa-angle-double-right"></i></button>
                     </div> 
                 `;
 
@@ -204,6 +200,7 @@ class DOM {
             }
 
             function check() {
+                console.log(currentPage)
                 document.getElementById("next").disabled = currentPage == numberOfPages ? true : false;
                 document.getElementById("previous").disabled = currentPage == 1 ? true : false;
                 document.getElementById("first").disabled = currentPage == 1 ? true : false;
@@ -365,7 +362,6 @@ class DOM {
         const countyJobs = document.getElementById("county-jobs");
         let options = `<option data-placeholder="true"></option>`;
         for(let i = 0; i < county.soklista.sokdata.length; i++){
-            console.log(county.soklista.sokdata[i])
             options += `
             <option value="${county.soklista.sokdata[i].id}">${county.soklista.sokdata[i].namn}</option>`; 
         }
@@ -373,14 +369,14 @@ class DOM {
     }
     displayOptionCommune(commune){
         let communeDiv = document.getElementById("commune");
-        let options = `<select id="communeFilter"><option data-placeholder="true"></option>`;
+        let options = `<label for="commune">Kommun:</label>
+                       <select id="communeFilter">
+                       <option data-placeholder="true"></option>`;
         for(let i = 0; i < commune.soklista.sokdata.length; i++){
-            console.log(commune.soklista.sokdata[i])
             options += `
             <option value="${commune.soklista.sokdata[i].id}">${commune.soklista.sokdata[i].namn}</option>`; 
         }
         options += `</select>`;
-        console.log(options)
         communeDiv.innerHTML = options;
 
         new SlimSelect({
@@ -479,10 +475,17 @@ class Controller {
             let numberValue = document.getElementById("number-jobs").value;
             let countyValue = document.getElementById("county-jobs").value;
             if (countyValue != "") {
+                let communeValue = document.getElementById("communeFilter").value;
                 for (let i = 0; i < jobs.matchningslista.matchningdata.length; i++) {
-
-                    if (jobs.matchningslista.matchningdata[i].lanid == countyValue) {
-                        filteredArray.matchningslista.matchningdata.push(jobs.matchningslista.matchningdata[i]);
+                    if(communeValue != ""){
+                        console.log(jobs.matchningslista.matchningdata[i])
+                        if (jobs.matchningslista.matchningdata[i].lanid == countyValue && jobs.matchningslista.matchningdata[i].kommunkod == communeValue) {
+                            filteredArray.matchningslista.matchningdata.push(jobs.matchningslista.matchningdata[i]);
+                        }
+                    }else{
+                        if (jobs.matchningslista.matchningdata[i].lanid == countyValue) {
+                            filteredArray.matchningslista.matchningdata.push(jobs.matchningslista.matchningdata[i]);
+                        }
                     }
                 }
                 if (numberValue == "") {
