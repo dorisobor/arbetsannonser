@@ -165,6 +165,10 @@ main {
 #categoriesButton{
     cursor: pointer;
 }
+#categoryUl a:hover {
+	color:#ffae1c;
+   
+}
 /*######################
 	topBar
 #######################*/
