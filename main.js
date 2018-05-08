@@ -113,25 +113,25 @@ class DOM {
             let numberOfPages = 0;
 
             function paginationEventlisteners() {
-                var next = document.getElementById("next")
+                const next = document.getElementById("next")
                 next.addEventListener("click", function () {
                     currentPage += 1;
                     loadList();
                 });
 
-                var previous = document.getElementById("previous")
+                const previous = document.getElementById("previous")
                 previous.addEventListener("click", function () {
                     currentPage -= 1;
                     loadList();
                 });
 
-                var first = document.getElementById("first")
+                const first = document.getElementById("first")
                 first.addEventListener("click", function () {
                     currentPage = 1;
                     loadList();
                 });
 
-                var last = document.getElementById("last")
+                const last = document.getElementById("last")
                 last.addEventListener("click", function () {
                     currentPage = numberOfPages;
                     loadList();
