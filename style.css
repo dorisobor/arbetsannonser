@@ -54,6 +54,24 @@ main {
 }
 
 /*######################
+	top sidebar
+#######################*/
+
+#saved-job-ad-output h3{
+    color:#ffae1c;
+    text-decoration: underline;
+}
+
+.showSavedJobAd{
+    cursor:pointer;
+}
+
+.showSavedJobAd:hover{
+    color:#ffae1c;
+}
+
+
+/*######################
 	close & open sidebar
 #######################*/
 #closeSidebarButton{
@@ -125,6 +143,12 @@ main {
     display: inline-block;
     margin-bottom: 5px;
 }
+
+#output-searched-jobs a:hover{
+    background-color: #ffae1c;
+    
+}
+
 /*######################
 	Clear jobs
 #######################*/
@@ -153,6 +177,8 @@ main {
 #categoryUl{
 	display:none;
 	padding: 0;
+    text-align: left;
+    margin: 8px;
 }
 #categoryUl li{
 	list-style: square;
