@@ -469,9 +469,10 @@ class Controller {
         }
     }
     filterJob(jobs) {
+        var amountOfJobsPlaceholder = "";
         const filteredArray = {
             "matchningslista": {
-                "antal_platsannonser": jobs.matchningslista.antal_platsannonser,
+                "antal_platsannonser": amountOfJobsPlaceholder,
                 "antal_platsannonser_exakta": jobs.matchningslista.antal_platsannonser_exakta,
                 "antal_platsannonser_narliggande": jobs.matchningslista.antal_platsannonser_narliggande,
                 "antal_platserTotal": jobs.matchningslista.antal_platserTotal,
@@ -501,6 +502,7 @@ class Controller {
                 if (numberValue == "") {
                     numberValue = 10
                 }
+                filteredArray.matchningslista.antal_platsannonser = filteredArray.matchningslista.matchningdata.length
                 displayDOM.displayJob(filteredArray, numberValue);
                 filteredArray.matchningslista.matchningdata = [];
             }
