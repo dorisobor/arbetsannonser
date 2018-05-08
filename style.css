@@ -286,8 +286,12 @@ details summary::-webkit-details-marker {
 .pagination-link {
 	margin: 0px 10px;
 	cursor: pointer;
+	border: none;
+    font-size: 1em;
 }
-
+.pagination-link i {
+	font-size: 1.1em;
+}
 .button-input-container {
 	width: 100%;
 }
