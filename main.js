@@ -229,7 +229,9 @@ class DOM {
                 ${ansokan.ovrigt_om_ansokan && `<p>övrigt: ${ansokan.ovrigt_om_ansokan}</p>`}
                 <h3>Om tjänsten</h3>
                 ${job.annonstext && `<p>${formatedAnnonstext}</p>`}
-                <button class="blue-button" data-id="${jobs.platsannons.annons.annonsid}" id="saveJobAdButton" name="${jobs.platsannons.annons.annonsrubrik}">Save</button>
+                <button class="blue-button" data-id="${jobs.platsannons.annons.annonsid}" id="saveJobAdButton" name="${jobs.platsannons.annons.annonsrubrik}">
+                    Spara annons
+                </button>
             `;
 
         document.getElementById("annonsdetaljer").innerHTML = annonsDetaljer;
@@ -317,7 +319,7 @@ class DOM {
 
         div.innerHTML = `
             <details class="copy-url-button">
-                <summary class="blue-button">Dela</summary>
+                <summary class="blue-button">Dela annons</summary>
                 <div class="details-inner-container">
                     <input class="ad-url" readonly="readonly">
                     <button class="copy-url blue-button no-margin">Kopiera</button>
