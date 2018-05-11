@@ -371,7 +371,7 @@ class DOM {
 
         options += `</select>`;
         communeDiv.innerHTML = options;
-
+        //jquary for select menu
         new SlimSelect({
             select: "#communeFilter",
             placeholder: "Filtrera kommun",
@@ -460,7 +460,7 @@ class Controller {
         }
     }
     filterJob(jobs) {
-        const amountOfJobsPlaceholder = "";
+        let amountOfJobsPlaceholder = "";
         const filteredArray = {
             "matchningslista": {
                 "antal_platsannonser": amountOfJobsPlaceholder,
@@ -478,22 +478,21 @@ class Controller {
             let countyValue = document.getElementById("county-jobs").value;
 
             if (countyValue !== "") {
-                const communeValue = document.getElementById("communeFilter").value;
+                let communeValue = document.getElementById("communeFilter").value;
 
                 for (let i = 0; i < jobs.matchningslista.matchningdata.length; i++) {
                     if (communeValue !== ""){
-                        if (jobs.matchningslista.matchningdata[i].lanid === countyValue 
-                            && jobs.matchningslista.matchningdata[i].kommunkod === communeValue) {
+                        if (jobs.matchningslista.matchningdata[i].lanid == countyValue && jobs.matchningslista.matchningdata[i].kommunkod == communeValue) {
                             filteredArray.matchningslista.matchningdata.push(jobs.matchningslista.matchningdata[i]);
                         }
                     } else {
-                        if (jobs.matchningslista.matchningdata[i].lanid === countyValue) {
+                        if (jobs.matchningslista.matchningdata[i].lanid == countyValue) {
                             filteredArray.matchningslista.matchningdata.push(jobs.matchningslista.matchningdata[i]);
                         }
                     }
                 }
 
-                if (numberValue === "") {
+                if (numberValue == "") {
                     numberValue = 10
                 }
 
@@ -501,7 +500,7 @@ class Controller {
                 new DOM().displayJob(filteredArray, numberValue);
                 filteredArray.matchningslista.matchningdata = [];
             } else {
-                if (numberValue === ""){
+                if (numberValue == ""){
                     numberValue = 10;
                     new DOM().displayJob(jobs, numberValue);
                 }
